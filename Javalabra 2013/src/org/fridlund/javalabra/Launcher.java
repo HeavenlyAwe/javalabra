@@ -4,6 +4,9 @@
  */
 package org.fridlund.javalabra;
 
+import javax.swing.SwingUtilities;
+import org.fridlund.javalabra.pacman.PacmanGame;
+
 /**
  *
  * @author Christoffer
@@ -14,6 +17,11 @@ public class Launcher {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new PacmanGame().start();
+            }
+        });
     }
 }
