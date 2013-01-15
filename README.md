@@ -15,7 +15,7 @@ List of games included
 
 
 
-Miscellanous
+Miscellaneous
 ------------
 
 Using LWJGL as the connection to hardware accelerated graphics... Might be a little overkill in this project, but it gives higher framerates! =D OpenGL would also be a good way for adding nice shading effects...
