@@ -5,7 +5,6 @@
 package org.fridlund.javalabra;
 
 import javax.swing.SwingUtilities;
-import org.fridlund.javalabra.pacman.PacmanGame;
 
 /**
  *
@@ -20,7 +19,7 @@ public class Launcher {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new PacmanGame().start();
+                new GameHubFrame().setVisible(true);
             }
         });
     }

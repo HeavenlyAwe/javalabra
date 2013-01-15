@@ -4,6 +4,7 @@
  */
 package org.fridlund.javalabra.pacman;
 
+import javax.swing.JFrame;
 import org.fridlund.javalabra.game.Game;
 
 /**
@@ -12,8 +13,8 @@ import org.fridlund.javalabra.game.Game;
  */
 public class PacmanGame extends Game {
 
-    public PacmanGame() {
-        super("Pacman");
+    public PacmanGame(JFrame parent) {
+        super(parent, "Pacman");
     }
 
     @Override
