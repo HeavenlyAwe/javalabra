@@ -52,7 +52,7 @@ public class GameHubFrame extends JFrame {
         this.setLocationRelativeTo(null);
 
 
-        hub = new GameHub(this);
+        hub = new GameHub();
 
         load();
     }

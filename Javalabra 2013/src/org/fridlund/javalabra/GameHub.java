@@ -6,7 +6,6 @@ package org.fridlund.javalabra;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,8 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import org.fridlund.javalabra.game.Game;
+import org.fridlund.javalabra.game.GameLWJGL;
 import org.fridlund.javalabra.pacman.PacmanGame;
 
 /**
@@ -26,11 +24,9 @@ import org.fridlund.javalabra.pacman.PacmanGame;
  */
 public class GameHub {
 
-    private JFrame frame;
-    private Map<String, Game> games;
+    private Map<String, GameLWJGL> games;
 
-    public GameHub(JFrame parent) {
-        this.frame = parent;
+    public GameHub() {
         this.games = new HashMap<>();
         loadGames();
     }
@@ -80,7 +76,7 @@ public class GameHub {
     }
 
     private void loadDefaultGames() {
-        games.put("Pacman", new PacmanGame(frame));
+        games.put("Pacman", new PacmanGame());
     }
 
     public ArrayList<String> getListOfGames() {
@@ -91,7 +87,12 @@ public class GameHub {
         return listOfGames;
     }
 
-    public void startGame(String gameName) {
-        games.get(gameName).start();
+    public void startGame(final String gameName) {
+        new Thread() {
+            @Override
+            public void run() {
+                games.get(gameName).start();
+            }
+        }.start();
     }
 }

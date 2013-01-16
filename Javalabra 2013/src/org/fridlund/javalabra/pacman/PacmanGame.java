@@ -4,38 +4,43 @@
  */
 package org.fridlund.javalabra.pacman;
 
-import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import javax.swing.JFrame;
-import org.fridlund.javalabra.game.Game;
+import org.fridlund.javalabra.game.GameLWJGL;
+import org.fridlund.javalabra.pacman.entities.Pacman;
 
 /**
  *
  * @author Christoffer
  */
-public class PacmanGame extends Game {
-    
-    private BufferedImage backBuffer = new BufferedImage(this.WIDTH, this.HEIGHT, BufferedImage.TYPE_INT_RGB);
-    private int[] pixels = ((DataBufferInt) backBuffer.getRaster().getDataBuffer()).getData();
+public class PacmanGame extends GameLWJGL {
 
-    public PacmanGame(JFrame parent) {
-        super(parent, "Pacman");
+    private Pacman pacman;
+
+    public PacmanGame() {
+        super("Pacman");
     }
 
     @Override
-    public void update(double delta) {
+    public void setup() {
+        pacman = new Pacman();
+        pacman.setup();
+    }
+
+    @Override
+    public void cleanUp() {
+        pacman.cleanUp();
+    }
+
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+
+        pacman.update(delta);
     }
 
     @Override
     public void render() {
-        BufferStrategy bs = this.getBufferStrategy();
-        if(bs == null){
-            this.createBufferStrategy(2);
-            return;
-        }
-        
-        Graphics g = bs.getDrawGraphics();
+        super.render();
+
+        pacman.render();
     }
 }
