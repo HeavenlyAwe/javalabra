@@ -4,19 +4,23 @@
  */
 package org.fridlund.javalabra.game.entities;
 
+import org.fridlund.javalabra.game.sprites.Sprite;
+
 /**
  *
  * @author Christoffer
  */
-public interface EntityInterface {
-    
+public interface Entity {
+
     public void setup();
-    
+
     public void cleanUp();
 
     public void update(float delta);
 
     public void render();
+
+    public boolean collision(Entity entity);
 
     public void setX(float x);
 
@@ -25,4 +29,12 @@ public interface EntityInterface {
     public void setY(float y);
 
     public float getY();
+
+    public void setWidth(float width);
+
+    public float getWidth();
+
+    public void setHeight(float height);
+
+    public float getHeight();
 }

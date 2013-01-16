@@ -4,8 +4,14 @@
  */
 package org.fridlund.javalabra.pacman.entities;
 
+import java.awt.Rectangle;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import net.java.games.input.Component;
+import net.java.games.input.Controller;
+import net.java.games.input.ControllerEnvironment;
+import org.fridlund.javalabra.game.entities.Entity;
 import org.fridlund.javalabra.game.entities.MovableEntityAbstract;
 import org.fridlund.javalabra.game.sprites.Animation;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
@@ -21,10 +27,17 @@ public class Pacman extends MovableEntityAbstract {
     private static String texturePath = "res/images/pacman/pacman.png";
     private Map<String, Animation> animations;
     private Animation animation;
+    private Controller controller = null;
 
     public Pacman() {
-        super(10, 10);
+        super(200, 10);
         animations = new HashMap<>();
+        for (Controller c : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
+            if (c.getType() == Controller.Type.GAMEPAD) {
+                controller = c;
+                System.out.println(controller.getName());
+            }
+        }
     }
 
     @Override
@@ -32,6 +45,9 @@ public class Pacman extends MovableEntityAbstract {
 
         SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128);
         spriteSheet.setup();
+
+        setWidth(32);
+        setHeight(32);
 
         Animation right = new Animation(spriteSheet);
         right.addFrame(0, 0, 100);
@@ -54,16 +70,16 @@ public class Pacman extends MovableEntityAbstract {
         left.addFrame(6, 1, 100);
         left.addFrame(7, 1, 100);
         left.setup();
-        
+
         animation = right;
 
         animations.put("right", right);
         animations.put("left", left);
     }
-    
+
     @Override
-    public void cleanUp(){
-        for(String key : animations.keySet()){
+    public void cleanUp() {
+        for (String key : animations.keySet()) {
             animations.get(key).cleanUp();
         }
     }
@@ -73,6 +89,29 @@ public class Pacman extends MovableEntityAbstract {
 
         float dx = 0;
         float dy = 0;
+
+
+        if (controller != null) {
+            if (controller.poll()) {
+                for (Component c : controller.getComponents()) {
+                    if (c.getName().equals("Y Axis")) {
+                        if (c.getPollData() > 0.1f) {
+                            dy = 0.1f * c.getPollData() * delta;
+                        } else if (c.getPollData() < -0.1f) {
+                            dy = 0.1f * c.getPollData() * delta;
+                        }
+                    } else if (c.getName().equals("X Axis")) {
+                        if (c.getPollData() > 0.5f) {
+                            dx = 0.1f * delta;
+                        } else if (c.getPollData() < -0.5f) {
+                            dx = -0.1f * delta;
+                        }
+                    }
+                }
+            }
+        }
+
+
 
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
             dy = -0.1f * delta;
@@ -94,7 +133,7 @@ public class Pacman extends MovableEntityAbstract {
         }
 
         move(dx, dy);
-        
+
         animation.update(delta);
     }
 

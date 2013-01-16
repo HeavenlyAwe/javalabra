@@ -44,18 +44,20 @@ public class Animation {
     }
 
     public void update(float delta) {
-        timeSinceLastSprite += delta;
-        if (timeSinceLastSprite >= durations.get(currentSpriteIndex)) {
-            timeSinceLastSprite = 0;
-            currentSpriteIndex++;
-            if (currentSpriteIndex >= durations.size()) {
-                currentSpriteIndex = 0;
+        if (!durations.isEmpty()) {
+            timeSinceLastSprite += delta;
+            if (timeSinceLastSprite >= durations.get(currentSpriteIndex)) {
+                timeSinceLastSprite = 0;
+                currentSpriteIndex++;
+                if (currentSpriteIndex >= durations.size()) {
+                    currentSpriteIndex = 0;
+                }
             }
+            currentSprite = sprites.get(currentSpriteIndex);
         }
-        currentSprite = sprites.get(currentSpriteIndex);
     }
 
-    public void render(float x, float y) {
+    public void render(float x, float y, float scale) {
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, sheet.getTextureID());
 
         float sx = currentSprite.getX();
@@ -68,14 +70,18 @@ public class Animation {
             glTexCoord2f(sx, sy);
             glVertex2f(x, y);
             glTexCoord2f(sx, sy1);
-            glVertex2f(x, y + currentSprite.getHeight());
+            glVertex2f(x, y + currentSprite.getHeight() * scale);
             glTexCoord2f(sx1, sy1);
-            glVertex2f(x + currentSprite.getWidth(), y + currentSprite.getHeight());
+            glVertex2f(x + currentSprite.getWidth() * scale, y + currentSprite.getHeight() * scale);
             glTexCoord2f(sx1, sy);
-            glVertex2f(x + currentSprite.getWidth(), y);
+            glVertex2f(x + currentSprite.getWidth() * scale, y);
         }
         glEnd();
 
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
+    }
+
+    public void render(float x, float y) {
+        render(x, y, 1);
     }
 }
