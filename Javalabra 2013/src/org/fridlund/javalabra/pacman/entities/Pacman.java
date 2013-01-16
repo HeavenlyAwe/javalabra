@@ -4,6 +4,8 @@
  */
 package org.fridlund.javalabra.pacman.entities;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.fridlund.javalabra.game.entities.MovableEntityAbstract;
 import org.fridlund.javalabra.game.sprites.Animation;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
@@ -17,29 +19,57 @@ import org.lwjgl.input.Keyboard;
 public class Pacman extends MovableEntityAbstract {
 
     private static String texturePath = "res/images/pacman/pacman.png";
+    private Map<String, Animation> animations;
+    private Animation animation;
 
     public Pacman() {
-        super(10, 10, new Animation(new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128)));
+        super(10, 10);
+        animations = new HashMap<>();
     }
 
     @Override
     public void setup() {
-        super.setup();
 
-        animation.addFrame(0, 0, 100);
-        animation.addFrame(1, 0, 100);
-        animation.addFrame(2, 0, 100);
-        animation.addFrame(3, 0, 100);
-        animation.addFrame(4, 0, 100);
-        animation.addFrame(5, 0, 100);
-        animation.addFrame(6, 0, 100);
-        animation.addFrame(7, 0, 100);
+        SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128);
+        spriteSheet.setup();
 
+        Animation right = new Animation(spriteSheet);
+        right.addFrame(0, 0, 100);
+        right.addFrame(1, 0, 100);
+        right.addFrame(2, 0, 100);
+        right.addFrame(3, 0, 100);
+        right.addFrame(4, 0, 100);
+        right.addFrame(5, 0, 100);
+        right.addFrame(6, 0, 100);
+        right.addFrame(7, 0, 100);
+        right.setup();
+
+        Animation left = new Animation(spriteSheet);
+        left.addFrame(0, 1, 100);
+        left.addFrame(1, 1, 100);
+        left.addFrame(2, 1, 100);
+        left.addFrame(3, 1, 100);
+        left.addFrame(4, 1, 100);
+        left.addFrame(5, 1, 100);
+        left.addFrame(6, 1, 100);
+        left.addFrame(7, 1, 100);
+        left.setup();
+        
+        animation = right;
+
+        animations.put("right", right);
+        animations.put("left", left);
+    }
+    
+    @Override
+    public void cleanUp(){
+        for(String key : animations.keySet()){
+            animations.get(key).cleanUp();
+        }
     }
 
     @Override
     public void update(float delta) {
-        super.update(delta);
 
         float dx = 0;
         float dy = 0;
@@ -57,6 +87,19 @@ public class Pacman extends MovableEntityAbstract {
             dx = 0.1f * delta;
         }
 
+        if (dx < 0) {
+            animation = animations.get("left");
+        } else if (dx > 0) {
+            animation = animations.get("right");
+        }
+
         move(dx, dy);
+        
+        animation.update(delta);
+    }
+
+    @Override
+    public void render() {
+        animation.render(x, y);
     }
 }

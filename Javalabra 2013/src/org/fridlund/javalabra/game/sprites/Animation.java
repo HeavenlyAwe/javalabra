@@ -29,7 +29,6 @@ public class Animation {
     }
 
     public void setup() {
-        sheet.setup();
         currentSprite = sheet.getSprite(0, 0);
         currentSpriteIndex = 0;
         timeSinceLastSprite = 0;
