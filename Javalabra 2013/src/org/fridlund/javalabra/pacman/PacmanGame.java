@@ -8,8 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import org.fridlund.javalabra.game.GameLWJGL;
 import org.fridlund.javalabra.game.entities.Entity;
+import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.javalabra.pacman.entities.Ghost;
 import org.fridlund.javalabra.pacman.entities.Pacman;
+import org.fridlund.javalabra.pacman.levels.Level;
 
 /**
  *
@@ -18,8 +20,8 @@ import org.fridlund.javalabra.pacman.entities.Pacman;
 public class PacmanGame extends GameLWJGL {
 
     private List<Entity> entities;
+    private Level level;
     private Pacman pacman;
-    
     private String message = "";
 
     public PacmanGame() {
@@ -28,13 +30,14 @@ public class PacmanGame extends GameLWJGL {
 
     @Override
     public void setup() {
-        pacman = new Pacman();
-        pacman.setup();
+        FontLoader.loadFont("Times New Roman", FontLoader.FontStyle.PLAIN, 18);
+
+        level = new Level();
+        pacman = new Pacman(level);
 
         entities = new LinkedList<>();
 
         Ghost ghost = new Ghost();
-        ghost.setup();
         entities.add(ghost);
     }
 
@@ -59,6 +62,8 @@ public class PacmanGame extends GameLWJGL {
             entity.update(delta);
             if (pacman.collision(entity)) {
                 message = "inside entity";
+            } else {
+                message = "";
             }
         }
     }
@@ -66,12 +71,14 @@ public class PacmanGame extends GameLWJGL {
     @Override
     public void render() {
         super.render();
+        
+        level.render();
 
         pacman.render();
         for (Entity entity : entities) {
             entity.render();
         }
-        
-        
+
+        FontLoader.renderString(message, 10, 10, "times new roman");
     }
 }

@@ -4,8 +4,6 @@
  */
 package org.fridlund.javalabra.game.entities;
 
-import org.fridlund.javalabra.game.sprites.Sprite;
-
 /**
  *
  * @author Christoffer

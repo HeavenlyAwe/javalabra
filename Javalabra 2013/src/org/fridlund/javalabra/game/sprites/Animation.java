@@ -26,6 +26,8 @@ public class Animation {
         this.sheet = sheet;
         this.sprites = new ArrayList<>();
         this.durations = new ArrayList<>();
+        
+        setup();
     }
 
     public void setup() {

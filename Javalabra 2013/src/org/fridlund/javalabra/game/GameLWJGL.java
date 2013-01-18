@@ -4,11 +4,9 @@
  */
 package org.fridlund.javalabra.game;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.fridlund.javalabra.game.entities.Entity;
+import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.javalabra.game.utils.Timer;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -37,7 +35,6 @@ public abstract class GameLWJGL {
 
         setup();
     }
-
 
     public void setupDisplay() {
         try {

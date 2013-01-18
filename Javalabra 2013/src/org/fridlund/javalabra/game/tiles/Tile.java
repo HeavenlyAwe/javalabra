@@ -9,14 +9,20 @@ package org.fridlund.javalabra.game.tiles;
  * @author Christoffer
  */
 public abstract class Tile {
-    
+
     protected float x;
     protected float y;
-    
-    public Tile(float x, float y){
+
+    public Tile(float x, float y) {
         this.x = x;
         this.y = y;
+
+        setup();
     }
+
+    public abstract void setup();
+
+    public abstract void cleanUp();
 
     public abstract void update(float delta);
 

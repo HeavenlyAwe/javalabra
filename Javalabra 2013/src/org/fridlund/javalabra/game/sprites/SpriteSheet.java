@@ -23,6 +23,8 @@ public class SpriteSheet {
         this.spriteHeight = spriteHeight;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
+
+        setup();
     }
 
     public void setup() {

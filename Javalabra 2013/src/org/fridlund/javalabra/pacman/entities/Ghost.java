@@ -15,6 +15,7 @@ import org.fridlund.javalabra.game.utils.TextureLoader;
  */
 public class Ghost extends MovableEntityAbstract {
 
+    private static String texturePath = "res/pacman/images/pacman.png";
     private Animation animation;
 
     public Ghost() {
@@ -23,14 +24,12 @@ public class Ghost extends MovableEntityAbstract {
 
     @Override
     public void setup() {
-        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear("res/images/pacman/pacman.png"), 32, 32, 256, 128);
-        sheet.setup();
-        
+        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128);
+
         setWidth(32);
         setHeight(32);
 
         animation = new Animation(sheet);
-        animation.setup();
     }
 
     @Override

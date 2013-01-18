@@ -20,6 +20,8 @@ public abstract class EntityAbstract implements Entity {
         this.y = y;
         this.width = 1;
         this.height = 1;
+        
+        setup();
     }
 
     @Override

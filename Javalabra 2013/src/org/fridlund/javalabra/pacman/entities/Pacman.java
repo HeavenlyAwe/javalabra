@@ -4,18 +4,16 @@
  */
 package org.fridlund.javalabra.pacman.entities;
 
-import java.awt.Rectangle;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
-import org.fridlund.javalabra.game.entities.Entity;
 import org.fridlund.javalabra.game.entities.MovableEntityAbstract;
 import org.fridlund.javalabra.game.sprites.Animation;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
+import org.fridlund.javalabra.pacman.levels.Level;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -24,13 +22,20 @@ import org.lwjgl.input.Keyboard;
  */
 public class Pacman extends MovableEntityAbstract {
 
-    private static String texturePath = "res/images/pacman/pacman.png";
+    private static String texturePath = "res/pacman/images/pacman.png";
     private Map<String, Animation> animations;
     private Animation animation;
     private Controller controller = null;
+    private Level level;
 
-    public Pacman() {
+    public Pacman(Level level) {
         super(200, 10);
+        this.level = level;
+    }
+
+    @Override
+    public void setup() {
+
         animations = new HashMap<>();
         for (Controller c : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
             if (c.getType() == Controller.Type.GAMEPAD) {
@@ -38,13 +43,8 @@ public class Pacman extends MovableEntityAbstract {
                 System.out.println(controller.getName());
             }
         }
-    }
-
-    @Override
-    public void setup() {
 
         SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128);
-        spriteSheet.setup();
 
         setWidth(32);
         setHeight(32);
@@ -58,7 +58,6 @@ public class Pacman extends MovableEntityAbstract {
         right.addFrame(5, 0, 100);
         right.addFrame(6, 0, 100);
         right.addFrame(7, 0, 100);
-        right.setup();
 
         Animation left = new Animation(spriteSheet);
         left.addFrame(0, 1, 100);
@@ -69,7 +68,6 @@ public class Pacman extends MovableEntityAbstract {
         left.addFrame(5, 1, 100);
         left.addFrame(6, 1, 100);
         left.addFrame(7, 1, 100);
-        left.setup();
 
         animation = right;
 
@@ -115,14 +113,11 @@ public class Pacman extends MovableEntityAbstract {
 
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
             dy = -0.1f * delta;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
             dy = 0.1f * delta;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             dx = -0.1f * delta;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             dx = 0.1f * delta;
         }
 
@@ -131,6 +126,39 @@ public class Pacman extends MovableEntityAbstract {
         } else if (dx > 0) {
             animation = animations.get("right");
         }
+
+        int offset = 5;
+
+        float xRight = (x + width + dx - offset) / width;
+        float xLeft = (x + dx + offset) / width;
+        float yDown = (y + height + dy - offset) / height;
+        float yUp = (y + dy + offset) / height;
+
+        if (dx > 0) {
+            if (!level.walkableTile((int) xRight, (int) yUp)
+                    || !level.walkableTile((int) xRight, (int) yDown)) {
+                dx = 0;
+            }
+        }
+        if (dx < 0) {
+            if (!level.walkableTile((int) xLeft, (int) yUp)
+                    || !level.walkableTile((int) xLeft, (int) yDown)) {
+                dx = 0;
+            }
+        }
+        if (dy > 0) {
+            if (!level.walkableTile((int) xRight, (int) yDown)
+                    || !level.walkableTile((int) xLeft, (int) yDown)) {
+                dy = 0;
+            }
+        }
+        if (dy < 0) {
+            if (!level.walkableTile((int) xRight, (int) yUp)
+                    || !level.walkableTile((int) xLeft, (int) yUp)) {
+                dy = 0;
+            }
+        }
+
 
         move(dx, dy);
 
