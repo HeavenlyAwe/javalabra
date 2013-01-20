@@ -20,6 +20,8 @@ public interface Entity {
 
     public boolean collision(Entity entity);
 
+    public void setPosition(float x, float y);
+    
     public void setX(float x);
 
     public float getX();

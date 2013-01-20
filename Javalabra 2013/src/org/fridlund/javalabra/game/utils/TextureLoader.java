@@ -4,10 +4,13 @@
  */
 package org.fridlund.javalabra.game.utils;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,5 +52,19 @@ public class TextureLoader {
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
 
         return textureID;
+    }
+
+    public static BufferedImage loadImage(String filepath) {
+        URL url = TextureLoader.class.getClass().getResource(filepath);
+        File file = new File(url.getFile());
+        
+        if(file.exists()){
+            System.out.println("Found on disk");
+        }
+        else {
+            System.out.println("Found in jar");
+        }
+        
+        return null;
     }
 }

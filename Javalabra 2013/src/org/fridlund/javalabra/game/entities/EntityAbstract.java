@@ -15,12 +15,15 @@ public abstract class EntityAbstract implements Entity {
     protected float width;
     protected float height;
 
+    public EntityAbstract() {
+        this(0, 0);
+    }
+
     public EntityAbstract(float x, float y) {
-        this.x = x;
-        this.y = y;
+        this.setPosition(x, y);
         this.width = 1;
         this.height = 1;
-        
+
         setup();
     }
 
@@ -43,6 +46,12 @@ public abstract class EntityAbstract implements Entity {
 //        Rectangle spriteRect = new Rectangle((int) sprite.getX(), (int) sprite.getY(), (int) sprite.getWidth(), (int) sprite.getHeight());
 //        Rectangle hitBox = new Rectangle((int) x, (int) y, (int) width, (int) height);
 //        return spriteRect.contains(hitBox);
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
     }
 
     @Override

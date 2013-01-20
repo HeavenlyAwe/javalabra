@@ -12,6 +12,11 @@ public abstract class MovableEntityAbstract extends EntityAbstract implements Mo
 
     private float dx;
     private float dy;
+    
+    public MovableEntityAbstract(){
+        dx = 0.0f;
+        dy = 0.0f;
+    }
 
     public MovableEntityAbstract(float x, float y) {
         super(x, y);

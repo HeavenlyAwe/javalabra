@@ -8,6 +8,8 @@ import org.fridlund.javalabra.game.entities.MovableEntityAbstract;
 import org.fridlund.javalabra.game.sprites.Animation;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
+import org.fridlund.javalabra.pacman.PacmanGame;
+import org.fridlund.javalabra.pacman.levels.Level;
 
 /**
  *
@@ -17,17 +19,21 @@ public class Ghost extends MovableEntityAbstract {
 
     private static String texturePath = "res/pacman/images/pacman.png";
     private Animation animation;
+    private static int spriteWidth = 32;
+    private static int spriteHeight = 32;
+    private Level level;
 
-    public Ghost() {
-        super(100, 100);
+    public Ghost(Level level) {
+        this.level = level;
+        setPosition((level.getWidth() - spriteWidth) / 2, (level.getHeight() - spriteHeight) / 2);
     }
 
     @Override
     public void setup() {
-        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128);
+        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), spriteWidth, spriteHeight, 256, 128);
 
-        setWidth(32);
-        setHeight(32);
+        setWidth(spriteWidth);
+        setHeight(spriteHeight);
 
         animation = new Animation(sheet);
     }
@@ -44,6 +50,6 @@ public class Ghost extends MovableEntityAbstract {
 
     @Override
     public void render() {
-        animation.render(x, y);
+        animation.render(PacmanGame.offsetDrawX + x, PacmanGame.offsetDrawY + y);
     }
 }

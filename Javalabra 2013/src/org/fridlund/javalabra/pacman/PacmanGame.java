@@ -12,6 +12,7 @@ import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.javalabra.pacman.entities.Ghost;
 import org.fridlund.javalabra.pacman.entities.Pacman;
 import org.fridlund.javalabra.pacman.levels.Level;
+import org.lwjgl.opengl.Display;
 
 /**
  *
@@ -23,6 +24,8 @@ public class PacmanGame extends GameLWJGL {
     private Level level;
     private Pacman pacman;
     private String message = "";
+    public static float offsetDrawX;
+    public static float offsetDrawY;
 
     public PacmanGame() {
         super("Pacman");
@@ -33,11 +36,15 @@ public class PacmanGame extends GameLWJGL {
         FontLoader.loadFont("Times New Roman", FontLoader.FontStyle.PLAIN, 18);
 
         level = new Level();
+
+        offsetDrawX = (Display.getWidth() - level.getWidth()) / 2;
+        offsetDrawY = (Display.getHeight() - level.getHeight()) / 2;
+
         pacman = new Pacman(level);
 
         entities = new LinkedList<>();
 
-        Ghost ghost = new Ghost();
+        Ghost ghost = new Ghost(level);
         entities.add(ghost);
     }
 
@@ -71,7 +78,7 @@ public class PacmanGame extends GameLWJGL {
     @Override
     public void render() {
         super.render();
-        
+
         level.render();
 
         pacman.render();

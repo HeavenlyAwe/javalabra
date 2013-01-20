@@ -38,7 +38,7 @@ public abstract class GameLWJGL {
 
     public void setupDisplay() {
         try {
-            Display.setDisplayMode(new DisplayMode(800, 600));
+            Display.setDisplayMode(new DisplayMode(800, 640));
             Display.setTitle(this.title);
             Display.create();
         } catch (LWJGLException ex) {
