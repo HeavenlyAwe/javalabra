@@ -1012,15 +1012,6 @@ is divided into following sections:
     <target name="-post-jar">
         <!-- Empty placeholder for easier customization. -->
         <!-- You can override this target in the ../build.xml file. -->
-        <!-- custom file copy to destination dir -->
-        <mkdir dir="${dist.dir}/res/"/>
-        <mkdir dir="${dist.dir}/lib/natives/"/>
-        <copy todir="${dist.dir}/res/">
-            <fileset dir="res/"/>
-        </copy>
-        <copy todir="${dist.dir}/lib/natives">
-            <fileset dir="lib/natives/"/>
-        </copy>
     </target>
     <target depends="init,compile,-pre-jar,-do-jar-with-manifest,-do-jar-without-manifest,-do-jar-with-mainclass,-do-jar-with-libraries,-post-jar" description="Build JAR." name="jar"/>
     <!--

@@ -71,4 +71,16 @@
     nbproject/build-impl.xml file. 
 
     -->
+    
+    <target name="post-jar" depends="Javalabra_2013-impl.jar">
+        <!-- custom file copy to destination dir -->
+        <mkdir dir="${dist.dir}/res/"/>
+        <mkdir dir="${dist.dir}/lib/natives/"/>
+        <copy todir="${dist.dir}/res/">
+            <fileset dir="res/"/>
+        </copy>
+        <copy todir="${dist.dir}/lib/natives">
+            <fileset dir="lib/natives/"/>
+        </copy>
+    </target>
 </project>
