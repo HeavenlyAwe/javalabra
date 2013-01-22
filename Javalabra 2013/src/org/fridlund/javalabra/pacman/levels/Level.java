@@ -14,7 +14,7 @@ import org.fridlund.javalabra.game.entities.Entity;
 import org.fridlund.javalabra.game.sprites.Sprite;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
-import org.fridlund.javalabra.pacman.PacmanGame;
+import org.fridlund.javalabra.pacman.scenes.GameplayScene;
 import static org.lwjgl.opengl.ARBTextureRectangle.GL_TEXTURE_RECTANGLE_ARB;
 import static org.lwjgl.opengl.GL11.*;
 import org.newdawn.slick.Image;
@@ -119,7 +119,7 @@ public class Level {
     public void render() {
         for (int y = 0; y < tiles[0].length; y++) {
             for (int x = 0; x < tiles.length; x++) {
-                renderTile(PacmanGame.offsetDrawX + x * tileWidth, PacmanGame.offsetDrawY + y * tileHeight, tiles[x][y]);
+                renderTile(GameplayScene.offsetDrawX + x * tileWidth, GameplayScene.offsetDrawY + y * tileHeight, tiles[x][y]);
             }
         }
     }

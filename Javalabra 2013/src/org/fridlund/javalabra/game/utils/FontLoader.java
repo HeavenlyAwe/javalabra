@@ -4,12 +4,12 @@
  */
 package org.fridlund.javalabra.game.utils;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.util.HashMap;
 import java.util.Map;
 import static org.lwjgl.opengl.ARBTextureRectangle.*;
 import static org.lwjgl.opengl.GL11.*;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -49,7 +49,7 @@ public class FontLoader {
         }
 
         UnicodeFont font = new UnicodeFont(awtFont);
-        font.getEffects().add(new ColorEffect(Color.white));
+        font.getEffects().add(new ColorEffect(java.awt.Color.white));
         font.addAsciiGlyphs();
         try {
             font.loadGlyphs();
@@ -75,9 +75,13 @@ public class FontLoader {
 
     public static void renderString(String text, float x, float y, String fontName) {
         glDisable(GL_TEXTURE_RECTANGLE_ARB);
-
         FontLoader.getFont(fontName).drawString(x, y, text);
+        glEnable(GL_TEXTURE_RECTANGLE_ARB);
+    }
 
+    public static void renderString(String text, float x, float y, String fontName, Color color) {
+        glDisable(GL_TEXTURE_RECTANGLE_ARB);
+        FontLoader.getFont(fontName).drawString(x, y, text, color);
         glEnable(GL_TEXTURE_RECTANGLE_ARB);
     }
 }

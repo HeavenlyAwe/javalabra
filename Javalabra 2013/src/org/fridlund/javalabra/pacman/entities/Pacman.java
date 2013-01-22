@@ -13,8 +13,8 @@ import org.fridlund.javalabra.game.entities.MovableEntityAbstract;
 import org.fridlund.javalabra.game.sprites.Animation;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
-import org.fridlund.javalabra.pacman.PacmanGame;
 import org.fridlund.javalabra.pacman.levels.Level;
+import org.fridlund.javalabra.pacman.scenes.GameplayScene;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -36,6 +36,7 @@ public class Pacman extends MovableEntityAbstract {
     private int down = Keyboard.KEY_S;
     private int left = Keyboard.KEY_A;
     private int right = Keyboard.KEY_D;
+    private boolean invincible;
 
     public Pacman(Level level) {
         this.level = level;
@@ -45,6 +46,7 @@ public class Pacman extends MovableEntityAbstract {
 
     private void spawn() {
         setPosition(level.getWidth() / 2 - level.getTileWidth(), level.getHeight() - this.height - level.getTileHeight());
+        setPosition(17 * level.getTileWidth(), 11 * level.getTileHeight());
     }
 
     @Override
@@ -57,6 +59,7 @@ public class Pacman extends MovableEntityAbstract {
                 System.out.println(controller.getName());
             }
         }
+        invincible = false;
 
         SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128);
 
@@ -109,7 +112,7 @@ public class Pacman extends MovableEntityAbstract {
 
         resetDyWhenMovingOutsideBoard();
 
-        move();
+        tryToMove();
 
 
 
@@ -171,7 +174,7 @@ public class Pacman extends MovableEntityAbstract {
         }
     }
 
-    private void move() {
+    private void tryToMove() {
         if (level.walkableTile(this, dx, 0)) {
             move(dx, 0);
         }
@@ -197,6 +200,14 @@ public class Pacman extends MovableEntityAbstract {
 
     @Override
     public void render() {
-        animation.render(PacmanGame.offsetDrawX + x, PacmanGame.offsetDrawY + y);
+        animation.render(GameplayScene.offsetDrawX + x, GameplayScene.offsetDrawY + y);
+    }
+
+    public void setInvincible(boolean invincible) {
+        this.invincible = invincible;
+    }
+
+    public boolean isInvincible() {
+        return invincible;
     }
 }

@@ -13,10 +13,10 @@ import static org.junit.Assert.*;
  * @author Christoffer
  */
 public class GameHubFrameTest {
-    
+
     public GameHubFrameTest() {
     }
-    
+
     @Before
     public void setUp() {
     }

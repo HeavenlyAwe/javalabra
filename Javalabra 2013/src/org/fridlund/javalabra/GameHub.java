@@ -28,11 +28,12 @@ public class GameHub {
 
     public GameHub() {
         this.games = new HashMap<>();
-        loadGames();
+
+        loadDefaultGames();
+//        loadGames();
     }
 
     private void loadGames() {
-        loadDefaultGames();
 
         File gameFolder = new File("games");
         File[] subfolders = gameFolder.listFiles(new FileFilter() {

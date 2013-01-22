@@ -19,7 +19,7 @@ public class Launcher {
      * directory. By using this method you don't have to explicitly have to
      * choose natives (because they are different for different platforms).
      */
-    private static void setupNativesLWJGL() {
+    public static void setupNativesLWJGL() {
         String lwjglPath = "org.lwjgl.librarypath";
         String userDir = System.getProperty("user.dir");
         String nativePath = "lib/natives";

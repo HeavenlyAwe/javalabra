@@ -6,13 +6,12 @@ package org.fridlund.javalabra.game;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.javalabra.game.utils.Timer;
 import org.lwjgl.LWJGLException;
+import static org.lwjgl.opengl.ARBTextureRectangle.GL_TEXTURE_RECTANGLE_ARB;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.ARBTextureRectangle.GL_TEXTURE_RECTANGLE_ARB;
 
 /**
  *
@@ -28,47 +27,47 @@ public abstract class GameLWJGL {
     }
 
     private void setupGame() {
-        setupDisplay();
-        setupLWJGL();
+        Screen.setupDisplay(title);
+        Screen.setupLWJGL();
 
         Timer.setup();
 
         setup();
     }
 
-    public void setupDisplay() {
-        try {
-            Display.setDisplayMode(new DisplayMode(800, 640));
-            Display.setTitle(this.title);
-            Display.create();
-        } catch (LWJGLException ex) {
-            Logger.getLogger(GameLWJGL.class.getName()).log(Level.SEVERE, null, ex);
-            cleanUpGame();
-        }
-    }
-
-    public void setupLWJGL() {
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glViewport(0, 0, Display.getWidth(), Display.getHeight());
-
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_TEXTURE_RECTANGLE_ARB);
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-        glDisable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    }
+//    public void setupDisplay() {
+//        try {
+//            Display.setDisplayMode(new DisplayMode(800, 640));
+//            Display.setTitle(this.title);
+//            Display.create();
+//        } catch (LWJGLException ex) {
+//            Logger.getLogger(GameLWJGL.class.getName()).log(Level.SEVERE, null, ex);
+//            cleanUpGame();
+//        }
+//    }
+//
+//    public void setupLWJGL() {
+//        glMatrixMode(GL_PROJECTION);
+//        glLoadIdentity();
+//        glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
+//        glMatrixMode(GL_MODELVIEW);
+//        glLoadIdentity();
+//        glViewport(0, 0, Display.getWidth(), Display.getHeight());
+//
+//        glEnable(GL_TEXTURE_2D);
+//        glEnable(GL_TEXTURE_RECTANGLE_ARB);
+//        glEnable(GL_CULL_FACE);
+//        glCullFace(GL_BACK);
+//        glDisable(GL_DEPTH_TEST);
+//        glEnable(GL_BLEND);
+//        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    }
 
     public abstract void setup();
 
     private void cleanUpGame() {
         cleanUp();
-        Display.destroy();
+        Screen.cleanUp();
     }
 
     public abstract void cleanUp();
