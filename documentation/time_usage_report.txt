@@ -10,7 +10,9 @@
 29.01.2013
 -----------------------------------
 
-
+21-22	- JUnit tests for Ghost class
+	- started to refactor snack classes
+	- Added some tests for Pacman class
 
 
 
@@ -68,7 +70,7 @@ No progress
 22.01.2013
 -----------------------------------
 
-No progress
+21-22 UML:s with 
 
 
 
@@ -76,7 +78,7 @@ No progress
 21.01.2013
 -----------------------------------
 
-No progress
+
 
 
 
