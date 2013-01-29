@@ -86,24 +86,9 @@ public class GhostManager extends Manager {
 
             if (pacman.collision(ghosts.get(key))) {
                 if (ghosts.get(key).isInvincible()) {
-                    // remove one life from pacman
-                    // remove a given amount of points from the current score
-                    pacman.kill();
-                    pacman.removePoints(100);
-
-                    // check if packman has anymore lives, and if he does, respawn him and the ghosts
-                    if (pacman.getLives() != 0) {
-                        pacman.spawn();
-                        Arrays.fill(killed, true);
-                        // force the ghostTimer to its maximum to make a ghost respawn directly
-                        spawnTimer = spawnInterval;
-                    } else {
-                        game.setGameOver("Game Over");
-                    }
+                    killPacman(killed);
                 } else {
-                    ghosts.get(key).kill();
-                    pacman.addPoints(200);
-                    killed[key] = ghosts.get(key).isDead();
+                    killGhost(key, killed);
                 }
             }
         }
@@ -120,5 +105,28 @@ public class GhostManager extends Manager {
         for (int key : ghosts.keySet()) {
             ghosts.get(key).render();
         }
+    }
+
+    private void killPacman(boolean[] killed) {
+        // remove one life from pacman
+        // remove a given amount of points from the current score
+        pacman.kill();
+        pacman.removePoints(100);
+
+        // check if packman has anymore lives, and if he does, respawn him and the ghosts
+        if (pacman.getLives() != 0) {
+            pacman.spawn();
+            Arrays.fill(killed, true);
+            // force the ghostTimer to its maximum to make a ghost respawn directly
+            spawnTimer = spawnInterval;
+        } else {
+            game.setGameOver("Game Over");
+        }
+    }
+
+    private void killGhost(int key, boolean[] killed) {
+        ghosts.get(key).kill();
+        pacman.addPoints(200);
+        killed[key] = ghosts.get(key).isDead();
     }
 }
