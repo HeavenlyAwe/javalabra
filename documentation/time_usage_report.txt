@@ -85,6 +85,7 @@ No progress
 21.01.2013
 -----------------------------------
 
+15-16	- Created a placeholder for setup and destruction of LWGJL Display.
 
 
 
@@ -101,7 +102,7 @@ No progress
 19.01.2013
 -----------------------------------
 
-
+14-15	- Created the first simple level
 
 
 
@@ -130,7 +131,9 @@ No progress
 19-22	- Started on the different reports
 	- Fixed the .gitignore to ignore .docx files in the documentation folder.
 	- Added license notes to the readme file
-
+00-01	- Fixed a simple TextureLoader, to manage to draw parts of images with OpenGL
+	  syntax
+01-02	- Created the spritesheet to use when drawing images
 
 
 ===================================
