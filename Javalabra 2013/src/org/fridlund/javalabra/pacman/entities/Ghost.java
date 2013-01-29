@@ -36,6 +36,7 @@ public class Ghost extends MovableEntityAbstract {
     private ArrayList<Integer> allowedTiles;
     private boolean isInvincible;
     private boolean isWarning;
+    private boolean dead;
 
     public Ghost(Level level, int ghostColorIndex) {
         this.level = level;
@@ -43,6 +44,7 @@ public class Ghost extends MovableEntityAbstract {
         this.setCollisionOffset(5.0f);
         this.isWarning = false;
         this.isInvincible = true;
+        this.dead = false;
         spawn();
     }
 
@@ -248,5 +250,13 @@ public class Ghost extends MovableEntityAbstract {
     @Override
     public void render() {
         animation.render(GameplayScene.offsetDrawX + x, GameplayScene.offsetDrawY + y);
+    }
+    
+    public boolean isDead(){
+        return dead;
+    }
+    
+    public void kill(){
+        this.dead = true;
     }
 }

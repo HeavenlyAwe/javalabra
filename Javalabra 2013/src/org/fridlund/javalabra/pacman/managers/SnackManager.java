@@ -7,7 +7,6 @@ package org.fridlund.javalabra.pacman.managers;
 import java.util.ArrayList;
 import java.util.List;
 import org.fridlund.javalabra.game.entities.Entity;
-import org.fridlund.javalabra.pacman.entities.Ghost;
 import org.fridlund.javalabra.pacman.entities.Pacman;
 import org.fridlund.javalabra.pacman.entities.Snack;
 import org.fridlund.javalabra.pacman.entities.SuperSnack;
@@ -21,10 +20,20 @@ import org.fridlund.javalabra.pacman.scenes.GameplayScene;
 public class SnackManager extends Manager {
 
     private List<Entity> snacks;
+    private float superSnackTimerMax;
+    private float superSnackTimer;
+    private boolean superSnackEaten;
+    private boolean superSnackWarningSent;
 
     public SnackManager(GameplayScene game, Pacman pacman, Level level) {
         super(game, pacman, level);
         this.snacks = new ArrayList<>();
+
+        this.superSnackTimerMax = 10000.0f;
+        this.superSnackTimer = 0.0f;
+        this.superSnackEaten = false;
+        this.superSnackWarningSent = false;
+
         this.spawnSnacks();
     }
 
@@ -76,14 +85,47 @@ public class SnackManager extends Manager {
 
     @Override
     public void update(float delta) {
+        checkVictory();
+        checkIfSuperSnackIsEaten(delta);
+        checkIfPacmanEatsSnack(delta);
+    }
+
+    private void checkVictory() {
         if (snacks.isEmpty()) {
             game.setGameOver("You Win! Points = " + pacman.getPoints());
         }
+    }
 
+    private void checkIfSuperSnackIsEaten(float delta) {
+        if (superSnackEaten) {
+            superSnackTimer += delta;
+            if (superSnackWarningSent == false && superSnackTimer >= superSnackTimerMax - 2000) {
+                superSnackWarningSent = true;
+                game.setWarningOfSuperSnackEffectSoonGone();
+            }
+            if (superSnackTimer >= superSnackTimerMax) {
+                superSnackEaten = false;
+                superSnackTimer = 0.0f;
+                game.setGhostsInvincible();
+            }
+        }
+    }
+
+    /**
+     * Controls if Pacman has eaten a snack, and what kind of snack in case he
+     * eats one.
+     *
+     * @param delta
+     */
+    private void checkIfPacmanEatsSnack(float delta) {
         for (int i = 0; i < snacks.size(); i++) {
             snacks.get(i).update(delta);
             if (pacman.collision(snacks.get(i))) {
                 if (snacks.get(i).getClass().getSimpleName().equals("SuperSnack")) {
+                    game.superSnackEaten();
+                    superSnackTimer = 0.0f;
+                    superSnackEaten = true;
+                    superSnackWarningSent = false;
                     System.out.println("SuperSnack eaten");
                 }
                 snacks.remove(i);
