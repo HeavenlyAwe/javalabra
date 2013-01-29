@@ -34,11 +34,15 @@ public class Ghost extends MovableEntityAbstract {
     private int ghostColorIndex;
     private Direction direction;
     private ArrayList<Integer> allowedTiles;
+    private boolean isInvincible;
+    private boolean isWarning;
 
     public Ghost(Level level, int ghostColorIndex) {
         this.level = level;
         this.ghostColorIndex = ghostColorIndex;
         this.setCollisionOffset(5.0f);
+        this.isWarning = false;
+        this.isInvincible = true;
         spawn();
     }
 
@@ -57,7 +61,7 @@ public class Ghost extends MovableEntityAbstract {
      */
     private void createAnimations() {
 
-        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), spriteWidth, spriteHeight, 128, 128);
+        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), spriteWidth, spriteHeight, 128, 160);
         animations = new HashMap<>();
 
         Animation upAnimation = new Animation(sheet);
@@ -75,6 +79,19 @@ public class Ghost extends MovableEntityAbstract {
         Animation rightAnimation = new Animation(sheet);
         rightAnimation.addFrame(2, ghostColorIndex, 1000);
         animations.put("right", rightAnimation);
+
+        Animation killableAnimation = new Animation(sheet);
+        killableAnimation.addFrame(0, 4, 100);
+        killableAnimation.addFrame(1, 4, 100);
+        animations.put("killable", killableAnimation);
+
+        Animation warningAnimation = new Animation(sheet);
+        warningAnimation.addFrame(2, 4, 10);
+        warningAnimation.addFrame(0, 4, 10);
+        warningAnimation.addFrame(3, 4, 10);
+        warningAnimation.addFrame(1, 4, 10);
+        animations.put("warning", warningAnimation);
+
 
         animation = animations.get("up");
         direction = Direction.UP;
@@ -128,6 +145,12 @@ public class Ghost extends MovableEntityAbstract {
                 break;
         }
 
+        if (!isInvincible) {
+            animation = animations.get("killable");
+        }
+        if(isWarning){
+            animation = animations.get("warning");
+        }
 
         if (!level.walkableTile(this, dx, dy, allowedTiles)) {
             randomizeDirection();
@@ -201,6 +224,25 @@ public class Ghost extends MovableEntityAbstract {
             }
         }
 
+    }
+
+    public void setKillable() {
+        this.isInvincible = false;
+    }
+
+    public void setWarningAnimation() {
+        if(!isInvincible){
+            this.isWarning = true;
+        }
+    }
+
+    public void setInvincible() {
+        this.isInvincible = true;
+        this.isWarning = false;
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
     }
 
     @Override

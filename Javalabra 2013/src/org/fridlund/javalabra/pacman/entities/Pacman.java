@@ -40,7 +40,6 @@ public class Pacman extends MovableEntityAbstract {
     private int down = Keyboard.KEY_S;
     private int left = Keyboard.KEY_A;
     private int right = Keyboard.KEY_D;
-    private boolean invincible;
 
     public Pacman(Level level) {
         this.level = level;
@@ -73,7 +72,6 @@ public class Pacman extends MovableEntityAbstract {
                 System.out.println(controller.getName());
             }
         }
-        invincible = false;
 
         SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128);
 
@@ -81,24 +79,24 @@ public class Pacman extends MovableEntityAbstract {
         setHeight(32);
 
         Animation rightAnimation = new Animation(spriteSheet);
-        rightAnimation.addFrame(0, 0, 100);
-        rightAnimation.addFrame(1, 0, 100);
-        rightAnimation.addFrame(2, 0, 100);
-        rightAnimation.addFrame(3, 0, 100);
-        rightAnimation.addFrame(4, 0, 100);
-        rightAnimation.addFrame(5, 0, 100);
-        rightAnimation.addFrame(6, 0, 100);
-        rightAnimation.addFrame(7, 0, 100);
+        rightAnimation.addFrame(0, 0, 50);
+        rightAnimation.addFrame(1, 0, 50);
+        rightAnimation.addFrame(2, 0, 50);
+        rightAnimation.addFrame(3, 0, 50);
+        rightAnimation.addFrame(4, 0, 50);
+        rightAnimation.addFrame(5, 0, 50);
+        rightAnimation.addFrame(6, 0, 50);
+        rightAnimation.addFrame(7, 0, 50);
 
         Animation leftAnimation = new Animation(spriteSheet);
-        leftAnimation.addFrame(0, 1, 100);
-        leftAnimation.addFrame(1, 1, 100);
-        leftAnimation.addFrame(2, 1, 100);
-        leftAnimation.addFrame(3, 1, 100);
-        leftAnimation.addFrame(4, 1, 100);
-        leftAnimation.addFrame(5, 1, 100);
-        leftAnimation.addFrame(6, 1, 100);
-        leftAnimation.addFrame(7, 1, 100);
+        leftAnimation.addFrame(0, 1, 50);
+        leftAnimation.addFrame(1, 1, 50);
+        leftAnimation.addFrame(2, 1, 50);
+        leftAnimation.addFrame(3, 1, 50);
+        leftAnimation.addFrame(4, 1, 50);
+        leftAnimation.addFrame(5, 1, 50);
+        leftAnimation.addFrame(6, 1, 50);
+        leftAnimation.addFrame(7, 1, 50);
 
         animation = rightAnimation;
 
@@ -215,14 +213,6 @@ public class Pacman extends MovableEntityAbstract {
     @Override
     public void render() {
         animation.render(GameplayScene.offsetDrawX + x, GameplayScene.offsetDrawY + y);
-    }
-
-    public void setInvincible(boolean invincible) {
-        this.invincible = invincible;
-    }
-
-    public boolean isInvincible() {
-        return invincible;
     }
 
     public void kill() {
