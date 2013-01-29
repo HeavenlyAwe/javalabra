@@ -4,6 +4,7 @@
  */
 package org.fridlund.javalabra.pacman.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -32,10 +33,12 @@ public class Ghost extends MovableEntityAbstract {
     private Map<String, Animation> animations;
     private int ghostColorIndex;
     private Direction direction;
+    private ArrayList<Integer> allowedTiles;
 
     public Ghost(Level level, int ghostColorIndex) {
         this.level = level;
         this.ghostColorIndex = ghostColorIndex;
+        this.setCollisionOffset(5.0f);
         spawn();
     }
 
@@ -83,6 +86,9 @@ public class Ghost extends MovableEntityAbstract {
         setWidth(spriteWidth);
         setHeight(spriteHeight);
 
+        this.allowedTiles = new ArrayList<>();
+        this.allowedTiles.add(Level.GHOST_TILE);
+        this.allowedTiles.add(Level.WALKABLE);
     }
 
     @Override
@@ -92,12 +98,9 @@ public class Ghost extends MovableEntityAbstract {
     private float dx;
     private float dy;
     private float speed = 0.08f;
-    private boolean hasLeftTheNest = false;
-    private String message;
 
     @Override
     public void update(float delta) {
-        message = "";
 
         dx = 0.0f;
         dy = 0.0f;
@@ -125,74 +128,12 @@ public class Ghost extends MovableEntityAbstract {
                 break;
         }
 
-//        boolean canGoUp = false;
-//        boolean canGoDown = false;
-//        boolean canGoLeft = false;
-//        boolean canGoRight = false;
-//
-//        if (direction == Direction.UP) {
-//            if (level.walkableTile(this, width, 0)) {
-//                message += "Can go right.";
-//                canGoRight = true;
-//            }
-//            if (level.walkableTile(this, -width, 0)) {
-//                message += "Can go left.";
-//                canGoLeft = true;
-//            }
-//            if (level.walkableTile(this, 0, -height)) {
-//                message += "Can go up.";
-//                canGoUp = true;
-//            }
-//            randomizeDirection(canGoUp, false, canGoLeft, canGoRight, delta);
-//        } else if (direction == Direction.DOWN) {
-//            if (level.walkableTile(this, width, 0)) {
-//                message += "Can go right.";
-//                canGoRight = true;
-//            }
-//            if (level.walkableTile(this, -width, 0)) {
-//                message += "Can go left.";
-//                canGoLeft = true;
-//            }
-//            if (level.walkableTile(this, 0, height)) {
-//                message += "Can go down.";
-//                canGoDown = true;
-//            }
-//            randomizeDirection(false, canGoDown, canGoLeft, canGoRight, delta);
-//        } else if (direction == Direction.LEFT) {
-//            if (level.walkableTile(this, 0, height)) {
-//                message += "Can go down.";
-//                canGoDown = true;
-//            }
-//            if (level.walkableTile(this, 0, -height)) {
-//                message += "Can go up.";
-//                canGoUp = true;
-//            }
-//            if (level.walkableTile(this, -width, 0)) {
-//                message += "Can go left.";
-//                canGoLeft = true;
-//            }
-//            randomizeDirection(canGoUp, canGoDown, canGoLeft, false, delta);
-//        } else if (direction == Direction.RIGHT) {
-//            if (level.walkableTile(this, 0, height)) {
-//                message += "Can go down.";
-//                canGoDown = true;
-//            }
-//            if (level.walkableTile(this, 0, -height)) {
-//                message += "Can go up.";
-//                canGoUp = true;
-//            }
-//            if (level.walkableTile(this, width, 0)) {
-//                message += "Can go right.";
-//                canGoRight = true;
-//            }
-//            randomizeDirection(canGoUp, canGoDown, false, canGoRight, delta);
-//        }
 
-        if (!level.walkableTile(this, dx, dy)) {
+        if (!level.walkableTile(this, dx, dy, allowedTiles)) {
             randomizeDirection();
         }
 
-        if (level.walkableTile(this, dx, dy)) {
+        if (level.walkableTile(this, dx, dy, allowedTiles)) {
             move(dx, dy);
         }
 
@@ -200,78 +141,8 @@ public class Ghost extends MovableEntityAbstract {
     }
     private Random random = new Random();
 
-    private void randomizeDirection(boolean canGoUp, boolean canGoDown, boolean canGoLeft, boolean canGoRight, float delta) {
-
-        if (canGoUp && !canGoDown && !canGoLeft && !canGoRight) {
-            direction = Direction.UP;
-        } else if (!canGoUp && canGoDown && !canGoLeft && !canGoRight) {
-            direction = Direction.DOWN;
-        } else if (!canGoUp && !canGoDown && canGoLeft && !canGoRight) {
-            direction = Direction.LEFT;
-        } else if (!canGoUp && !canGoDown && !canGoLeft && canGoRight) {
-            direction = Direction.RIGHT;
-        } else if (canGoUp && canGoDown && !canGoLeft && !canGoRight) {
-            if (random.nextBoolean()) {
-                direction = Direction.UP;
-            } else {
-                direction = Direction.DOWN;
-            }
-        } else if (!canGoUp && !canGoDown && canGoLeft && canGoRight) {
-            hasLeftTheNest = true;
-            if (random.nextBoolean()) {
-                direction = Direction.LEFT;
-            } else {
-                direction = Direction.RIGHT;
-            }
-        } else if (canGoUp && !canGoDown && canGoLeft && canGoRight) {
-            if (random.nextBoolean()) {
-                if (random.nextBoolean()) {
-                    direction = Direction.LEFT;
-                } else {
-                    direction = Direction.RIGHT;
-                }
-            } else {
-                direction = Direction.UP;
-            }
-        } else if (!canGoUp && canGoDown && canGoLeft && canGoRight) {
-            if (random.nextBoolean()) {
-                if (random.nextBoolean()) {
-                    direction = Direction.LEFT;
-                } else {
-                    direction = Direction.RIGHT;
-                }
-            } else {
-                direction = Direction.DOWN;
-            }
-        } else if (canGoUp && canGoDown && canGoLeft && !canGoRight) {
-            if (random.nextBoolean()) {
-                if (random.nextBoolean()) {
-                    direction = Direction.UP;
-                } else {
-                    direction = Direction.DOWN;
-                }
-            } else {
-                direction = Direction.LEFT;
-            }
-        } else if (canGoUp && canGoDown && !canGoLeft && canGoRight) {
-            if (random.nextBoolean()) {
-                if (random.nextBoolean()) {
-                    direction = Direction.UP;
-                } else {
-                    direction = Direction.DOWN;
-                }
-            } else {
-                direction = Direction.RIGHT;
-            }
-        }
-
-        if (!hasLeftTheNest) {
-            direction = Direction.UP;
-        }
-    }
-
     private void tryRightDirection() {
-        if (level.walkableTile(this, width / 2, 0)) {
+        if (level.walkableTile(this, width / 2, 0, allowedTiles)) {
             direction = Direction.RIGHT;
         } else {
             direction = Direction.LEFT;
@@ -279,7 +150,7 @@ public class Ghost extends MovableEntityAbstract {
     }
 
     private void tryLeftDirection() {
-        if (level.walkableTile(this, -width / 2, 0)) {
+        if (level.walkableTile(this, -width / 2, 0, allowedTiles)) {
             direction = Direction.LEFT;
         } else {
             direction = Direction.RIGHT;
@@ -287,7 +158,7 @@ public class Ghost extends MovableEntityAbstract {
     }
 
     private void tryUpDirection() {
-        if (level.walkableTile(this, 0, -height / 2)) {
+        if (level.walkableTile(this, 0, -height / 2, allowedTiles)) {
             direction = Direction.UP;
         } else {
             direction = Direction.DOWN;
@@ -295,7 +166,7 @@ public class Ghost extends MovableEntityAbstract {
     }
 
     private void tryDownDirection() {
-        if (level.walkableTile(this, 0, height / 2)) {
+        if (level.walkableTile(this, 0, height / 2, allowedTiles)) {
             direction = Direction.DOWN;
         } else {
             direction = Direction.UP;

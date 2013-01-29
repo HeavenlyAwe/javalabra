@@ -4,6 +4,7 @@
  */
 package org.fridlund.javalabra.pacman.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import net.java.games.input.Component;
@@ -29,7 +30,10 @@ public class Pacman extends MovableEntityAbstract {
     private Controller controller = null;
     private Level level;
     // movement
+    private ArrayList<Integer> allowedTiles;
     private float speed = 0.1f;
+    private int points;
+    private int lives;
     private float dx;
     private float dy;
     private int up = Keyboard.KEY_W;
@@ -40,13 +44,23 @@ public class Pacman extends MovableEntityAbstract {
 
     public Pacman(Level level) {
         this.level = level;
+        this.lives = 3;
+        this.points = 0;
+
+        this.setCollisionOffset(5.0f);
+
+        allowedTiles = new ArrayList<>();
+        allowedTiles.add(Level.WALKABLE);
 
         spawn();
     }
 
-    private void spawn() {
-        setPosition(level.getWidth() / 2 - level.getTileWidth(), level.getHeight() - this.height - level.getTileHeight());
-        setPosition(17 * level.getTileWidth(), 11 * level.getTileHeight());
+    public void spawn() {
+        this.spawn(17, 31);
+    }
+
+    public void spawn(int tileX, int tileY) {
+        setPosition(tileX * level.getTileWidth(), tileY * level.getTileHeight());
     }
 
     @Override
@@ -175,10 +189,10 @@ public class Pacman extends MovableEntityAbstract {
     }
 
     private void tryToMove() {
-        if (level.walkableTile(this, dx, 0)) {
+        if (level.walkableTile(this, dx, 0, allowedTiles)) {
             move(dx, 0);
         }
-        if (level.walkableTile(this, 0, dy)) {
+        if (level.walkableTile(this, 0, dy, allowedTiles)) {
             move(0, dy);
         }
     }
@@ -209,5 +223,25 @@ public class Pacman extends MovableEntityAbstract {
 
     public boolean isInvincible() {
         return invincible;
+    }
+
+    public void kill() {
+        lives--;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void addPoints(int points) {
+        this.points += points;
+    }
+
+    public void removePoints(int points) {
+        this.points -= points;
+    }
+
+    public int getPoints() {
+        return points;
     }
 }

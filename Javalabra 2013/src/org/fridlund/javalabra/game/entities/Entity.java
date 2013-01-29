@@ -37,4 +37,8 @@ public interface Entity {
     public void setHeight(float height);
 
     public float getHeight();
+    
+    public void setCollisionOffset(float offset);
+    
+    public float getCollisionOffset();
 }

@@ -4,11 +4,7 @@
  */
 package org.fridlund.javalabra.pacman.levels;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Logger;
 import org.fridlund.javalabra.game.entities.Entity;
 import org.fridlund.javalabra.game.sprites.Sprite;
@@ -40,6 +36,10 @@ public class Level {
     // render variables
     private Sprite sprite;
     private float scale = 1.0f;
+    public final static int VOID = 0;
+    public final static int WALL = 1;
+    public final static int WALKABLE = 2;
+    public final static int GHOST_TILE = 3;
 
     public Level() {
         setup();
@@ -49,6 +49,7 @@ public class Level {
         sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), tileWidth, tileHeight, 128, 128);
 //        generateLevel(sheet);
         generateLevelFromImage();
+        printLevelInAscii();
     }
 
     private void generateLevelFromImage() {
@@ -64,10 +65,32 @@ public class Level {
             tiles = new int[levelSizeX][levelSizeY];
             for (int y = 0; y < levelSizeY; y++) {
                 for (int x = 0; x < levelSizeX; x++) {
-                    if (image.getColor(x, y).getRed() == 0) {
-                        tiles[x][y] = 0;
+                    // VOID tile
+                    if (image.getColor(x, y).getRed() == 255
+                            && image.getColor(x, y).getGreen() == 255
+                            && image.getColor(x, y).getBlue() == 255
+                            && image.getColor(x, y).getAlpha() == 0) {
+                        tiles[x][y] = VOID;
+                    } // WALL tile
+                    else if (image.getColor(x, y).getRed() == 0
+                            && image.getColor(x, y).getGreen() == 0
+                            && image.getColor(x, y).getBlue() == 0
+                            && image.getColor(x, y).getAlpha() == 255) {
+                        tiles[x][y] = WALL;
+                    } // WALKABLE tile
+                    else if (image.getColor(x, y).getRed() == 255
+                            && image.getColor(x, y).getGreen() == 255
+                            && image.getColor(x, y).getBlue() == 255
+                            && image.getColor(x, y).getAlpha() == 255) {
+                        tiles[x][y] = WALKABLE;
+                    } // GHOST tile
+                    else if (image.getColor(x, y).getRed() == 255
+                            && image.getColor(x, y).getGreen() == 0
+                            && image.getColor(x, y).getBlue() == 255
+                            && image.getColor(x, y).getAlpha() == 255) {
+                        tiles[x][y] = GHOST_TILE;
                     } else {
-                        tiles[x][y] = 1;
+                        tiles[x][y] = VOID;
                     }
                 }
             }
@@ -78,34 +101,12 @@ public class Level {
         }
     }
 
-    private void generateLevel(SpriteSheet sheet) {
-        try {
-            Scanner scanner = new Scanner(new File(levelPath));
-
-            List<String> lines = new ArrayList<>();
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                lines.add(line);
+    private void printLevelInAscii() {
+        for (int y = 0; y < tiles[0].length; y++) {
+            for (int x = 0; x < tiles.length; x++) {
+                System.out.print(tiles[x][y]);
             }
-
-            int levelSizeX = lines.get(0).length();
-            int levelSizeY = lines.size();
-
-            tiles = new int[levelSizeX][levelSizeY];
-            for (int y = 0; y < levelSizeY; y++) {
-                String line = lines.get(y);
-                for (int x = 0; x < levelSizeX; x++) {
-                    if (line.charAt(x) == 'X') {
-                        tiles[x][y] = 0;
-                    } else if (line.charAt(x) == '.') {
-                        tiles[x][y] = 1;
-                    } else {
-                        tiles[x][y] = 1;
-                    }
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            System.out.println("");
         }
     }
 
@@ -129,9 +130,26 @@ public class Level {
 
         int tileX = 0;
         int tileY = 0;
-        if (tile == 1) {
-            tileX = 1;
+
+        // chooses correct tile from the quadratic grid of tiles in the image, based on a unique number
+        switch (tile) {
+            case VOID:
+                tileX = 0;
+                break;
+            case WALL:
+                tileX = 1;
+                break;
+            case WALKABLE:
+                tileX = 2;
+                break;
+            case GHOST_TILE:
+                tileX = 3;
+                break;
+            default:
+                tileX = 0;
+                break;
         }
+
         sprite = sheet.getSprite(tileX, tileY);
 
         float sx = sprite.getX();
@@ -155,7 +173,7 @@ public class Level {
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
     }
 
-    public boolean walkableTile(Entity entity, float dx, float dy) {
+    public boolean walkableTile(Entity entity, float dx, float dy, ArrayList<Integer> allowedTiles) {
         int x0 = (int) (entity.getX() + dx + entityOffsetToWalls) / tileWidth;
         int x1 = (int) (entity.getX() + entity.getWidth() + dx - entityOffsetToWalls) / tileWidth;
         int y0 = (int) (entity.getY() + dy + entityOffsetToWalls) / tileHeight;
@@ -163,16 +181,18 @@ public class Level {
         int xCenter = (int) (entity.getX() + entity.getWidth() / 2 + dx) / tileWidth;
         int yCenter = (int) (entity.getY() + entity.getHeight() / 2 + dy) / tileHeight;
 
-        //System.out.println(x0 + "," + x1 + ", " + y0 + ", " + y1 + ", " + xCenter + ", " + yCenter);
-
         if (x0 < 0 || y0 < 0 || x1 >= tiles.length || y1 >= tiles[0].length) {
             return true;
         }
 
-        return tiles[x0][y0] == 1 && tiles[x0][y1] == 1 // checking top left, bottom left
-                && tiles[x1][y0] == 1 && tiles[x1][y1] == 1 // checking top right, bottom right
-                && tiles[xCenter][y0] == 1 && tiles[xCenter][y1] == 1 // checking top middel, bottom middle
-                && tiles[x0][yCenter] == 1 && tiles[x1][yCenter] == 1;
+        return allowedTiles.contains(tiles[x0][y0])
+                && allowedTiles.contains(tiles[x0][y1])
+                && allowedTiles.contains(tiles[x1][y0])
+                && allowedTiles.contains(tiles[x1][y1])
+                && allowedTiles.contains(tiles[xCenter][y0])
+                && allowedTiles.contains(tiles[xCenter][y1])
+                && allowedTiles.contains(tiles[x0][yCenter])
+                && allowedTiles.contains(tiles[x1][yCenter]);
     }
 
     public boolean outsideOnTheRight(Entity entity) {

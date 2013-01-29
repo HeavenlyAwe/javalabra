@@ -37,9 +37,9 @@ public class Sprite {
     public float getHeight() {
         return h;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return x + ", " + y + ", " + w + ", " + h;
     }
 }

@@ -14,6 +14,7 @@ public abstract class EntityAbstract implements Entity {
     protected float y;
     protected float width;
     protected float height;
+    protected float collisionOffset;
 
     public EntityAbstract() {
         this(0, 0);
@@ -23,6 +24,7 @@ public abstract class EntityAbstract implements Entity {
         this.setPosition(x, y);
         this.width = 1;
         this.height = 1;
+        this.collisionOffset = 0.0f;
 
         setup();
     }
@@ -30,10 +32,10 @@ public abstract class EntityAbstract implements Entity {
     @Override
     public boolean collision(Entity entity) {
 
-        if (this.x < entity.getX() + entity.getWidth()
-                && this.x + this.width > entity.getX()
-                && this.y < entity.getY() + entity.getHeight()
-                && this.y + this.height > entity.getY()) {
+        if (this.x + collisionOffset < entity.getX() + entity.getWidth() - entity.getCollisionOffset()
+                && this.x + this.width - collisionOffset > entity.getX() + entity.getCollisionOffset()
+                && this.y + collisionOffset < entity.getY() + entity.getHeight() - entity.getCollisionOffset()
+                && this.y + this.height - collisionOffset > entity.getY() + entity.getCollisionOffset()) {
             return true;
         } else {
             return false;
@@ -92,5 +94,15 @@ public abstract class EntityAbstract implements Entity {
     @Override
     public float getHeight() {
         return height;
+    }
+
+    @Override
+    public void setCollisionOffset(float offset) {
+        this.collisionOffset = offset;
+    }
+
+    @Override
+    public float getCollisionOffset() {
+        return collisionOffset;
     }
 }
