@@ -1,7 +1,50 @@
 ===================================
+05.02.2013
+-----------------------------------
+
+
+
+
+===================================
+04.02.2013
+-----------------------------------
+
+
+
+
+===================================
+03.02.2013
+-----------------------------------
+
+
+
+
+===================================
+02.02.2013
+-----------------------------------
+
+
+
+
+===================================
+01.02.2013
+-----------------------------------
+
+
+
+
+===================================
+31.01.2013
+-----------------------------------
+
+
+
+
+===================================
 30.01.2013
 -----------------------------------
 
+00-01	- Got the separation of Entities into their own entity manager in gameplayscene
 
 
 
@@ -13,7 +56,12 @@
 21-22	- JUnit tests for Ghost class
 	- started to refactor snack classes
 	- Added some tests for Pacman class
-
+22-00	- Refactored gameplayscene
+	- Added killable animation to the ghosts
+	- Added warning animation to the ghosts
+	- Started on documentation
+	- Started on a GhostManager class, to keep track on the ghosts, rather than the
+	  main gameplayscene.
 
 
 ===================================
