@@ -45,9 +45,14 @@
 -----------------------------------
 
 00-01	- Got the separation of Entities into their own entity manager in gameplayscene
-
-
-
+14-16	- Implemented a 3D camera, trying to make the game level to be drawn in a 3D-space
+	  instead of the screen space. Having problems with the world being upside down.
+18-19	- Solved the upside down problem, with inverting the controls in Y-direction,
+	  inverted the map-loader to read the top row of the level-image into the
+	  bottom row of the level matrix. Changed the texcoords in the animation render
+	  method, to turn the image the "right way".
+22-00	- Made the 3D camera working, now we have a rotation effect when swapping between
+	  inverted and normal controls.
 
 ===================================
 29.01.2013
@@ -124,6 +129,7 @@ No progress
 22.01.2013
 -----------------------------------
 
+16-17	- Added a short ant command to build script to copy all necessary natives and 	  files, so it could be pulled and run on CS-department's computers
 17-18	- Made collision detection
 21-22	- UML:s with yUml online tool
 
