@@ -55,7 +55,7 @@ public class Pacman extends MovableEntityAbstract {
     }
 
     public void spawn() {
-        this.spawn(17, 31);
+        this.spawn(17, 1);
     }
 
     public void spawn(int tileX, int tileY) {
@@ -165,9 +165,9 @@ public class Pacman extends MovableEntityAbstract {
         }
 
         if (keyDown(up) && !keyDown(down)) {
-            dy = -speed * delta;
-        } else if (!keyDown(up) && keyDown(down)) {
             dy = speed * delta;
+        } else if (!keyDown(up) && keyDown(down)) {
+            dy = -speed * delta;
         }
 
     }
@@ -198,11 +198,11 @@ public class Pacman extends MovableEntityAbstract {
     private void teleportWhenMovingOutsideBoard() {
         if (level.outsideOnTheRight(this)) {
             setX(-width);
-            setY(level.getHeight() / 2 - height);
+            setY(level.getHeight() / 2);
         }
         if (level.outsideOnTheLeft(this)) {
             setX(level.getWidth());
-            setY(level.getHeight() / 2 - height);
+            setY(level.getHeight() / 2);
         }
     }
 
@@ -212,7 +212,7 @@ public class Pacman extends MovableEntityAbstract {
 
     @Override
     public void render() {
-        animation.render(GameplayScene.offsetDrawX + x, GameplayScene.offsetDrawY + y);
+        animation.render(x, y);
     }
 
     public void kill() {

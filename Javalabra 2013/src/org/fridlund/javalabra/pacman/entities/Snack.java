@@ -48,6 +48,6 @@ public class Snack extends EntityAbstract {
 
     @Override
     public void render() {
-        animation.render(GameplayScene.offsetDrawX + x, GameplayScene.offsetDrawY + y);
+        animation.render(x, y);
     }
 }

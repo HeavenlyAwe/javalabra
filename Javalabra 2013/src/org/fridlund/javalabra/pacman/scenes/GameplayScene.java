@@ -4,14 +4,19 @@
  */
 package org.fridlund.javalabra.pacman.scenes;
 
+import org.fridlund.javalabra.game.Screen;
+import org.fridlund.javalabra.game.cameras.Camera;
 import org.fridlund.javalabra.game.scenes.Scene;
 import org.fridlund.javalabra.game.utils.FontLoader;
+import org.fridlund.javalabra.pacman.cameras.PacmanCamera;
 import org.fridlund.javalabra.pacman.entities.Pacman;
 import org.fridlund.javalabra.pacman.levels.Level;
 import org.fridlund.javalabra.pacman.managers.GhostManager;
 import org.fridlund.javalabra.pacman.managers.Manager;
 import org.fridlund.javalabra.pacman.managers.SnackManager;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
@@ -19,12 +24,11 @@ import org.lwjgl.opengl.Display;
  */
 public class GameplayScene extends Scene {
 
+    private PacmanCamera fpsCamera;
     private Manager snackManager;
     private GhostManager ghostManager;
     private Level level;
     private Pacman pacman;
-    public static float offsetDrawX;
-    public static float offsetDrawY;
     private String gameOverMessage = "";
     private boolean gameOver = false;
 
@@ -32,8 +36,16 @@ public class GameplayScene extends Scene {
     public void setup() {
         level = new Level();
 
-        offsetDrawX = (Display.getWidth() - level.getWidth()) / 2;
-        offsetDrawY = (Display.getHeight() - level.getHeight()) / 2;
+//        fpsCamera = new FirstPersonCamera((float) Display.getWidth() / (float) Display.getHeight(),
+//                new Vector3f(Display.getWidth() / 2, Display.getHeight() / 2, -300),
+//                new Vector3f(0, 180, 180));
+//        fpsCamera.applyProjectionMatrix();
+        fpsCamera = new PacmanCamera((float) Display.getWidth() / (float) Display.getHeight(),
+                new Vector3f(level.getWidth() / 2, level.getHeight() / 2, 300),
+                new Vector3f(level.getWidth() / 2, level.getHeight() / 2, 0));
+        fpsCamera.applyProjectionMatrix();
+
+
 
         pacman = new Pacman(level);
 
@@ -56,6 +68,16 @@ public class GameplayScene extends Scene {
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        fpsCamera.update(delta);
+        if (Mouse.isButtonDown(0)) {
+            fpsCamera.rotateLeft();
+//            Mouse.setGrabbed(true);
+        } else if (Mouse.isButtonDown(1)) {
+            fpsCamera.rotateRight();
+//            Mouse.setGrabbed(false);
+        }
+        
 
         if (!gameOver) {
 
@@ -81,6 +103,8 @@ public class GameplayScene extends Scene {
     public void render() {
         super.render();
 
+        fpsCamera.applyModelViewMatrix(true);
+
         level.render();
         pacman.render();
 
@@ -97,8 +121,16 @@ public class GameplayScene extends Scene {
     }
 
     private void renderPacmanStats() {
+        Screen.applyProjectionMatrix();
+
         FontLoader.renderString("Points: " + pacman.getPoints(), 10, 10, "times new roman");
         FontLoader.renderString("Lives: " + pacman.getLives(), 10, 35, "times new roman");
+
+//        FontLoader.renderString()
+
+        FontLoader.renderString("Camera: " + fpsCamera.toString(), 10, 70, "times new roman");
+
+        fpsCamera.applyProjectionMatrix();
     }
 
     public void setGameOver(String message) {

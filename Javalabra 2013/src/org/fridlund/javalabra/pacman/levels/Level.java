@@ -12,6 +12,7 @@ import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
 import org.fridlund.javalabra.pacman.scenes.GameplayScene;
 import static org.lwjgl.opengl.ARBTextureRectangle.GL_TEXTURE_RECTANGLE_ARB;
+import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -64,33 +65,39 @@ public class Level {
 
             tiles = new int[levelSizeX][levelSizeY];
             for (int y = 0; y < levelSizeY; y++) {
+
+                int tileY = levelSizeY - y - 1;
+
                 for (int x = 0; x < levelSizeX; x++) {
+
+                    int tileX = x;
+
                     // VOID tile
                     if (image.getColor(x, y).getRed() == 255
                             && image.getColor(x, y).getGreen() == 255
                             && image.getColor(x, y).getBlue() == 255
                             && image.getColor(x, y).getAlpha() == 0) {
-                        tiles[x][y] = VOID;
+                        tiles[tileX][tileY] = VOID;
                     } // WALL tile
                     else if (image.getColor(x, y).getRed() == 0
                             && image.getColor(x, y).getGreen() == 0
                             && image.getColor(x, y).getBlue() == 0
                             && image.getColor(x, y).getAlpha() == 255) {
-                        tiles[x][y] = WALL;
+                        tiles[tileX][tileY] = WALL;
                     } // WALKABLE tile
                     else if (image.getColor(x, y).getRed() == 255
                             && image.getColor(x, y).getGreen() == 255
                             && image.getColor(x, y).getBlue() == 255
                             && image.getColor(x, y).getAlpha() == 255) {
-                        tiles[x][y] = WALKABLE;
+                        tiles[tileX][tileY] = WALKABLE;
                     } // GHOST tile
                     else if (image.getColor(x, y).getRed() == 255
                             && image.getColor(x, y).getGreen() == 0
                             && image.getColor(x, y).getBlue() == 255
                             && image.getColor(x, y).getAlpha() == 255) {
-                        tiles[x][y] = GHOST_TILE;
+                        tiles[tileX][tileY] = GHOST_TILE;
                     } else {
-                        tiles[x][y] = VOID;
+                        tiles[tileX][tileY] = VOID;
                     }
                 }
             }
@@ -120,7 +127,7 @@ public class Level {
     public void render() {
         for (int y = 0; y < tiles[0].length; y++) {
             for (int x = 0; x < tiles.length; x++) {
-                renderTile(GameplayScene.offsetDrawX + x * tileWidth, GameplayScene.offsetDrawY + y * tileHeight, tiles[x][y]);
+                renderTile(x * tileWidth, y * tileHeight, tiles[x][y]);
             }
         }
     }

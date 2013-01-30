@@ -32,18 +32,22 @@ public class Screen {
         Display.destroy();
     }
 
-    public static void setupLWJGL() {
+    public static void applyProjectionMatrix() {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+    }
+
+    public static void setupLWJGL() {
+        applyProjectionMatrix();
         glViewport(0, 0, Display.getWidth(), Display.getHeight());
 
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_TEXTURE_RECTANGLE_ARB);
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
+//        glEnable(GL_CULL_FACE);
+//        glCullFace(GL_BACK);
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

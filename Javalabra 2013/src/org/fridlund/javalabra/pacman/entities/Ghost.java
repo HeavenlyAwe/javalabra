@@ -126,12 +126,12 @@ public class Ghost extends MovableEntityAbstract {
 
         switch (direction) {
             case UP:
-                dy = -speed * delta;
+                dy = speed * delta;
                 dx = 0;
                 animation = animations.get("up");
                 break;
             case DOWN:
-                dy = speed * delta;
+                dy = -speed * delta;
                 dx = 0;
                 animation = animations.get("down");
                 break;
@@ -150,7 +150,7 @@ public class Ghost extends MovableEntityAbstract {
         if (!isInvincible) {
             animation = animations.get("killable");
         }
-        if(isWarning){
+        if (isWarning) {
             animation = animations.get("warning");
         }
 
@@ -183,7 +183,7 @@ public class Ghost extends MovableEntityAbstract {
     }
 
     private void tryUpDirection() {
-        if (level.walkableTile(this, 0, -height / 2, allowedTiles)) {
+        if (level.walkableTile(this, 0, height / 2, allowedTiles)) {
             direction = Direction.UP;
         } else {
             direction = Direction.DOWN;
@@ -191,7 +191,7 @@ public class Ghost extends MovableEntityAbstract {
     }
 
     private void tryDownDirection() {
-        if (level.walkableTile(this, 0, height / 2, allowedTiles)) {
+        if (level.walkableTile(this, 0, -height / 2, allowedTiles)) {
             direction = Direction.DOWN;
         } else {
             direction = Direction.UP;
@@ -233,7 +233,7 @@ public class Ghost extends MovableEntityAbstract {
     }
 
     public void setWarningAnimation() {
-        if(!isInvincible){
+        if (!isInvincible) {
             this.isWarning = true;
         }
     }
@@ -249,14 +249,14 @@ public class Ghost extends MovableEntityAbstract {
 
     @Override
     public void render() {
-        animation.render(GameplayScene.offsetDrawX + x, GameplayScene.offsetDrawY + y);
+        animation.render(x, y);
     }
-    
-    public boolean isDead(){
+
+    public boolean isDead() {
         return dead;
     }
-    
-    public void kill(){
+
+    public void kill() {
         this.dead = true;
     }
 }

@@ -26,7 +26,7 @@ public class Animation {
         this.sheet = sheet;
         this.sprites = new ArrayList<>();
         this.durations = new ArrayList<>();
-        
+
         setup();
     }
 
@@ -69,14 +69,24 @@ public class Animation {
 
         glBegin(GL_QUADS);
         {
-            glTexCoord2f(sx, sy);
-            glVertex2f(x, y);
             glTexCoord2f(sx, sy1);
+            glVertex2f(x, y);
+            glTexCoord2f(sx, sy);
             glVertex2f(x, y + currentSprite.getHeight() * scale);
-            glTexCoord2f(sx1, sy1);
-            glVertex2f(x + currentSprite.getWidth() * scale, y + currentSprite.getHeight() * scale);
             glTexCoord2f(sx1, sy);
+            glVertex2f(x + currentSprite.getWidth() * scale, y + currentSprite.getHeight() * scale);
+            glTexCoord2f(sx1, sy1);
             glVertex2f(x + currentSprite.getWidth() * scale, y);
+
+
+//            glTexCoord2f(sx, sy);
+//            glVertex2f(x, y);
+//            glTexCoord2f(sx, sy1);
+//            glVertex2f(x, y + currentSprite.getHeight() * scale);
+//            glTexCoord2f(sx1, sy1);
+//            glVertex2f(x + currentSprite.getWidth() * scale, y + currentSprite.getHeight() * scale);
+//            glTexCoord2f(sx1, sy);
+//            glVertex2f(x + currentSprite.getWidth() * scale, y);
         }
         glEnd();
 
