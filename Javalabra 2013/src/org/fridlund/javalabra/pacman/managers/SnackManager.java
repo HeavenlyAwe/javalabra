@@ -69,16 +69,27 @@ public class SnackManager extends Manager {
      */
     private void chooseSnackToSpawn(int x, int y, ArrayList<Integer> allowedTiles) {
         Snack snack;
-        if (x == 2 && y == 2
-                || x == 2 && y == level.getHeight() / level.getTileHeight() - 2
-                || x == level.getWidth() / level.getTileWidth() - 2 && y == 2
-                || x == level.getWidth() / level.getTileWidth() - 2 && y == level.getHeight() / level.getTileHeight() - 2) {
+        if (x == 1 && y == 1
+                || x == 1 && y == level.getHeight() / level.getTileHeight() - 3
+                || x == level.getWidth() / level.getTileWidth() - 3 && y == 1
+                || x == level.getWidth() / level.getTileWidth() - 3 && y == level.getHeight() / level.getTileHeight() - 3) {
             snack = new SuperSnack();
         } else {
             snack = new Snack();
         }
-        if (level.walkableTile(snack, x * level.getTileWidth() - 0.5f * level.getTileWidth(), y * level.getTileHeight() - 0.5f * level.getTileHeight(), allowedTiles)) {
-            snack.setPosition(x * level.getTileWidth() - 0.5f * level.getTileWidth(), y * level.getTileHeight() - 0.5f * level.getTileHeight());
+//        if (level.walkableTile(snack, x * level.getTileWidth() - 0.5f * level.getTileWidth(), y * level.getTileHeight() - 0.5f * level.getTileHeight(), allowedTiles)) {
+//            snack.setPosition(x * level.getTileWidth() - 0.5f * level.getTileWidth(), y * level.getTileHeight() - 0.5f * level.getTileHeight());
+//            snacks.add(snack);
+//        }
+
+        float posX = x * level.getTileWidth();
+        float posY = y * level.getTileHeight();
+        if (level.walkableTile(snack, posX, posY, allowedTiles)
+                && level.walkableTile(snack, posX + level.getTileWidth(), posY, allowedTiles)
+                && level.walkableTile(snack, posX, posY + level.getTileHeight(), allowedTiles)
+                && level.walkableTile(snack, posX + level.getTileWidth(), posY + level.getTileHeight(), allowedTiles)
+                && posX + level.getTileWidth() < level.getWidth()) {
+            snack.setPosition(posX + 0.5f * level.getTileWidth(), posY + 0.5f * level.getTileHeight());
             snacks.add(snack);
         }
     }
@@ -140,5 +151,9 @@ public class SnackManager extends Manager {
         for (int i = 0; i < snacks.size(); i++) {
             snacks.get(i).render();
         }
+    }
+
+    public List<Entity> getSnacks() {
+        return snacks;
     }
 }

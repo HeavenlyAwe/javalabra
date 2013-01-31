@@ -5,8 +5,6 @@
 package org.fridlund.javalabra.pacman.cameras;
 
 import org.fridlund.javalabra.game.cameras.Camera;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector3f;
@@ -18,27 +16,26 @@ import org.lwjgl.util.vector.Vector3f;
 public class PacmanCamera extends Camera {
 
     private float aspectRatio;
-    private float fov = 90;
-    private float zNear = 0.3f;
-    private float zFar = 1000.0f;
-    private float mouseSpeed = 0.01f;
-    private float maxLookUp = 80;
-    private float maxLookDown = -80;
-    private float speedX = 0.03f;
-    private float speedY = 0.03f;
-    private float speedZ = 0.03f;
+    private float fov;
+    private float zNear;
+    private float zFar;
+    private float radius;
 
-    public PacmanCamera(float aspectRatio) {
-        this(aspectRatio, new Vector3f(0, 0, 0));
+    public PacmanCamera(float aspectRatio, float radius) {
+        this(aspectRatio, radius, new Vector3f(0, 0, 0));
     }
 
-    public PacmanCamera(float aspectRatio, Vector3f position) {
-        this(aspectRatio, position, new Vector3f(0, 0, 0));
+    public PacmanCamera(float aspectRatio, float radius, Vector3f position) {
+        this(aspectRatio, radius, position, new Vector3f(0, 0, 0));
     }
 
-    public PacmanCamera(float aspectRatio, Vector3f position, Vector3f rotation) {
+    public PacmanCamera(float aspectRatio, float radius, Vector3f position, Vector3f rotation) {
         super(position, rotation);
         this.aspectRatio = aspectRatio;
+        this.fov = 90;
+        this.zNear = 0.3f;
+        this.zFar = 1000f;
+        this.radius = radius;
     }
 
     private enum RotateDirection {
@@ -67,8 +64,8 @@ public class PacmanCamera extends Camera {
 
         float angleRad = (float) Math.toRadians(angle);
 
-        position.x = (float) ((300 * Math.sin(angleRad) + 300) * Math.sin(angleRad)) + rotation.x;
-        position.z = (float) ((300 * Math.sin(angleRad) + 300) * Math.cos(angleRad)) + rotation.z;
+        position.x = (float) ((radius * Math.sin(angleRad) + radius) * Math.sin(angleRad)) + rotation.x;
+        position.z = (float) ((radius * Math.sin(angleRad) + radius) * Math.cos(angleRad)) + rotation.z;
 
         // nice bouncing effect when only applying rotation to z-component
         // position.z = (float) ((500 * Math.sin(angleRad) + 300) * Math.cos(angleRad)) + rotation.z;
@@ -108,5 +105,9 @@ public class PacmanCamera extends Camera {
     }
 
     public void moveFromLook(float dx, float dy, float dz) {
+    }
+
+    public float getAngle() {
+        return angle;
     }
 }

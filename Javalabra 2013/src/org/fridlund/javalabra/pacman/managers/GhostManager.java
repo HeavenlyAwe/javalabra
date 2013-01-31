@@ -27,9 +27,9 @@ public class GhostManager extends Manager {
         this.ghosts = new HashMap<>();
 
         this.spawnInterval = 5000.0f;
-        this.spawnTimer = 0.0f;
+        this.spawnTimer = 4000.0f;
 
-        this.spawnGhost();
+//        this.spawnGhost();
     }
 
     @Override
@@ -128,5 +128,9 @@ public class GhostManager extends Manager {
         ghosts.get(key).kill();
         pacman.addPoints(200);
         killed[key] = ghosts.get(key).isDead();
+    }
+
+    public Map<Integer, Ghost> getGhosts() {
+        return ghosts;
     }
 }
