@@ -32,7 +32,7 @@ public class GhostManagerTest {
     public static void cleanUp() {
         Screen.cleanUp();
     }
-    GhostAiManager gm;
+    GhostManager gm;
 
     @Before
     public void setUp() {
@@ -40,7 +40,7 @@ public class GhostManagerTest {
         Level level = new Level();
         Pacman pacman = new Pacman(level);
 
-        gm = new GhostAiManager(game, pacman, level);
+        gm = new GhostManager(game, pacman, level);
     }
 
     @Test

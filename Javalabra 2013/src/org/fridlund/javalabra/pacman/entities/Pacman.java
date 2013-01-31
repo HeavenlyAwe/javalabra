@@ -36,6 +36,9 @@ public class Pacman extends MovableEntityAbstract {
     private int lives;
     private float dx;
     private float dy;
+    private boolean unKillable = false;
+    private float unKillableTimerMax = 3000;
+    private float unKillableTimer = 0;
     private int up = Keyboard.KEY_W;
     private int down = Keyboard.KEY_S;
     private int left = Keyboard.KEY_A;
@@ -73,7 +76,7 @@ public class Pacman extends MovableEntityAbstract {
             }
         }
 
-        SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128);
+        SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 160);
 
         setWidth(32);
         setHeight(32);
@@ -98,10 +101,21 @@ public class Pacman extends MovableEntityAbstract {
         leftAnimation.addFrame(6, 1, 50);
         leftAnimation.addFrame(7, 1, 50);
 
+        Animation rightUnkillableAnimation = new Animation(spriteSheet);
+        rightUnkillableAnimation.addFrame(0, 4, 50);
+        rightUnkillableAnimation.addFrame(1, 0, 50);
+        rightUnkillableAnimation.addFrame(1, 4, 50);
+        rightUnkillableAnimation.addFrame(3, 0, 50);
+        rightUnkillableAnimation.addFrame(2, 4, 50);
+        rightUnkillableAnimation.addFrame(5, 0, 50);
+        rightUnkillableAnimation.addFrame(1, 4, 50);
+        rightUnkillableAnimation.addFrame(7, 0, 50);
+
         animation = rightAnimation;
 
         animations.put("right", rightAnimation);
         animations.put("left", leftAnimation);
+        animations.put("right_unkillable", rightUnkillableAnimation);
     }
 
     @Override
@@ -116,6 +130,14 @@ public class Pacman extends MovableEntityAbstract {
 
         dx = 0;
         dy = 0;
+
+        if (unKillable) {
+            unKillableTimer += delta;
+            if (unKillableTimer >= unKillableTimerMax) {
+                unKillableTimer = 0;
+                unKillable = false;
+            }
+        }
 
         handleControllerInput(delta);
         handleKeyboardInput(delta);
@@ -177,7 +199,14 @@ public class Pacman extends MovableEntityAbstract {
             animation = animations.get("left");
         } else if (dx > 0) {
             animation = animations.get("right");
+            if (unKillable) {
+                animation = animations.get("right_unkillable");
+            }
         }
+    }
+
+    public void setUnKillable(float howLong) {
+        this.unKillable = true;
     }
 
     private void resetDyWhenMovingOutsideBoard() {
@@ -233,5 +262,9 @@ public class Pacman extends MovableEntityAbstract {
 
     public int getPoints() {
         return points;
+    }
+
+    public boolean isUnKillable() {
+        return unKillable;
     }
 }

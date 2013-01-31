@@ -10,9 +10,10 @@ import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.javalabra.pacman.cameras.PacmanCamera;
 import org.fridlund.javalabra.pacman.entities.Pacman;
 import org.fridlund.javalabra.pacman.levels.Level;
-import org.fridlund.javalabra.pacman.managers.GhostAiManager;
+import org.fridlund.javalabra.pacman.managers.GhostManager;
 import org.fridlund.javalabra.pacman.managers.Manager;
 import org.fridlund.javalabra.pacman.managers.SnackManager;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -26,7 +27,7 @@ public class GameplayScene extends Scene {
 
     private PacmanCamera fpsCamera;
     private Manager snackManager;
-    private GhostAiManager ghostManager;
+    private GhostManager ghostManager;
     private Level level;
     private Pacman pacman;
     private String gameOverMessage = "";
@@ -50,7 +51,7 @@ public class GameplayScene extends Scene {
         pacman = new Pacman(level);
 
         snackManager = new SnackManager(this, pacman, level);
-        ghostManager = new GhostAiManager(this, pacman, level);
+        ghostManager = new GhostManager(this, pacman, level);
     }
 
     /**
@@ -76,6 +77,12 @@ public class GameplayScene extends Scene {
         } else if (Mouse.isButtonDown(1)) {
             fpsCamera.rotateRight();
 //            Mouse.setGrabbed(false);
+        }
+
+        while (Keyboard.next()) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                this.superSnackEaten();
+            }
         }
 
 

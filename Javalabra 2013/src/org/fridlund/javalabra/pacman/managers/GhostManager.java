@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.fridlund.javalabra.pacman.entities.Ghost;
-import org.fridlund.javalabra.pacman.entities.GhostAI;
+import org.fridlund.javalabra.pacman.entities.GhostGraphics;
 import org.fridlund.javalabra.pacman.entities.Pacman;
 import org.fridlund.javalabra.pacman.levels.Level;
 import org.fridlund.javalabra.pacman.scenes.GameplayScene;
@@ -17,13 +17,13 @@ import org.fridlund.javalabra.pacman.scenes.GameplayScene;
  *
  * @author Christoffer
  */
-public class GhostAiManager extends Manager {
+public class GhostManager extends Manager {
 
-    private Map<Integer, GhostAI> ghosts;
+    private Map<Integer, Ghost> ghosts;
     private float spawnInterval; // ms
     private float spawnTimer;
 
-    public GhostAiManager(GameplayScene game, Pacman pacman, Level level) {
+    public GhostManager(GameplayScene game, Pacman pacman, Level level) {
         super(game, pacman, level);
         this.ghosts = new HashMap<>();
 
@@ -47,7 +47,7 @@ public class GhostAiManager extends Manager {
         for (int color = 0; color < 4; color++) {
             if (!ghosts.containsKey(color)) {
                 System.out.println("Ghost color: " + color);
-                ghosts.put(color, new GhostAI(new Ghost(level, color), level));
+                ghosts.put(color, new Ghost(new GhostGraphics(color), level));
                 break;
             }
         }
@@ -55,19 +55,19 @@ public class GhostAiManager extends Manager {
 
     public void setAllGhostsKillable() {
         for (int key : ghosts.keySet()) {
-            ghosts.get(key).getGhost().setKillable();
+            ghosts.get(key).setKillable();
         }
     }
 
     public void activateWarningOnGhosts() {
         for (int key : ghosts.keySet()) {
-            ghosts.get(key).getGhost().setWarningAnimation();
+            ghosts.get(key).setWarningAnimation();
         }
     }
 
     public void setAllGhostsInvincible() {
         for (int key : ghosts.keySet()) {
-            ghosts.get(key).getGhost().setInvincible();
+            ghosts.get(key).setInvincible();
         }
     }
 
@@ -80,26 +80,17 @@ public class GhostAiManager extends Manager {
             spawnGhost();
         }
 
-        boolean[] killed = new boolean[4];
-        Arrays.fill(killed, false);
-
         for (int key : ghosts.keySet()) {
-            
+
             // updating the ghost AI
             ghosts.get(key).update(delta);
 
-            if (pacman.collision(ghosts.get(key).getGhost())) {
-                if (ghosts.get(key).getGhost().isInvincible()) {
-                    killPacman(killed);
+            if (pacman.collision(ghosts.get(key))) {
+                if (ghosts.get(key).isInvincible()) {
+                    killPacman();
                 } else {
-                    killGhost(key, killed);
+                    killGhost(key);
                 }
-            }
-        }
-
-        for (int i = 0; i < killed.length; i++) {
-            if (killed[i]) {
-                ghosts.remove(i);
             }
         }
     }
@@ -107,34 +98,37 @@ public class GhostAiManager extends Manager {
     @Override
     public void render() {
         for (int key : ghosts.keySet()) {
-            ghosts.get(key).getGhost().render();
+            ghosts.get(key).render();
         }
     }
 
-    private void killPacman(boolean[] killed) {
+    private void killPacman() {
         // remove one life from pacman
         // remove a given amount of points from the current score
-        pacman.kill();
-        pacman.removePoints(100);
+        if (!pacman.isUnKillable()) {
+            pacman.kill();
+            pacman.removePoints(100);
 
-        // check if packman has anymore lives, and if he does, respawn him and the ghosts
-        if (pacman.getLives() != 0) {
-            pacman.spawn();
-            Arrays.fill(killed, true);
-            // force the ghostTimer to its maximum to make a ghost respawn directly
-            spawnTimer = spawnInterval;
-        } else {
-            game.setGameOver("Game Over");
+            // check if packman has anymore lives, and if he does, respawn him and the ghosts
+            if (pacman.getLives() != 0) {
+                pacman.spawn();
+                pacman.setUnKillable(2000);
+                // force the ghostTimer to its maximum to make a ghost respawn directly
+                spawnTimer = spawnInterval;
+            } else {
+                game.setGameOver("Game Over");
+            }
         }
     }
 
-    private void killGhost(int key, boolean[] killed) {
-        ghosts.get(key).getGhost().kill();
+    private void killGhost(int key) {
+        ghosts.get(key).kill();
+//        ghosts.get(key).setInNest();
         pacman.addPoints(200);
-        killed[key] = ghosts.get(key).getGhost().isDead();
+//        killed[key] = ghosts.get(key).getGhost().isDead();
     }
 
-    public Map<Integer, GhostAI> getGhosts() {
+    public Map<Integer, Ghost> getGhosts() {
         return ghosts;
     }
 }
