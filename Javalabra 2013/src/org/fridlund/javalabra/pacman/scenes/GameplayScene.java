@@ -10,7 +10,7 @@ import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.javalabra.pacman.cameras.PacmanCamera;
 import org.fridlund.javalabra.pacman.entities.Pacman;
 import org.fridlund.javalabra.pacman.levels.Level;
-import org.fridlund.javalabra.pacman.managers.GhostManager;
+import org.fridlund.javalabra.pacman.managers.GhostAiManager;
 import org.fridlund.javalabra.pacman.managers.Manager;
 import org.fridlund.javalabra.pacman.managers.SnackManager;
 import org.lwjgl.input.Mouse;
@@ -26,7 +26,7 @@ public class GameplayScene extends Scene {
 
     private PacmanCamera fpsCamera;
     private Manager snackManager;
-    private GhostManager ghostManager;
+    private GhostAiManager ghostManager;
     private Level level;
     private Pacman pacman;
     private String gameOverMessage = "";
@@ -50,7 +50,7 @@ public class GameplayScene extends Scene {
         pacman = new Pacman(level);
 
         snackManager = new SnackManager(this, pacman, level);
-        ghostManager = new GhostManager(this, pacman, level);
+        ghostManager = new GhostAiManager(this, pacman, level);
     }
 
     /**
@@ -140,8 +140,8 @@ public class GameplayScene extends Scene {
 
             // left border
             glVertex2f(0, 0);
-            glVertex2f(-32, 0);
-            glVertex2f(-32, level.getHeight());
+            glVertex2f(-pacman.getWidth(), 0);
+            glVertex2f(-pacman.getWidth(), level.getHeight());
             glVertex2f(0, level.getHeight());
 
 //            // top border
@@ -153,8 +153,8 @@ public class GameplayScene extends Scene {
             // right border
             glVertex2f(level.getWidth(), 0);
             glVertex2f(level.getWidth(), level.getHeight());
-            glVertex2f(level.getWidth() + 32, level.getHeight());
-            glVertex2f(level.getWidth() + 32, 0);
+            glVertex2f(level.getWidth() + pacman.getWidth(), level.getHeight());
+            glVertex2f(level.getWidth() + pacman.getWidth(), 0);
 
         }
         glEnd();

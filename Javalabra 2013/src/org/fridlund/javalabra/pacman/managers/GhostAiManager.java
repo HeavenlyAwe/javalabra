@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.fridlund.javalabra.pacman.entities.Ghost;
+import org.fridlund.javalabra.pacman.entities.GhostAI;
 import org.fridlund.javalabra.pacman.entities.Pacman;
 import org.fridlund.javalabra.pacman.levels.Level;
 import org.fridlund.javalabra.pacman.scenes.GameplayScene;
@@ -16,13 +17,13 @@ import org.fridlund.javalabra.pacman.scenes.GameplayScene;
  *
  * @author Christoffer
  */
-public class GhostManager extends Manager {
+public class GhostAiManager extends Manager {
 
-    private Map<Integer, Ghost> ghosts;
+    private Map<Integer, GhostAI> ghosts;
     private float spawnInterval; // ms
     private float spawnTimer;
 
-    public GhostManager(GameplayScene game, Pacman pacman, Level level) {
+    public GhostAiManager(GameplayScene game, Pacman pacman, Level level) {
         super(game, pacman, level);
         this.ghosts = new HashMap<>();
 
@@ -35,7 +36,7 @@ public class GhostManager extends Manager {
     @Override
     public void cleanUp() {
         for (int i : ghosts.keySet()) {
-            ghosts.get(i).cleanUp();
+            ghosts.get(i).getGhost().cleanUp();
         }
     }
 
@@ -45,7 +46,8 @@ public class GhostManager extends Manager {
     private void spawnGhost() {
         for (int color = 0; color < 4; color++) {
             if (!ghosts.containsKey(color)) {
-                ghosts.put(color, new Ghost(level, color));
+                System.out.println("Ghost color: " + color);
+                ghosts.put(color, new GhostAI(new Ghost(level, color), level));
                 break;
             }
         }
@@ -53,19 +55,19 @@ public class GhostManager extends Manager {
 
     public void setAllGhostsKillable() {
         for (int key : ghosts.keySet()) {
-            ghosts.get(key).setKillable();
+            ghosts.get(key).getGhost().setKillable();
         }
     }
 
     public void activateWarningOnGhosts() {
         for (int key : ghosts.keySet()) {
-            ghosts.get(key).setWarningAnimation();
+            ghosts.get(key).getGhost().setWarningAnimation();
         }
     }
 
     public void setAllGhostsInvincible() {
         for (int key : ghosts.keySet()) {
-            ghosts.get(key).setInvincible();
+            ghosts.get(key).getGhost().setInvincible();
         }
     }
 
@@ -82,10 +84,12 @@ public class GhostManager extends Manager {
         Arrays.fill(killed, false);
 
         for (int key : ghosts.keySet()) {
+            
+            // updating the ghost AI
             ghosts.get(key).update(delta);
 
-            if (pacman.collision(ghosts.get(key))) {
-                if (ghosts.get(key).isInvincible()) {
+            if (pacman.collision(ghosts.get(key).getGhost())) {
+                if (ghosts.get(key).getGhost().isInvincible()) {
                     killPacman(killed);
                 } else {
                     killGhost(key, killed);
@@ -103,7 +107,7 @@ public class GhostManager extends Manager {
     @Override
     public void render() {
         for (int key : ghosts.keySet()) {
-            ghosts.get(key).render();
+            ghosts.get(key).getGhost().render();
         }
     }
 
@@ -125,12 +129,12 @@ public class GhostManager extends Manager {
     }
 
     private void killGhost(int key, boolean[] killed) {
-        ghosts.get(key).kill();
+        ghosts.get(key).getGhost().kill();
         pacman.addPoints(200);
-        killed[key] = ghosts.get(key).isDead();
+        killed[key] = ghosts.get(key).getGhost().isDead();
     }
 
-    public Map<Integer, Ghost> getGhosts() {
+    public Map<Integer, GhostAI> getGhosts() {
         return ghosts;
     }
 }

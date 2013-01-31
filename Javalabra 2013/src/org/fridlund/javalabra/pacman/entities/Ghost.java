@@ -7,13 +7,11 @@ package org.fridlund.javalabra.pacman.entities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import org.fridlund.javalabra.game.entities.MovableEntityAbstract;
 import org.fridlund.javalabra.game.sprites.Animation;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
 import org.fridlund.javalabra.pacman.levels.Level;
-import org.fridlund.javalabra.pacman.scenes.GameplayScene;
 
 /**
  *
@@ -32,8 +30,7 @@ public class Ghost extends MovableEntityAbstract {
     private Animation animation;
     private Map<String, Animation> animations;
     private int ghostColorIndex;
-    private Direction direction;
-    private ArrayList<Integer> allowedTiles;
+    protected ArrayList<Integer> allowedTiles;
     private boolean isInvincible;
     private boolean isWarning;
     private boolean dead;
@@ -50,8 +47,9 @@ public class Ghost extends MovableEntityAbstract {
 
     private void spawn() {
 
-        float x = (level.getWidth() - spriteWidth) / 2;
-        float y = (level.getHeight() - spriteHeight) / 2;
+        // spawning the ghosts inside the "ghost area" offseted by two tiles to the right for each color.
+        float x = 14 * level.getTileWidth() + ghostColorIndex * 2 * level.getTileWidth();
+        float y = 16 * level.getTileHeight();
         setPosition(x, y);
 
         createAnimations();
@@ -93,10 +91,6 @@ public class Ghost extends MovableEntityAbstract {
         warningAnimation.addFrame(3, 4, 10);
         warningAnimation.addFrame(1, 4, 10);
         animations.put("warning", warningAnimation);
-
-
-        animation = animations.get("up");
-        direction = Direction.UP;
     }
 
     @Override
@@ -114,118 +108,14 @@ public class Ghost extends MovableEntityAbstract {
     public void cleanUp() {
         animation.cleanUp();
     }
-    private float dx;
-    private float dy;
-    private float speed = 0.08f;
+
+    public void setAnimation(String key) {
+        animation = animations.get(key);
+    }
 
     @Override
     public void update(float delta) {
-
-        dx = 0.0f;
-        dy = 0.0f;
-
-        switch (direction) {
-            case UP:
-                dy = speed * delta;
-                dx = 0;
-                animation = animations.get("up");
-                break;
-            case DOWN:
-                dy = -speed * delta;
-                dx = 0;
-                animation = animations.get("down");
-                break;
-            case LEFT:
-                dy = 0;
-                dx = -speed * delta;
-                animation = animations.get("left");
-                break;
-            case RIGHT:
-                dy = 0;
-                dx = speed * delta;
-                animation = animations.get("right");
-                break;
-        }
-
-        if (!isInvincible) {
-            animation = animations.get("killable");
-        }
-        if (isWarning) {
-            animation = animations.get("warning");
-        }
-
-        if (!level.walkableTile(this, dx, dy, allowedTiles)) {
-            randomizeDirection();
-        }
-
-        if (level.walkableTile(this, dx, dy, allowedTiles)) {
-            move(dx, dy);
-        }
-
         animation.update(delta);
-    }
-    private Random random = new Random();
-
-    private void tryRightDirection() {
-        if (level.walkableTile(this, width / 2, 0, allowedTiles)) {
-            direction = Direction.RIGHT;
-        } else {
-            direction = Direction.LEFT;
-        }
-    }
-
-    private void tryLeftDirection() {
-        if (level.walkableTile(this, -width / 2, 0, allowedTiles)) {
-            direction = Direction.LEFT;
-        } else {
-            direction = Direction.RIGHT;
-        }
-    }
-
-    private void tryUpDirection() {
-        if (level.walkableTile(this, 0, height / 2, allowedTiles)) {
-            direction = Direction.UP;
-        } else {
-            direction = Direction.DOWN;
-        }
-    }
-
-    private void tryDownDirection() {
-        if (level.walkableTile(this, 0, -height / 2, allowedTiles)) {
-            direction = Direction.DOWN;
-        } else {
-            direction = Direction.UP;
-        }
-    }
-
-    private void randomizeDirection() {
-
-        if (direction == Direction.UP) {
-            if (random.nextBoolean()) {
-                tryRightDirection();
-            } else {
-                tryLeftDirection();
-            }
-        } else if (direction == Direction.DOWN) {
-            if (random.nextBoolean()) {
-                tryRightDirection();
-            } else {
-                tryLeftDirection();
-            }
-        } else if (direction == Direction.LEFT) {
-            if (random.nextBoolean()) {
-                tryUpDirection();
-            } else {
-                tryDownDirection();
-            }
-        } else if (direction == Direction.RIGHT) {
-            if (random.nextBoolean()) {
-                tryUpDirection();
-            } else {
-                tryDownDirection();
-            }
-        }
-
     }
 
     public void setKillable() {
@@ -236,6 +126,10 @@ public class Ghost extends MovableEntityAbstract {
         if (!isInvincible) {
             this.isWarning = true;
         }
+    }
+
+    public boolean isWarning() {
+        return isWarning;
     }
 
     public void setInvincible() {

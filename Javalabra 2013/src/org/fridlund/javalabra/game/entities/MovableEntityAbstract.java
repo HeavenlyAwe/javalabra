@@ -10,8 +10,8 @@ package org.fridlund.javalabra.game.entities;
  */
 public abstract class MovableEntityAbstract extends EntityAbstract implements MovableEntityInterface {
 
-    private float dx;
-    private float dy;
+    protected float dx;
+    protected float dy;
     
     public MovableEntityAbstract(){
         dx = 0.0f;

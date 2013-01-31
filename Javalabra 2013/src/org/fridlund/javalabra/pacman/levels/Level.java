@@ -231,4 +231,8 @@ public class Level {
     public float getTileHeight() {
         return tileHeight;
     }
+
+    public int getTile(Entity entity) {
+        return tiles[(int) (entity.getX() / this.getTileWidth())][(int) (entity.getY() / this.getTileHeight())];
+    }
 }

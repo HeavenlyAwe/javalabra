@@ -44,28 +44,30 @@ public class PacmanCamera extends Camera {
     }
     private RotateDirection dir = RotateDirection.IDLE;
     private float angle = 0;
-    private float rotationSpeed = 0.2f;
+    private float maxAngle = (float) Math.PI;
+    private float minAngle = 0.0f;
+    private float rotationSpeed = 0.005f;
 
     @Override
     public void update(float delta) {
         if (dir == RotateDirection.LEFT) {
             angle += rotationSpeed * delta;
-            if (angle >= 180) {
+            if (angle >= maxAngle) {
                 dir = RotateDirection.IDLE;
-                angle = 180f;
+                angle = maxAngle;
             }
         } else if (dir == RotateDirection.RIGHT) {
             angle -= rotationSpeed * delta;
-            if (angle <= 0) {
+            if (angle <= minAngle) {
                 dir = RotateDirection.IDLE;
-                angle = 0.0f;
+                angle = minAngle;
             }
         }
 
-        float angleRad = (float) Math.toRadians(angle);
-
-        position.x = (float) ((radius * Math.sin(angleRad) + radius) * Math.sin(angleRad)) + rotation.x;
-        position.z = (float) ((radius * Math.sin(angleRad) + radius) * Math.cos(angleRad)) + rotation.z;
+//        position.x = (float) (radius * Math.sin(angle)) + rotation.x;
+//        position.z = (float) (radius * Math.cos(angle)) + rotation.z;
+        position.x = (float) ((radius * Math.abs(Math.sin(angle)) + radius) * Math.sin(angle)) + rotation.x;
+        position.z = (float) ((radius * Math.abs(Math.sin(angle)) + radius) * Math.cos(angle)) + rotation.z;
 
         // nice bouncing effect when only applying rotation to z-component
         // position.z = (float) ((500 * Math.sin(angleRad) + 300) * Math.cos(angleRad)) + rotation.z;
