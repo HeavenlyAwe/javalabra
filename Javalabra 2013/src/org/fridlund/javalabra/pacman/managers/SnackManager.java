@@ -19,12 +19,20 @@ import org.fridlund.javalabra.pacman.scenes.GameplayScene;
  */
 public class SnackManager extends Manager {
 
-    private List<Entity> snacks;
-    private float superSnackTimerMax;
-    private float superSnackTimer;
-    private boolean superSnackEaten;
-    private boolean superSnackWarningSent;
+    private List<Entity> snacks;            // list of all snacks in the world
+    private float superSnackTimerMax;       // for how long time will Pacman be invincible when eating a SuperSnack
+    private float superSnackTimer;          // how long remaining of the super-ability
+    private boolean superSnackEaten;        // checks if a SuperSnack has been eaten
+    private boolean superSnackWarningSent;  // checks if the ghosts are soon dangerous warning has been set
 
+    /**
+     * Constructor creating a SnackManager instance. And initializing all global
+     * variables
+     *
+     * @param game
+     * @param pacman
+     * @param level
+     */
     public SnackManager(GameplayScene game, Pacman pacman, Level level) {
         super(game, pacman, level);
         this.snacks = new ArrayList<>();
@@ -37,6 +45,14 @@ public class SnackManager extends Manager {
         this.spawnSnacks();
     }
 
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
+    /**
+     * Calls cleanUp method in all snack entities
+     */
     @Override
     public void cleanUp() {
         for (int i = 0; i < snacks.size(); i++) {
@@ -44,6 +60,34 @@ public class SnackManager extends Manager {
         }
     }
 
+    /**
+     * Used for checking if level is complete and if Pacman has eaten a
+     * SuperSnack or just a regular snack.
+     *
+     * @param delta
+     */
+    @Override
+    public void update(float delta) {
+        checkVictory();
+        checkIfSuperSnackIsEaten(delta);
+        checkIfPacmanEatsSnack(delta);
+    }
+
+    /**
+     * Renders all snacks
+     */
+    @Override
+    public void render() {
+        for (int i = 0; i < snacks.size(); i++) {
+            snacks.get(i).render();
+        }
+    }
+
+    //=================================================================
+    /*
+     * PRIVATE METHODS
+     */
+    //=================================================================
     /**
      * Method for spawning snacks during level setup
      */
@@ -77,10 +121,6 @@ public class SnackManager extends Manager {
         } else {
             snack = new Snack();
         }
-//        if (level.walkableTile(snack, x * level.getTileWidth() - 0.5f * level.getTileWidth(), y * level.getTileHeight() - 0.5f * level.getTileHeight(), allowedTiles)) {
-//            snack.setPosition(x * level.getTileWidth() - 0.5f * level.getTileWidth(), y * level.getTileHeight() - 0.5f * level.getTileHeight());
-//            snacks.add(snack);
-//        }
 
         float posX = x * level.getTileWidth();
         float posY = y * level.getTileHeight();
@@ -94,19 +134,23 @@ public class SnackManager extends Manager {
         }
     }
 
-    @Override
-    public void update(float delta) {
-        checkVictory();
-        checkIfSuperSnackIsEaten(delta);
-        checkIfPacmanEatsSnack(delta);
-    }
-
+    /**
+     * Controls if there are any snacks left in the snacks list. If the list is
+     * empty it calls the GameplayScene's method setGameOver with win message.
+     */
     private void checkVictory() {
         if (snacks.isEmpty()) {
             game.setGameOver("You Win! Points = " + pacman.getPoints());
         }
     }
 
+    /**
+     * Controls the invincibility of Pacman, by checking if he has eaten a
+     * SuperSnack and then calculating the timer to see how long the ghosts
+     * should be targets and when to start the warning on them.
+     *
+     * @param delta
+     */
     private void checkIfSuperSnackIsEaten(float delta) {
         if (superSnackEaten) {
             superSnackTimer += delta;
@@ -117,6 +161,7 @@ public class SnackManager extends Manager {
             if (superSnackTimer >= superSnackTimerMax) {
                 superSnackEaten = false;
                 superSnackTimer = 0.0f;
+                game.setGhostsReleaseable(true);
                 game.setGhostsInvincible();
             }
         }
@@ -134,6 +179,7 @@ public class SnackManager extends Manager {
             if (pacman.collision(snacks.get(i))) {
                 if (snacks.get(i).getClass().getSimpleName().equals("SuperSnack")) {
                     game.superSnackEaten();
+                    game.setGhostsReleaseable(false);
                     superSnackTimer = 0.0f;
                     superSnackEaten = true;
                     superSnackWarningSent = false;
@@ -145,14 +191,17 @@ public class SnackManager extends Manager {
             }
         }
     }
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
 
-    @Override
-    public void render() {
-        for (int i = 0; i < snacks.size(); i++) {
-            snacks.get(i).render();
-        }
-    }
-
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
     public List<Entity> getSnacks() {
         return snacks;
     }

@@ -62,7 +62,6 @@ public abstract class GameLWJGL {
 //        glEnable(GL_BLEND);
 //        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 //    }
-
     public abstract void setup();
 
     private void cleanUpGame() {
@@ -101,6 +100,7 @@ public abstract class GameLWJGL {
 
     public void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(0, 0, 0, 0);
     }
 
     public void update(float delta) {

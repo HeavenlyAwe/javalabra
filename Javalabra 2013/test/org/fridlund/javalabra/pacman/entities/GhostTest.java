@@ -37,13 +37,8 @@ public class GhostTest {
     @Before
     public void setUp() {
         level = new Level();
-        ghost = new Ghost(level, 1);
+        ghost = new Ghost(new GhostGraphics(1), level);
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 
     @Test
     public void ghostCreatedTest() {
@@ -52,35 +47,35 @@ public class GhostTest {
 
     @Test
     public void ghostPositionAtStart() {
-        assertEquals("X position wrong.", ghost.getX(), (level.getWidth() - ghost.getWidth()) / 2, 3);
-        assertEquals("Y position wrong.", ghost.getY(), (level.getHeight() - ghost.getHeight()) / 2, 3);
+        assertEquals("X position wrong.", 14 * level.getTileWidth() + 2 * level.getTileWidth(), ghost.getX(), 3);
+        assertEquals("Y position wrong.", 16 * level.getTileHeight(), ghost.getY(), 3);
     }
 
     @Test
     public void moveGhost10PixelsX() {
         ghost.move(10, 0);
-        assertEquals("X position wrong.", ghost.getX(), (level.getWidth() - ghost.getWidth()) / 2 + 10, 3);
-        assertEquals("Y position wrong.", ghost.getY(), (level.getHeight() - ghost.getHeight()) / 2, 3);
+        assertEquals("X position wrong.", 14 * level.getTileWidth() + 2 * level.getTileWidth() + 10, ghost.getX(), 3);
+        assertEquals("Y position wrong.", 16 * level.getTileHeight(), ghost.getY(), 3);
     }
 
     @Test
-    public void moveGhost20PoxelsX() {
+    public void moveGhost20PixelsX() {
         ghost.move(20, 0);
-        assertEquals("X position wrong.", ghost.getX(), (level.getWidth() - ghost.getWidth()) / 2 + 20, 3);
-        assertEquals("Y position wrong.", ghost.getY(), (level.getHeight() - ghost.getHeight()) / 2, 3);
+        assertEquals("X position wrong.", 14 * level.getTileWidth() + 2 * level.getTileWidth() + 20, ghost.getX(), 3);
+        assertEquals("Y position wrong.", 16 * level.getTileHeight(), ghost.getY(), 3);
     }
 
     @Test
-    public void moveGhost10PoxelsY() {
+    public void moveGhost10PixelsY() {
         ghost.move(0, 10);
-        assertEquals("X position wrong.", ghost.getX(), (level.getWidth() - ghost.getWidth()) / 2, 3);
-        assertEquals("Y position wrong.", ghost.getY(), (level.getHeight() - ghost.getHeight()) / 2 + 10, 3);
+        assertEquals("X position wrong.", 14 * level.getTileWidth() + 2 * level.getTileWidth(), ghost.getX(), 3);
+        assertEquals("Y position wrong.", 16 * level.getTileHeight() + 10, ghost.getY(), 3);
     }
 
     @Test
-    public void moveGhost20PoxelsY() {
+    public void moveGhost20PixelsY() {
         ghost.move(0, 20);
-        assertEquals("X position wrong.", ghost.getX(), (level.getWidth() - ghost.getWidth()) / 2, 3);
-        assertEquals("Y position wrong.", ghost.getY(), (level.getHeight() - ghost.getHeight()) / 2 + 20, 3);
+        assertEquals("X position wrong.", 14 * level.getTileWidth() + 2 * level.getTileWidth(), ghost.getX(), 3);
+        assertEquals("Y position wrong.", 16 * level.getTileHeight() + 20, ghost.getY(), 3);
     }
 }

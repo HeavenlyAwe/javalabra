@@ -9,6 +9,7 @@ import org.fridlund.javalabra.game.scenes.Scene;
 import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.javalabra.pacman.cameras.PacmanCamera;
 import org.fridlund.javalabra.pacman.entities.Pacman;
+import org.fridlund.javalabra.pacman.hud.Hud;
 import org.fridlund.javalabra.pacman.levels.Level;
 import org.fridlund.javalabra.pacman.managers.GhostManager;
 import org.fridlund.javalabra.pacman.managers.Manager;
@@ -25,6 +26,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class GameplayScene extends Scene {
 
+    private Hud hud;
     private PacmanCamera fpsCamera;
     private Manager snackManager;
     private GhostManager ghostManager;
@@ -49,6 +51,8 @@ public class GameplayScene extends Scene {
 
 
         pacman = new Pacman(level);
+
+        hud = new Hud(fpsCamera, level, pacman);
 
         snackManager = new SnackManager(this, pacman, level);
         ghostManager = new GhostManager(this, pacman, level);
@@ -99,7 +103,7 @@ public class GameplayScene extends Scene {
     }
 
     public void setWarningOfSuperSnackEffectSoonGone() {
-        ghostManager.activateWarningOnGhosts();
+        ghostManager.setWarningOnGhosts();
     }
 
     public void setGhostsInvincible() {
@@ -120,43 +124,32 @@ public class GameplayScene extends Scene {
 
         renderBorder();
 
-        renderPacmanStats();
+        Screen.applyProjectionMatrix();
+
+        hud.render();
+
+        FontLoader.renderString("Ghosts Releaseable: " + ghostManager.isGhostReleaseable(), 10, 100, "times new roman");
 
         // fix this to show correct message when game is over
         int w = FontLoader.getFont("times new roman").getWidth(gameOverMessage);
         int h = FontLoader.getFont("times new roman").getHeight(gameOverMessage);
 
         FontLoader.renderString(gameOverMessage, (Display.getWidth() - w) / 2, (Display.getHeight() - h) / 2, "times new roman");
+
+
+        fpsCamera.applyProjectionMatrix();
     }
 
     private void renderBorder() {
-        float x = -32;
-        float y = -32;
-        float w = level.getWidth() + 32;
-        float h = level.getHeight() + 32;
 
         glBegin(GL_QUADS);
         {
             glColor3f(0, 0, 0);
-
-//            // bottom border
-//            glVertex2f(0, 0);
-//            glVertex2f(level.getWidth(), 0);
-//            glVertex2f(level.getWidth(), -32);
-//            glVertex2f(0, -32);
-
             // left border
             glVertex2f(0, 0);
             glVertex2f(-pacman.getWidth(), 0);
             glVertex2f(-pacman.getWidth(), level.getHeight());
             glVertex2f(0, level.getHeight());
-
-//            // top border
-//            glVertex2f(0, level.getHeight());
-//            glVertex2f(0, level.getHeight() + 32);
-//            glVertex2f(level.getWidth(), level.getHeight() + 32);
-//            glVertex2f(level.getWidth(), level.getHeight());
-
             // right border
             glVertex2f(level.getWidth(), 0);
             glVertex2f(level.getWidth(), level.getHeight());
@@ -167,17 +160,12 @@ public class GameplayScene extends Scene {
         glEnd();
     }
 
-    private void renderPacmanStats() {
-        Screen.applyProjectionMatrix();
-
-        FontLoader.renderString("Points: " + pacman.getPoints(), 10, 10, "times new roman");
-        FontLoader.renderString("Lives: " + pacman.getLives(), 10, 35, "times new roman");
-
-        fpsCamera.applyProjectionMatrix();
-    }
-
     public void setGameOver(String message) {
         this.gameOver = true;
         this.gameOverMessage = message;
+    }
+
+    public void setGhostsReleaseable(boolean releaseable) {
+        ghostManager.setGhostReleaseable(releaseable);
     }
 }
