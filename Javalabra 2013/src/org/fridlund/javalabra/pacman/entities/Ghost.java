@@ -174,7 +174,9 @@ public class Ghost extends MovableEntityAbstract {
             ghost.setAnimation("killable");
         }
         if (this.isWarning()) {
-            ghost.setAnimation("warning");
+            ghost.setWarning(true);
+        } else {
+            ghost.setWarning(false);
         }
         if (checkDead(delta)) {
             return;
@@ -192,6 +194,7 @@ public class Ghost extends MovableEntityAbstract {
     private boolean checkDead(float delta) {
         if (this.isDead()) {
             ghost.setAnimation("killed");
+            ghost.setWarning(false);
             dx = (int) Math.round(16 * level.getTileWidth() + ghost.getGhostColorIndex() * level.getTileWidth() - this.getX());
             dy = (int) Math.round(17 * level.getTileHeight() - this.getY());
             if (Math.abs(dx) < level.getTileWidth() && Math.abs(dy) < level.getTileHeight()) {
@@ -277,6 +280,7 @@ public class Ghost extends MovableEntityAbstract {
     }
     
     public void setKillable() {
+        this.isWarning = false;
         this.isInvincible = false;
     }
     

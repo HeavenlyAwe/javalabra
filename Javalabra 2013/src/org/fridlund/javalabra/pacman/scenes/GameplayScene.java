@@ -10,6 +10,7 @@ import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.javalabra.pacman.cameras.PacmanCamera;
 import org.fridlund.javalabra.pacman.entities.Pacman;
 import org.fridlund.javalabra.pacman.hud.Hud;
+import org.fridlund.javalabra.pacman.input.PacmanInputProfile;
 import org.fridlund.javalabra.pacman.levels.Level;
 import org.fridlund.javalabra.pacman.managers.GhostManager;
 import org.fridlund.javalabra.pacman.managers.Manager;
@@ -25,16 +26,17 @@ import static org.lwjgl.opengl.GL11.*;
  * @author Christoffer
  */
 public class GameplayScene extends Scene {
-
+    
     private Hud hud;
     private PacmanCamera fpsCamera;
     private Manager snackManager;
     private GhostManager ghostManager;
     private Level level;
+    private PacmanInputProfile input;
     private Pacman pacman;
     private String gameOverMessage = "";
     private boolean gameOver = false;
-
+    
     @Override
     public void setup() {
         level = new Level();
@@ -47,13 +49,15 @@ public class GameplayScene extends Scene {
                 300, new Vector3f(level.getWidth() / 2, level.getHeight() / 2, 300),
                 new Vector3f(level.getWidth() / 2, level.getHeight() / 2, 0));
         fpsCamera.applyProjectionMatrix();
-
-
-
+        
+        
+        
         pacman = new Pacman(level);
-
+        
+        input = new PacmanInputProfile(pacman, level);
+        
         hud = new Hud(fpsCamera, level, pacman);
-
+        
         snackManager = new SnackManager(this, pacman, level);
         ghostManager = new GhostManager(this, pacman, level);
     }
@@ -69,11 +73,11 @@ public class GameplayScene extends Scene {
         snackManager.cleanUp();
         ghostManager.cleanUp();
     }
-
+    
     @Override
     public void update(float delta) {
         super.update(delta);
-
+        
         fpsCamera.update(delta);
         if (Mouse.isButtonDown(0)) {
             fpsCamera.rotateLeft();
@@ -82,66 +86,69 @@ public class GameplayScene extends Scene {
             fpsCamera.rotateRight();
 //            Mouse.setGrabbed(false);
         }
-
+        
         while (Keyboard.next()) {
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
                 this.superSnackEaten();
             }
         }
-
-
+        
+        
         if (!gameOver) {
-
+            
+            input.update(delta);
             pacman.update(delta);
             snackManager.update(delta);
             ghostManager.update(delta);
         }
     }
-
+    
     public void superSnackEaten() {
         ghostManager.setAllGhostsKillable();
+        pacman.setAngry(true);
     }
-
+    
     public void setWarningOfSuperSnackEffectSoonGone() {
         ghostManager.setWarningOnGhosts();
     }
-
+    
     public void setGhostsInvincible() {
         ghostManager.setAllGhostsInvincible();
+        pacman.setAngry(false);
     }
-
+    
     @Override
     public void render() {
         super.render();
-
+        
         fpsCamera.applyModelViewMatrix(true);
-
+        
         level.render();
         pacman.render();
-
+        
         snackManager.render();
         ghostManager.render();
-
+        
         renderBorder();
-
+        
         Screen.applyProjectionMatrix();
-
+        
         hud.render();
-
+        
         FontLoader.renderString("Ghosts Releaseable: " + ghostManager.isGhostReleaseable(), 10, 100, "times new roman");
 
         // fix this to show correct message when game is over
         int w = FontLoader.getFont("times new roman").getWidth(gameOverMessage);
         int h = FontLoader.getFont("times new roman").getHeight(gameOverMessage);
-
+        
         FontLoader.renderString(gameOverMessage, (Display.getWidth() - w) / 2, (Display.getHeight() - h) / 2, "times new roman");
-
-
+        
+        
         fpsCamera.applyProjectionMatrix();
     }
-
+    
     private void renderBorder() {
-
+        
         glBegin(GL_QUADS);
         {
             glColor3f(0, 0, 0);
@@ -155,16 +162,16 @@ public class GameplayScene extends Scene {
             glVertex2f(level.getWidth(), level.getHeight());
             glVertex2f(level.getWidth() + pacman.getWidth(), level.getHeight());
             glVertex2f(level.getWidth() + pacman.getWidth(), 0);
-
+            
         }
         glEnd();
     }
-
+    
     public void setGameOver(String message) {
         this.gameOver = true;
         this.gameOverMessage = message;
     }
-
+    
     public void setGhostsReleaseable(boolean releaseable) {
         ghostManager.setGhostReleaseable(releaseable);
     }

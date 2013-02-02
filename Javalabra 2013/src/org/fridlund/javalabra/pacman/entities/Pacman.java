@@ -7,16 +7,13 @@ package org.fridlund.javalabra.pacman.entities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import net.java.games.input.Component;
-import net.java.games.input.Controller;
-import net.java.games.input.ControllerEnvironment;
 import org.fridlund.javalabra.game.entities.MovableEntityAbstract;
 import org.fridlund.javalabra.game.sprites.Animation;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
 import org.fridlund.javalabra.pacman.levels.Level;
-import org.fridlund.javalabra.pacman.scenes.GameplayScene;
-import org.lwjgl.input.Keyboard;
+import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.util.vector.Vector4f;
 
 /**
  *
@@ -26,25 +23,27 @@ public class Pacman extends MovableEntityAbstract {
 
     private static String texturePath = "res/pacman/images/pacman.png";
     private Map<String, Animation> animations;
+    private Map<String, Animation> eyeAnimations;
     private Animation animation;
-    private Controller controller = null;
+    private Animation eyeAnimation;
     private Level level;
-    // movement
     private ArrayList<Integer> allowedTiles;
-    private float speed = 0.1f;
     private int points;
     private int lives;
-    private float dx;
-    private float dy;
-    private boolean unKillable = false;
-    private float unKillableTimerMax = 3000;
-    private float unKillableTimer = 0;
-    private int up = Keyboard.KEY_W;
-    private int down = Keyboard.KEY_S;
-    private int left = Keyboard.KEY_A;
-    private int right = Keyboard.KEY_D;
+    private boolean immortal = false;
+    private float immortalTimerMax = 3000;
+    private float immortalTimer = 0;
+    
+    /*
+     * Colors for making pacman yellow (and transparent when immortal).
+     */
+    private Vector4f color = new Vector4f(1, 1, 0, 1);
+    private Vector4f yellow_transparent = new Vector4f(1, 1, 0, 0.2f);
+    private Vector4f yellow = new Vector4f(1, 1, 0, 1);
 
     public Pacman(Level level) {
+        super();
+
         this.level = level;
         this.lives = 3;
         this.points = 0;
@@ -57,6 +56,129 @@ public class Pacman extends MovableEntityAbstract {
         spawn();
     }
 
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
+    @Override
+    public void setup() {
+
+        animations = new HashMap<>();
+        eyeAnimations = new HashMap<>();
+
+        SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128);
+
+        setWidth(32);
+        setHeight(32);
+
+        Animation rightAnimation = createAnimation(8, 0, 25, spriteSheet);
+        Animation leftAnimation = createAnimation(8, 1, 25, spriteSheet);
+        Animation downAnimation = createAnimation(8, 2, 25, spriteSheet);
+        Animation upAnimation = createAnimation(1, 3, 25, spriteSheet);
+
+
+        animations.put("right", rightAnimation);
+        animations.put("left", leftAnimation);
+        animations.put("down", downAnimation);
+        animations.put("up", upAnimation);
+
+        animation = rightAnimation;
+
+
+        createEyeAnimation("right", 1, 2, 3, 25, spriteSheet);
+        createEyeAnimation("left", 3, 4, 3, 25, spriteSheet);
+        createEyeAnimation("down", 5, 6, 3, 25, spriteSheet);
+        createEyeAnimation("up", 7, 7, 3, 25, spriteSheet);
+
+        eyeAnimation = eyeAnimations.get("right");
+    }
+
+    @Override
+    public void cleanUp() {
+        for (String key : animations.keySet()) {
+            animations.get(key).cleanUp();
+        }
+        for (String key : eyeAnimations.keySet()) {
+            eyeAnimations.get(key).cleanUp();
+        }
+    }
+
+    @Override
+    public void update(float delta) {
+
+        if (immortal) {
+            immortalTimer += delta;
+            if (immortalTimer >= immortalTimerMax) {
+                immortalTimer = 0;
+                immortal = false;
+            }
+
+            if (immortalTimer % 300 < 150) {
+                color = yellow_transparent;
+            } else if (immortalTimer % 300 >= 150) {
+                color = yellow;
+            }
+        } else {
+            color = yellow;
+        }
+
+        animation.update(delta);
+        eyeAnimation.update(delta);
+    }
+
+    @Override
+    public void render() {
+        glColor4f(color.x, color.y, color.z, color.w);
+        animation.render(x, y);
+        glColor4f(1, 1, 1, 1);
+        eyeAnimation.render(x, y);
+    }
+
+    @Override
+    public void move(float dx, float dy) {
+        if (level.walkableTile(this, dx, 0, allowedTiles)) {
+            super.move(dx, 0);
+        }
+        if (level.walkableTile(this, 0, dy, allowedTiles)) {
+            super.move(0, dy);
+        }
+    }
+
+    //=================================================================
+    /*
+     * PRIVATE METHODS
+     */
+    //=================================================================
+    private Animation createAnimation(int spriteX, int spriteY, int dt, SpriteSheet sheet) {
+        Animation anim = new Animation(sheet);
+
+        for (int i = 0; i < spriteX; i++) {
+            anim.addFrame(i, spriteY, dt);
+        }
+        for (int i = spriteX - 1; i > 0; i--) {
+            anim.addFrame(i, spriteY, dt);
+        }
+
+        return anim;
+    }
+
+    private void createEyeAnimation(String key, int spriteX, int spriteAngryX, int spriteY, int dt, SpriteSheet sheet) {
+        Animation anim = new Animation(sheet);
+        anim.addFrame(spriteX, spriteY, dt);
+
+        Animation angryAnim = new Animation(sheet);
+        angryAnim.addFrame(spriteAngryX, spriteY, dt);
+
+        eyeAnimations.put(key, anim);
+        eyeAnimations.put(key + "_angry", angryAnim);
+    }
+
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
     public void spawn() {
         this.spawn(17, 1);
     }
@@ -65,206 +187,70 @@ public class Pacman extends MovableEntityAbstract {
         setPosition(tileX * level.getTileWidth(), tileY * level.getTileHeight());
     }
 
-    @Override
-    public void setup() {
-
-        animations = new HashMap<>();
-        for (Controller c : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
-            if (c.getType() == Controller.Type.GAMEPAD) {
-                controller = c;
-                System.out.println(controller.getName());
-            }
-        }
-
-        SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 160);
-
-        setWidth(32);
-        setHeight(32);
-
-        Animation rightAnimation = new Animation(spriteSheet);
-        rightAnimation.addFrame(0, 0, 50);
-        rightAnimation.addFrame(1, 0, 50);
-        rightAnimation.addFrame(2, 0, 50);
-        rightAnimation.addFrame(3, 0, 50);
-        rightAnimation.addFrame(4, 0, 50);
-        rightAnimation.addFrame(5, 0, 50);
-        rightAnimation.addFrame(6, 0, 50);
-        rightAnimation.addFrame(7, 0, 50);
-
-        Animation leftAnimation = new Animation(spriteSheet);
-        leftAnimation.addFrame(0, 1, 50);
-        leftAnimation.addFrame(1, 1, 50);
-        leftAnimation.addFrame(2, 1, 50);
-        leftAnimation.addFrame(3, 1, 50);
-        leftAnimation.addFrame(4, 1, 50);
-        leftAnimation.addFrame(5, 1, 50);
-        leftAnimation.addFrame(6, 1, 50);
-        leftAnimation.addFrame(7, 1, 50);
-
-        Animation rightUnkillableAnimation = new Animation(spriteSheet);
-        rightUnkillableAnimation.addFrame(0, 4, 50);
-        rightUnkillableAnimation.addFrame(1, 0, 50);
-        rightUnkillableAnimation.addFrame(1, 4, 50);
-        rightUnkillableAnimation.addFrame(3, 0, 50);
-        rightUnkillableAnimation.addFrame(2, 4, 50);
-        rightUnkillableAnimation.addFrame(5, 0, 50);
-        rightUnkillableAnimation.addFrame(1, 4, 50);
-        rightUnkillableAnimation.addFrame(7, 0, 50);
-
-        animation = rightAnimation;
-
-        animations.put("right", rightAnimation);
-        animations.put("left", leftAnimation);
-        animations.put("right_unkillable", rightUnkillableAnimation);
-    }
-
-    @Override
-    public void cleanUp() {
-        for (String key : animations.keySet()) {
-            animations.get(key).cleanUp();
-        }
-    }
-
-    @Override
-    public void update(float delta) {
-
-        dx = 0;
-        dy = 0;
-
-        if (unKillable) {
-            unKillableTimer += delta;
-            if (unKillableTimer >= unKillableTimerMax) {
-                unKillableTimer = 0;
-                unKillable = false;
-            }
-        }
-
-        handleControllerInput(delta);
-        handleKeyboardInput(delta);
-
-        chooseAnimationFromDirection();
-
-        resetDyWhenMovingOutsideBoard();
-
-        tryToMove();
-
-
-
-        teleportWhenMovingOutsideBoard();
-
-        animation.update(delta);
-    }
-
-    private void handleControllerInput(float delta) {
-        if (controller != null) {
-            if (controller.poll()) {
-                for (Component c : controller.getComponents()) {
-                    if (c.getName().equals("Y Axis")) {
-                        if (c.getPollData() > 0.1f) {
-                            dy = speed * c.getPollData() * delta;
-                        } else if (c.getPollData() < -0.1f) {
-                            dy = speed * c.getPollData() * delta;
-                        }
-                    } else if (c.getName().equals("X Axis")) {
-                        if (c.getPollData() > 0.5f) {
-                            dx = speed * delta;
-                        } else if (c.getPollData() < -0.5f) {
-                            dx = speed * delta;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void handleKeyboardInput(float delta) {
-
-        // allows for movement in x and y direction at the same time
-        if (!keyDown(left) && keyDown(right)) {
-            dx = speed * delta;
-        } else if (keyDown(left) && !keyDown(right)) {
-            dx = -speed * delta;
-        }
-
-        if (keyDown(up) && !keyDown(down)) {
-            dy = speed * delta;
-        } else if (!keyDown(up) && keyDown(down)) {
-            dy = -speed * delta;
-        }
-
-    }
-
-    private void chooseAnimationFromDirection() {
-        if (dx < 0) {
-            animation = animations.get("left");
-        } else if (dx > 0) {
-            animation = animations.get("right");
-            if (unKillable) {
-                animation = animations.get("right_unkillable");
-            }
-        }
-    }
-
-    public void setUnKillable(float howLong) {
-        this.unKillable = true;
-    }
-
-    private void resetDyWhenMovingOutsideBoard() {
-        if (x < 0 || x + width > level.getWidth()) {
-            dy = 0;
-        }
-    }
-
-    private void tryToMove() {
-        if (level.walkableTile(this, dx, 0, allowedTiles)) {
-            move(dx, 0);
-        }
-        if (level.walkableTile(this, 0, dy, allowedTiles)) {
-            move(0, dy);
-        }
-    }
-
-    private void teleportWhenMovingOutsideBoard() {
-        if (level.outsideOnTheRight(this)) {
-            setX(-width);
-            setY(level.getHeight() / 2);
-        }
-        if (level.outsideOnTheLeft(this)) {
-            setX(level.getWidth());
-            setY(level.getHeight() / 2);
-        }
-    }
-
-    private boolean keyDown(int key) {
-        return Keyboard.isKeyDown(key);
-    }
-
-    @Override
-    public void render() {
-        animation.render(x, y);
-    }
-
+    /**
+     * Removes one life from Pacman.
+     */
     public void kill() {
         lives--;
     }
 
-    public int getLives() {
-        return lives;
-    }
-
+    /**
+     * Adds the desired amount of points to the total score. Most likely to be
+     * called from killing ghosts and eating stuff.
+     *
+     * @param points
+     */
     public void addPoints(int points) {
         this.points += points;
     }
 
+    /**
+     * Remove the desired amount of points from the score. Most likely to be
+     * called when Pacman is being killed.
+     *
+     * @param points
+     */
     public void removePoints(int points) {
         this.points -= points;
+    }
+
+    //=================================================================
+    /*
+     * SETTERS
+     */
+    //=================================================================
+    public void setImmortal() {
+        this.immortal = true;
+    }
+    private boolean angry = false;
+
+    public void setAnimation(String key) {
+        animation = animations.get(key);
+        if (angry || immortal) {
+            eyeAnimation = eyeAnimations.get(key + "_angry");
+        } else {
+            eyeAnimation = eyeAnimations.get(key);
+        }
+    }
+
+    public void setAngry(boolean angry) {
+        this.angry = angry;
+    }
+
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
+    public int getLives() {
+        return lives;
     }
 
     public int getPoints() {
         return points;
     }
 
-    public boolean isUnKillable() {
-        return unKillable;
+    public boolean isImmortal() {
+        return immortal;
     }
 }

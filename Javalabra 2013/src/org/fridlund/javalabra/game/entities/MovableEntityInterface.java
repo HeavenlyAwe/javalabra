@@ -12,7 +12,11 @@ public interface MovableEntityInterface {
 
     public void move(float dx, float dy);
 
+    public void setDX(float dx);
+
     public float getDX();
+
+    public void setDY(float dy);
 
     public float getDY();
 }

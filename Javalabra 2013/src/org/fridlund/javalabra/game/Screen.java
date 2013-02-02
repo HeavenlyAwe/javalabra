@@ -4,8 +4,10 @@
  */
 package org.fridlund.javalabra.game;
 
+import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import static org.lwjgl.opengl.ARBTextureRectangle.GL_TEXTURE_RECTANGLE_ARB;
 import org.lwjgl.opengl.Display;

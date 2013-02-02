@@ -12,8 +12,8 @@ public abstract class MovableEntityAbstract extends EntityAbstract implements Mo
 
     protected float dx;
     protected float dy;
-    
-    public MovableEntityAbstract(){
+
+    public MovableEntityAbstract() {
         dx = 0.0f;
         dy = 0.0f;
     }
@@ -33,14 +33,24 @@ public abstract class MovableEntityAbstract extends EntityAbstract implements Mo
         this.setX(x + dx);
         this.setY(y + dy);
     }
-    
+
     @Override
-    public float getDX(){
+    public void setDX(float dx) {
+        this.dx = dx;
+    }
+
+    @Override
+    public float getDX() {
         return dx;
     }
-    
+
     @Override
-    public float getDY(){
+    public void setDY(float dy) {
+        this.dy = dy;
+    }
+
+    @Override
+    public float getDY() {
         return dy;
     }
 }

@@ -150,14 +150,14 @@ public class GhostManager extends Manager {
     private void killPacman() {
         // remove one life from pacman
         // remove a given amount of points from the current score
-        if (!pacman.isUnKillable()) {
+        if (!pacman.isImmortal()) {
             pacman.kill();
             pacman.removePoints(100);
 
             // check if packman has anymore lives, and if he does, respawn him and the ghosts
             if (pacman.getLives() != 0) {
                 pacman.spawn();
-                pacman.setUnKillable(2000);
+                pacman.setImmortal();
                 // force the ghostTimer to its maximum to make a ghost respawn directly
                 releaseTimer = releaseInterval;
             } else {

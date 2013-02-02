@@ -10,9 +10,7 @@ import org.fridlund.javalabra.game.entities.Entity;
 import org.fridlund.javalabra.game.sprites.Sprite;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
-import org.fridlund.javalabra.pacman.scenes.GameplayScene;
 import static org.lwjgl.opengl.ARBTextureRectangle.GL_TEXTURE_RECTANGLE_ARB;
-import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -48,7 +46,6 @@ public class Level {
 
     private void setup() {
         sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), tileWidth, tileHeight, 128, 128);
-//        generateLevel(sheet);
         generateLevelFromImage();
         printLevelInAscii();
     }
