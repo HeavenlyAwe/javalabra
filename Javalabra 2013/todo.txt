@@ -1,7 +1,5 @@
 - Read image width and height when loading texture, then you'll only have to provide how many images per row and column in the sprite sheet.
-- Change the sprites, to use gl-color instead of specific colored entities in sprite sheet. By doing this it'll be enough with one row of sprites, and add support for more effects than making the frickin animation several times...
-
-- Separate the input into it's own class
+- Make ghosts show body at right time and make ghosts show right color at right time!
 - Add support for hand-controller
 - "Bonus" snack
 - Use the 3D-turn effect

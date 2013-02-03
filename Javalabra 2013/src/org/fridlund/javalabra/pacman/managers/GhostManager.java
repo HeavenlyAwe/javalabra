@@ -35,11 +35,11 @@ public class GhostManager extends Manager {
      * @param pacman
      * @param level
      */
-    public GhostManager(GameplayScene game, Pacman pacman, Level level) {
+    public GhostManager(GameplayScene game, Pacman pacman, Level level, int numberOfGhosts) {
         super(game, pacman, level);
         this.ghosts = new HashMap<>();
 
-        this.numberOfGhosts = 4;
+        this.numberOfGhosts = numberOfGhosts;
         this.releaseInterval = 5000.0f;
         this.releaseTimer = 4000.0f;
         this.ghostReleasable = true;

@@ -40,7 +40,7 @@ public class GhostManagerTest {
         Level level = new Level();
         Pacman pacman = new Pacman(level);
 
-        gm = new GhostManager(game, pacman, level);
+        gm = new GhostManager(game, pacman, level, 4);
     }
 
     @Test

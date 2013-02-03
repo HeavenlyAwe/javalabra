@@ -18,8 +18,8 @@ import org.fridlund.javalabra.pacman.managers.SnackManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector3f;
 import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
@@ -59,7 +59,7 @@ public class GameplayScene extends Scene {
         hud = new Hud(fpsCamera, level, pacman);
         
         snackManager = new SnackManager(this, pacman, level);
-        ghostManager = new GhostManager(this, pacman, level);
+        ghostManager = new GhostManager(this, pacman, level, 10);
     }
 
     /**
