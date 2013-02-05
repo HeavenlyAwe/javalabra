@@ -2,6 +2,14 @@
 05.02.2013
 -----------------------------------
 
+15-17	- Bugfixes with ghost re-entering nests (where placed based on their index, fixed
+	  it by a modulo operation).
+	- Made the game pause if you move the coursor outsid the window. This is to
+	  prevent the game from updating the ghost positions, when the screen is not
+	  updating the drawing. Will have to look in to a nicer solution, but this is
+	  the best for now.
+	- Made the game pause when the window looses its focus.
+20-22	- Javadoc and sequence schemes.
 
 
 
@@ -9,6 +17,7 @@
 04.02.2013
 -----------------------------------
 
+21-22	- Made ghosts blink when they are soon to be invincible again.
 
 
 
@@ -23,21 +32,37 @@
 02.02.2013
 -----------------------------------
 
-
+00-03	- Made white silhuettes for the ghosts and pacman. Now I can put what color I like 
+	  Through OpenGL syntax.
 
 
 ===================================
 01.02.2013
 -----------------------------------
 
-
+13-14	- Tried to get some transparent rectangles drawn... Messed around with an
+	  annoying error, which later turned out me forgetting to glBegin(GL_QUADS) when 
+	  starting to draw the rectangle.
+17-20	- Started to write javadocs and refactor the code to be in nicer chunks, for
+	  easier readability.
+21-00	- Done some more cleaning in the code...
 
 
 ===================================
 31.01.2013
 -----------------------------------
 
-
+00-02	- Tried to figure out how to rotate the camera around one point. Couldn't get
+	  the GLU.gluPerspective(...) to work (couldn't understand the translate-rotate-
+	  translate hiearchy. Went with the GLU.gluLookAt(...) instead. Rotating the
+	  camera on a ellips with a circular radius as a function of sin (to make the
+	  grid move a little into the world while rotating).
+14-16	- Separated the logic from Ghost class into a GhostAI, made the spawning algorithm
+	  smarter, now the ghosts won't get stuck inside the spawning point. Different
+	  colored ghosts spawn at different locations.
+16-18	- Made ghost spawning better, made GhostAI to Ghost and gave a GhostGraphics into
+	  that object. Now it's quite easy to change the ghostAI to another kind, when
+	  I've time to make the AI smarter.
 
 
 ===================================
