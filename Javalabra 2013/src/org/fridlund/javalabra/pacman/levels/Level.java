@@ -16,6 +16,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
+ * The level and it's loading, update and render method.
  *
  * @author Christoffer
  */
@@ -35,6 +36,9 @@ public class Level {
     // render variables
     private Sprite sprite;
     private float scale = 1.0f;
+    /*
+     * Tile indices, used when assigning allowed tiles to the different entities used in the game.
+     */
     public final static int VOID = 0;
     public final static int WALL = 1;
     public final static int WALKABLE = 2;
@@ -44,12 +48,26 @@ public class Level {
         setup();
     }
 
+    //=================================================================
+    /*
+     * PRIVATE METHODS
+     */
+    //=================================================================
+    /**
+     * Reads the sprite sheet containing all level sprites and generates the
+     * level from a image file.
+     */
     private void setup() {
         sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), tileWidth, tileHeight, 128, 128);
         generateLevelFromImage();
         printLevelInAscii();
     }
 
+    /**
+     * Generates the level from an image file. Based on the colors used in the
+     * image, different tiles are chosen from the sprite sheet. The different
+     * tiles are chosen from the static indices in this class.
+     */
     private void generateLevelFromImage() {
         try {
             Image image = new Image(levelPath);
@@ -105,6 +123,9 @@ public class Level {
         }
     }
 
+    /**
+     * Helper method to print the loaded level in ASCII characters.
+     */
     private void printLevelInAscii() {
         for (int y = 0; y < tiles[0].length; y++) {
             for (int x = 0; x < tiles.length; x++) {
@@ -114,21 +135,16 @@ public class Level {
         }
     }
 
-    public void update(float delta) {
-        for (int y = 0; y < tiles[0].length; y++) {
-            for (int x = 0; x < tiles.length; x++) {
-            }
-        }
-    }
-
-    public void render() {
-        for (int y = 0; y < tiles[0].length; y++) {
-            for (int x = 0; x < tiles.length; x++) {
-                renderTile(x * tileWidth, y * tileHeight, tiles[x][y]);
-            }
-        }
-    }
-
+    /**
+     * Helper method to render the different tiles, based on the value they have
+     * been assigned in the loadLevel method. The different tiles are then
+     * rendered by accessing parts of the sprite sheet and drawing the specified
+     * part.
+     *
+     * @param x
+     * @param y
+     * @param tile
+     */
     private void renderTile(float x, float y, int tile) {
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, sheet.getTextureID());
 
@@ -177,6 +193,48 @@ public class Level {
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    /**
+     * Updates the tiles.
+     *
+     * Currently no animated tiles, so this method is not really needed.
+     *
+     * @param delta
+     */
+    public void update(float delta) {
+//        for (int y = 0; y < tiles[0].length; y++) {
+//            for (int x = 0; x < tiles.length; x++) {
+//            }
+//        }
+    }
+
+    /**
+     * Renders all tiles in their position. Calculates the tile position based
+     * on the tile width and tile height.
+     */
+    public void render() {
+        for (int y = 0; y < tiles[0].length; y++) {
+            for (int x = 0; x < tiles.length; x++) {
+                renderTile(x * tileWidth, y * tileHeight, tiles[x][y]);
+            }
+        }
+    }
+
+    /**
+     * Checks if the entity is trying to access a legible tile, by checking
+     * against the entity's allowed tiles list. Ghosts can move on the ghost
+     * tiles in the center of the screen, but Pacman can't.
+     *
+     * @param entity
+     * @param dx
+     * @param dy
+     * @param allowedTiles
+     * @return
+     */
     public boolean walkableTile(Entity entity, float dx, float dy, ArrayList<Integer> allowedTiles) {
         int x0 = (int) (entity.getX() + dx + entityOffsetToWalls) / tileWidth;
         int x1 = (int) (entity.getX() + entity.getWidth() + dx - entityOffsetToWalls) / tileWidth;
@@ -199,6 +257,13 @@ public class Level {
                 && allowedTiles.contains(tiles[x1][yCenter]);
     }
 
+    /**
+     * Checks if entity has left the world on the Right. Used when Pacman is
+     * teleporting from one side to the next.
+     *
+     * @param entity
+     * @return
+     */
     public boolean outsideOnTheRight(Entity entity) {
         if (entity.getX() > levelWidth) {
             return true;
@@ -206,6 +271,13 @@ public class Level {
         return false;
     }
 
+    /**
+     * Checks if entity has left the world on the Left. Used when Pacman is
+     * teleporting from one side to the next.
+     *
+     * @param entity
+     * @return
+     */
     public boolean outsideOnTheLeft(Entity entity) {
         if (entity.getX() < -entity.getWidth()) {
             return true;
@@ -213,6 +285,11 @@ public class Level {
         return false;
     }
 
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
     public float getWidth() {
         return levelWidth;
     }
@@ -227,9 +304,5 @@ public class Level {
 
     public float getTileHeight() {
         return tileHeight;
-    }
-
-    public int getTile(Entity entity) {
-        return tiles[(int) (entity.getX() / this.getTileWidth())][(int) (entity.getY() / this.getTileHeight())];
     }
 }

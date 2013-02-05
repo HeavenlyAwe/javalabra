@@ -8,6 +8,8 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
+ * Abstract Camera class containing the methods to most likely be used when
+ * using a Camera. Has a position and a rotation (both in 3D).
  *
  * @author Christoffer
  */
@@ -29,17 +31,37 @@ public abstract class Camera {
         this.rotation = rotation;
     }
 
-    public void update(float delta) {
-        processMouse(delta);
-        processKeyboard(delta);
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
+    @Override
+    public String toString() {
+        return "x: " + position.x + "y: " + position.y + "z: " + position.z + "pitch: " + rotation.x + "yaw: " + rotation.y + "roll: " + rotation.z;
     }
-
-    public abstract void processMouse(float delta);
-
-    public abstract void processKeyboard(float delta);
+    //=================================================================
+    /*
+     * ABSTRACT METHODS
+     */
+    //=================================================================
 
     public abstract void applyProjectionMatrix();
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    public void update(float delta) {
+    }
+
+    /**
+     * Translates the position of the objects and rotates them according to the
+     * position and rotation vectors.
+     *
+     * @param resetMatrix
+     */
     public void applyModelViewMatrix(boolean resetMatrix) {
         if (resetMatrix) {
             glLoadIdentity();
@@ -51,6 +73,11 @@ public abstract class Camera {
         glTranslatef(-position.x, -position.y, -position.z);
     }
 
+    //=================================================================
+    /*
+     * SETTERS
+     */
+    //=================================================================
     public void setPosition(float x, float y, float z) {
         this.position = new Vector3f(x, y, z);
     }
@@ -65,10 +92,5 @@ public abstract class Camera {
 
     public void setRotation(Vector3f rotation) {
         this.rotation = rotation;
-    }
-
-    @Override
-    public String toString() {
-        return "x: " + position.x + "y: " + position.y + "z: " + position.z + "pitch: " + rotation.x + "yaw: " + rotation.y + "roll: " + rotation.z;
     }
 }

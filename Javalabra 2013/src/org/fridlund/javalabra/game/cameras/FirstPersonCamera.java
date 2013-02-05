@@ -11,6 +11,7 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
+ * This is only an example on how to make a camera.
  *
  * @author Christoffer
  */
@@ -37,6 +38,7 @@ public class FirstPersonCamera extends Camera {
 
     public FirstPersonCamera(float aspectRatio, Vector3f position, Vector3f rotation) {
         super(position, rotation);
+
         this.aspectRatio = aspectRatio;
     }
 
@@ -48,9 +50,13 @@ public class FirstPersonCamera extends Camera {
         glMatrixMode(GL_MODELVIEW);
     }
 
-  
     @Override
-    public void processMouse(float delta) {
+    public void update(float delta) {
+        handleMouseInput(delta);
+        handleKeyboardInput(delta);
+    }
+
+    public void handleMouseInput(float delta) {
         if (!Mouse.isGrabbed()) {
             return;
         }
@@ -81,8 +87,7 @@ public class FirstPersonCamera extends Camera {
         rotation = new Vector3f(pitch, yaw, roll);
     }
 
-    @Override
-    public void processKeyboard(float delta) {
+    public void handleKeyboardInput(float delta) {
         boolean keyUp = Keyboard.isKeyDown(Keyboard.KEY_UP);
         boolean keyDown = Keyboard.isKeyDown(Keyboard.KEY_DOWN);
         boolean keyLeft = Keyboard.isKeyDown(Keyboard.KEY_LEFT);

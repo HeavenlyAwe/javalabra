@@ -13,6 +13,9 @@ import org.fridlund.javalabra.pacman.levels.Level;
 import org.fridlund.javalabra.pacman.scenes.GameplayScene;
 
 /**
+ * Handles when the ghosts should get out of the nest, and is responsible for
+ * updating and rendering the ghosts. Also handles collision detection between
+ * ghosts and Pacman.
  *
  * @author Christoffer
  */

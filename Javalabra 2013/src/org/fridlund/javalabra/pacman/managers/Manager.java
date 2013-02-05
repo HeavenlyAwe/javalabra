@@ -9,6 +9,9 @@ import org.fridlund.javalabra.pacman.levels.Level;
 import org.fridlund.javalabra.pacman.scenes.GameplayScene;
 
 /**
+ * Abstract class containing the base methods used by the managers. Also
+ * contains protected fields that are likely to be used by every manager in this
+ * game.
  *
  * @author Christoffer
  */

@@ -14,6 +14,8 @@ import org.fridlund.javalabra.pacman.levels.Level;
 import org.fridlund.javalabra.pacman.scenes.GameplayScene;
 
 /**
+ * Controls what the different edible entities do, and for how long their
+ * special effect is working.
  *
  * @author Christoffer
  */

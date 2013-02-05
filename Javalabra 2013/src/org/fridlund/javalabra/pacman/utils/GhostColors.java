@@ -7,6 +7,9 @@ package org.fridlund.javalabra.pacman.utils;
 import org.lwjgl.util.vector.Vector4f;
 
 /**
+ * Static class that holds a given set of colors, that the ghosts are drawn
+ * with. The color is defined by the ghostColorIndex each ghost has been given
+ * when it's created.
  *
  * @author Christoffer
  */
@@ -24,15 +27,23 @@ public class GhostColors {
         colors[index++] = new Vector4f(1, 0.5f, 0, 1);
         colors[index++] = new Vector4f(0.5f, 1, 0, 1);
         colors[index++] = new Vector4f(0, 0.5f, 1, 1);
-        
+
         colors[index++] = new Vector4f(0.5f, 0, 0.5f, 1);
         colors[index++] = new Vector4f(0.5f, 0, 1, 1);
         colors[index++] = new Vector4f(0.5f, 0, 1, 1);
-        
+
         colors[index++] = new Vector4f(1, 0, 0.5f, 1);
 
     }
 
+    /**
+     * Get a predefined color with the index of the ghost. If the index is
+     * higher than the amount of colors, the modulo of the index and the color
+     * amount is calculated to return a color from the color array.
+     *
+     * @param index
+     * @return
+     */
     public static Vector4f getColor(int index) {
         if (colors[0] == null) {
             setup();

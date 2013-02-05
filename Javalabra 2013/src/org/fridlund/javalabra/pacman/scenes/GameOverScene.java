@@ -8,15 +8,23 @@ import org.fridlund.javalabra.game.scenes.Scene;
 
 /**
  *
+ *
  * @author Christoffer
  */
 public class GameOverScene extends Scene {
 
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
     @Override
     public void setup() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void cleanUp() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

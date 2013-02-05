@@ -15,20 +15,21 @@ import org.fridlund.javalabra.pacman.levels.Level;
 import org.fridlund.javalabra.pacman.managers.GhostManager;
 import org.fridlund.javalabra.pacman.managers.Manager;
 import org.fridlund.javalabra.pacman.managers.SnackManager;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
+ * Contains the Pacman, GhostManager, SnackManager and a Camera for showing the
+ * world in the center. Also listens to a InputProfile, so no input is handled
+ * here.
  *
  * @author Christoffer
  */
 public class GameplayScene extends Scene {
-    
+
     private Hud hud;
-    private PacmanCamera fpsCamera;
+    private PacmanCamera camera;
     private Manager snackManager;
     private GhostManager ghostManager;
     private Level level;
@@ -36,30 +37,34 @@ public class GameplayScene extends Scene {
     private Pacman pacman;
     private String gameOverMessage = "";
     private boolean gameOver = false;
-    
+
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
+    /**
+     * Initializes all game play specific variables. <ul> <li>Level</li>
+     * <li>Camera</li> <li>Pacman</li> <li>InputProfile</li> <li>HUD</li>
+     * <li>GhostManager</li> <li>SnackManager</li> </ul>
+     */
     @Override
     public void setup() {
         level = new Level();
 
-//        fpsCamera = new FirstPersonCamera((float) Display.getWidth() / (float) Display.getHeight(),
-//                new Vector3f(Display.getWidth() / 2, Display.getHeight() / 2, -300),
-//                new Vector3f(0, 180, 180));
-//        fpsCamera.applyProjectionMatrix();
-        fpsCamera = new PacmanCamera((float) Display.getWidth() / (float) Display.getHeight(),
+        camera = new PacmanCamera((float) Display.getWidth() / (float) Display.getHeight(),
                 300, new Vector3f(level.getWidth() / 2, level.getHeight() / 2, 300),
                 new Vector3f(level.getWidth() / 2, level.getHeight() / 2, 0));
-        fpsCamera.applyProjectionMatrix();
-        
-        
-        
+        camera.applyProjectionMatrix();
+
         pacman = new Pacman(level);
-        
-        input = new PacmanInputProfile(pacman, level);
-        
-        hud = new Hud(fpsCamera, level, pacman);
-        
+        input = new PacmanInputProfile(this, pacman, level);
+
+        hud = new Hud(camera, level, pacman);
+
         snackManager = new SnackManager(this, pacman, level);
         ghostManager = new GhostManager(this, pacman, level, 16);
+
     }
 
     /**
@@ -73,82 +78,64 @@ public class GameplayScene extends Scene {
         snackManager.cleanUp();
         ghostManager.cleanUp();
     }
-    
+
+    /**
+     * Updates the initialized components. Only updates the camera if the game
+     * is over. This makes it possible to rotate the view even though the game
+     * is over. <br> <br> Updates the components in this order: <br> Camera,
+     * Input, Pacman, SnackManager, GhostManager
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         super.update(delta);
-        
-        fpsCamera.update(delta);
-        if (Mouse.isButtonDown(0)) {
-            fpsCamera.rotateLeft();
-//            Mouse.setGrabbed(true);
-        } else if (Mouse.isButtonDown(1)) {
-            fpsCamera.rotateRight();
-//            Mouse.setGrabbed(false);
-        }
-        
-        while (Keyboard.next()) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-                this.superSnackEaten();
-            }
-        }
-        
-        
+
+        camera.update(delta);
+
         if (!gameOver) {
-            
+
             input.update(delta);
             pacman.update(delta);
             snackManager.update(delta);
             ghostManager.update(delta);
         }
     }
-    
-    public void superSnackEaten() {
-        ghostManager.setAllGhostsKillable();
-        pacman.setAngry(true);
-    }
-    
-    public void setWarningOfSuperSnackEffectSoonGone() {
-        ghostManager.setWarningOnGhosts();
-    }
-    
-    public void setGhostsInvincible() {
-        ghostManager.setAllGhostsInvincible();
-        pacman.setAngry(false);
-    }
-    
+
+    /**
+     * Applies the model view matrix to the camera, for updating all changes to
+     * the graphics card and after that renders all stuff in the following
+     * order: <br> Level, Pacman, SnackManager, GhostManager. <br> <br> Also
+     * renders a couple of black stripes at the sides of the world, to hide
+     * Pacman when he teleports from one side to the other.
+     */
     @Override
     public void render() {
         super.render();
-        
-        fpsCamera.applyModelViewMatrix(true);
-        
+
+        camera.applyModelViewMatrix(true);
+
         level.render();
         pacman.render();
-        
+
         snackManager.render();
         ghostManager.render();
-        
-        renderBorder();
-        
-        Screen.applyProjectionMatrix();
-        
-        hud.render();
-        
-        FontLoader.renderString("Ghosts Releaseable: " + ghostManager.isGhostReleaseable(), 10, 100, "times new roman");
 
-        // fix this to show correct message when game is over
-        int w = FontLoader.getFont("times new roman").getWidth(gameOverMessage);
-        int h = FontLoader.getFont("times new roman").getHeight(gameOverMessage);
-        
-        FontLoader.renderString(gameOverMessage, (Display.getWidth() - w) / 2, (Display.getHeight() - h) / 2, "times new roman");
-        
-        
-        fpsCamera.applyProjectionMatrix();
+        renderBorder();
+        renderHud();
     }
-    
+
+    //=================================================================
+    /*
+     * PRIVATE METHODS
+     */
+    //=================================================================
+    /**
+     * Renders one stripe on both sides of the level, to hide Pacman from
+     * showing when he leaves the board.
+     */
     private void renderBorder() {
-        
+
         glBegin(GL_QUADS);
         {
             glColor3f(0, 0, 0);
@@ -162,16 +149,95 @@ public class GameplayScene extends Scene {
             glVertex2f(level.getWidth(), level.getHeight());
             glVertex2f(level.getWidth() + pacman.getWidth(), level.getHeight());
             glVertex2f(level.getWidth() + pacman.getWidth(), 0);
-            
+
         }
         glEnd();
     }
-    
+
+    /**
+     * Renders the few elements showing info to the player.
+     */
+    private void renderHud() {
+        Screen.applyProjectionMatrix();
+
+        hud.render();
+
+        // fix this to show correct message when game is over
+        int w = FontLoader.getFont("times new roman").getWidth(gameOverMessage);
+        int h = FontLoader.getFont("times new roman").getHeight(gameOverMessage);
+
+        FontLoader.renderString(gameOverMessage, (Display.getWidth() - w) / 2, (Display.getHeight() - h) / 2, "times new roman");
+
+        camera.applyProjectionMatrix();
+    }
+
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    /**
+     * Makes all ghosts killable in the GhostManager for a certain amount of
+     * time (specified in the GhostManager) and also sets Pacman angry, to
+     * change his animation.
+     */
+    public void superSnackEaten() {
+        ghostManager.setAllGhostsKillable();
+        pacman.setAngry(true);
+    }
+
+    /**
+     * 3D effect of Camera turning 180 degrees to the left.
+     */
+    public void rotateCameraLeft() {
+        camera.rotateLeft();
+    }
+
+    /**
+     * 3D effect of Camera turning 180 degrees to the right
+     */
+    public void rotateCameraRight() {
+        camera.rotateRight();
+    }
+
+    //=================================================================
+    /*
+     * SETTERS
+     */
+    //=================================================================
+    /**
+     * Used from the SnackManager to inform the GhostManager to make the ghosts
+     * blink, because of super snack effect is soon over.
+     */
+    public void setWarningOfSuperSnackEffectSoonGone() {
+        ghostManager.setWarningOnGhosts();
+    }
+
+    /**
+     * Makes all ghosts in GhostManager invincible again.
+     */
+    public void setGhostsInvincible() {
+        ghostManager.setAllGhostsInvincible();
+        pacman.setAngry(false);
+    }
+
+    /**
+     * Stops the update loop and sets the message to be drawn on the screen.
+     *
+     * @param message
+     */
     public void setGameOver(String message) {
         this.gameOver = true;
         this.gameOverMessage = message;
     }
-    
+
+    /**
+     * Makes the GhostManager aware that the ghosts are allowed to leave the
+     * nest (for instance, when the super snack effect is over, all killed
+     * ghosts are allowed to return to the maze).
+     *
+     * @param releaseable
+     */
     public void setGhostsReleaseable(boolean releaseable) {
         ghostManager.setGhostReleaseable(releaseable);
     }

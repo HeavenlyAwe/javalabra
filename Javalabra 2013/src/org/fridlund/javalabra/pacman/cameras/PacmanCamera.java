@@ -10,11 +10,28 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
+ * A special GluLookAt camera used in the game of Pacman.
  *
  * @author Christoffer
  */
 public class PacmanCamera extends Camera {
 
+    /*
+     * Fields used when rotating the camera in 3D (swapping the X-axis)
+     */
+    private enum RotateDirection {
+
+        RIGHT, LEFT, IDLE;
+    }
+    private RotateDirection dir = RotateDirection.IDLE;
+    private float angle = 0;
+    private float maxAngle = (float) Math.PI;
+    private float minAngle = 0.0f;
+    private float rotationSpeed = 0.005f;
+
+    /*
+     * Camera specific fields
+     */
     private float aspectRatio;
     private float fov;
     private float zNear;
@@ -31,6 +48,7 @@ public class PacmanCamera extends Camera {
 
     public PacmanCamera(float aspectRatio, float radius, Vector3f position, Vector3f rotation) {
         super(position, rotation);
+
         this.aspectRatio = aspectRatio;
         this.fov = 90;
         this.zNear = 0.3f;
@@ -38,18 +56,22 @@ public class PacmanCamera extends Camera {
         this.radius = radius;
     }
 
-    private enum RotateDirection {
-
-        RIGHT, LEFT, IDLE;
-    }
-    private RotateDirection dir = RotateDirection.IDLE;
-    private float angle = 0;
-    private float maxAngle = (float) Math.PI;
-    private float minAngle = 0.0f;
-    private float rotationSpeed = 0.005f;
-
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
+    /**
+     * Rotates the camera, when the rotateLeft or rotateRight methods have been
+     * called. Makes sure that the level always are shown by moving it further
+     * away during the rotation.
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
+        super.update(delta);
+
         if (dir == RotateDirection.LEFT) {
             angle += rotationSpeed * delta;
             if (angle >= maxAngle) {
@@ -64,8 +86,6 @@ public class PacmanCamera extends Camera {
             }
         }
 
-//        position.x = (float) (radius * Math.sin(angle)) + rotation.x;
-//        position.z = (float) (radius * Math.cos(angle)) + rotation.z;
         position.x = (float) ((radius * Math.abs(Math.sin(angle)) + radius) * Math.sin(angle)) + rotation.x;
         position.z = (float) ((radius * Math.abs(Math.sin(angle)) + radius) * Math.cos(angle)) + rotation.z;
 
@@ -73,14 +93,13 @@ public class PacmanCamera extends Camera {
         // position.z = (float) ((500 * Math.sin(angleRad) + 300) * Math.cos(angleRad)) + rotation.z;
     }
 
-    public void rotateLeft() {
-        this.dir = RotateDirection.LEFT;
-    }
-
-    public void rotateRight() {
-        this.dir = RotateDirection.RIGHT;
-    }
-
+    /**
+     * Overrides the default apply model view matrix, with a Glu.gluLookAt call.
+     * This makes it possible to rotate around the position the camera is
+     * looking at, without the need of hard trigonometry.
+     *
+     * @param resetMatrix
+     */
     @Override
     public void applyModelViewMatrix(boolean resetMatrix) {
         glMatrixMode(GL_MODELVIEW);
@@ -90,6 +109,11 @@ public class PacmanCamera extends Camera {
         GLU.gluLookAt(position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, 0, 1, 0);
     }
 
+    /**
+     * Makes the camera have a GluPerspective projection matrix, that enables
+     * the depth vision. By default is the game using an Orthographic projection
+     * matrix.
+     */
     @Override
     public void applyProjectionMatrix() {
         glMatrixMode(GL_PROJECTION);
@@ -98,18 +122,16 @@ public class PacmanCamera extends Camera {
         glMatrixMode(GL_MODELVIEW);
     }
 
-    @Override
-    public void processMouse(float delta) {
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    public void rotateLeft() {
+        this.dir = RotateDirection.LEFT;
     }
 
-    @Override
-    public void processKeyboard(float delta) {
-    }
-
-    public void moveFromLook(float dx, float dy, float dz) {
-    }
-
-    public float getAngle() {
-        return angle;
+    public void rotateRight() {
+        this.dir = RotateDirection.RIGHT;
     }
 }

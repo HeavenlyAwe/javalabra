@@ -10,14 +10,19 @@ import net.java.games.input.ControllerEnvironment;
 import org.fridlund.javalabra.game.input.InputProfile;
 import org.fridlund.javalabra.pacman.entities.Pacman;
 import org.fridlund.javalabra.pacman.levels.Level;
+import org.fridlund.javalabra.pacman.scenes.GameplayScene;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 /**
+ * Handles all the input in the Pacman game. Have fields of the different
+ * objects that has to be modified by input.
  *
  * @author Christoffer
  */
 public class PacmanInputProfile extends InputProfile {
 
+    private GameplayScene game;
     private Pacman pacman;
     private Level level;
     private Controller controller;
@@ -33,7 +38,8 @@ public class PacmanInputProfile extends InputProfile {
     private int left = Keyboard.KEY_A;
     private int right = Keyboard.KEY_D;
 
-    public PacmanInputProfile(Pacman pacman, Level level) {
+    public PacmanInputProfile(GameplayScene game, Pacman pacman, Level level) {
+        this.game = game;
         this.pacman = pacman;
         this.level = level;
 
@@ -49,6 +55,10 @@ public class PacmanInputProfile extends InputProfile {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     * Checks for an Controller (this game has support for XBox360 hand
+     * controller).
+     */
     @Override
     public void setup() {
         for (Controller c : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
@@ -59,6 +69,13 @@ public class PacmanInputProfile extends InputProfile {
         }
     }
 
+    /**
+     * Update method that checks for input from user. By calling the
+     * super.update(delta) method, it is able to use the different handling
+     * methods (controller, mouse and keyboard).
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         dx = 0;
@@ -73,6 +90,20 @@ public class PacmanInputProfile extends InputProfile {
         teleportWhenMovingOutsideBoard();
     }
 
+    /**
+     * Method that checks for mouse input changes.
+     *
+     * @param delta
+     */
+    @Override
+    public void handleMouseInput(float delta) {
+        if (Mouse.isButtonDown(0)) {
+            game.rotateCameraLeft();
+        } else if (Mouse.isButtonDown(1)) {
+            game.rotateCameraRight();
+        }
+    }
+
     @Override
     public void handleControllerInput(float delta) {
         if (controller != null) {
@@ -84,6 +115,12 @@ public class PacmanInputProfile extends InputProfile {
 
     @Override
     public void handleKeyboardInput(float delta) {
+
+        while (Keyboard.next()) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                game.superSnackEaten();
+            }
+        }
 
         // allows for movement in x and y direction at the same time
         if (!keyDown(left) && keyDown(right)) {
@@ -105,6 +142,9 @@ public class PacmanInputProfile extends InputProfile {
      * PRIVATE METHODS
      */
     //=================================================================
+    /**
+     * Based upon the current DX and DY, the animation on Pacman is chosen here.
+     */
     private void chooseAnimationFromDirection() {
         if (dx < 0) {
             pacman.setAnimation("left");
@@ -117,12 +157,20 @@ public class PacmanInputProfile extends InputProfile {
         }
     }
 
+    /**
+     * Makes sure that Pacman can't go in y-direction when he has left the level
+     * for teleportation.
+     */
     private void resetDyWhenMovingOutsideBoard() {
         if (pacman.getX() < 0 || pacman.getX() + pacman.getWidth() > level.getWidth()) {
             dy = 0;
         }
     }
 
+    /**
+     * Teleports Pacman from one side to the other, when he has left the level
+     * through one of the corridors.
+     */
     private void teleportWhenMovingOutsideBoard() {
         if (level.outsideOnTheRight(pacman)) {
             pacman.setX(-pacman.getWidth());
@@ -134,6 +182,12 @@ public class PacmanInputProfile extends InputProfile {
         }
     }
 
+    /**
+     * Helper method to specify what action to use, when buttons are pressed on
+     * the hand controller.
+     *
+     * @param delta
+     */
     private void selectControllerAction(float delta) {
         for (Component c : controller.getComponents()) {
             switch (c.getName()) {
