@@ -48,7 +48,7 @@ public class PacmanCameraTest {
     public void rotateCameraLeftTest() {
         camera.rotateLeft();
         camera.update(1000);
-        assertEquals("Wrong angle!", 180, camera.getAngle(), 3);
+        assertEquals("Wrong angle!", Math.PI, camera.getAngle(), 3);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class PacmanCameraTest {
         camera.update(1000);
         camera.rotateLeft();
         camera.update(1000);
-        assertEquals("Wrong angle!", 180, camera.getAngle(), 3);
+        assertEquals("Wrong angle!", Math.PI, camera.getAngle(), 3);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class PacmanCameraTest {
         camera.update(1000);
         camera.rotateLeft();
         camera.update(1000);
-        assertEquals("Wrong angle!", 180, camera.getAngle(), 3);
+        assertEquals("Wrong angle!", Math.PI, camera.getAngle(), 3);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class PacmanCameraTest {
         camera.update(1000);
         camera.rotateLeft();
         camera.update(1000);
-        assertEquals("Wrong angle!", 180, camera.getAngle(), 3);
+        assertEquals("Wrong angle!", Math.PI, camera.getAngle(), 3);
     }
 
     @Test
@@ -105,7 +105,7 @@ public class PacmanCameraTest {
         camera.update(1000);
         camera.rotateLeft();
         camera.update(1000);
-        assertEquals("Wrong angle!", 180, camera.getAngle(), 3);
+        assertEquals("Wrong angle!", Math.PI, camera.getAngle(), 3);
     }
 
     @Test

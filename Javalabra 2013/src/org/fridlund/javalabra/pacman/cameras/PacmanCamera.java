@@ -134,4 +134,13 @@ public class PacmanCamera extends Camera {
     public void rotateRight() {
         this.dir = RotateDirection.RIGHT;
     }
+
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
+    public float getAngle() {
+        return angle;
+    }
 }
