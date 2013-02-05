@@ -10,6 +10,7 @@ import java.util.Random;
 import org.fridlund.javalabra.game.sprites.Animation;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
+import org.fridlund.javalabra.pacman.utils.GhostColors;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.vector.Vector4f;
 
@@ -29,16 +30,10 @@ public class GhostGraphics {
     /*
      * Color is chosen by ghostColorIndex
      */
-    private Random random;
-    private Vector4f red = new Vector4f(1, 0, 0, 1);
-    private Vector4f blue = new Vector4f(0, 1, 1, 1);
-    private Vector4f pink = new Vector4f(1, 0.5f, 0.5f, 1);
-    private Vector4f orange = new Vector4f(1, 0.5f, 0, 1);
     private Vector4f color;
 
     public GhostGraphics(int ghostColorIndex) {
         this.ghostColorIndex = ghostColorIndex;
-        this.random = new Random(ghostColorIndex);
         setRegularColor();
         createAnimations();
     }
@@ -98,26 +93,7 @@ public class GhostGraphics {
     }
 
     public void setRegularColor() {
-        
-        /*
-         * Find out a better way of choosing colors!
-         */
-        random = new Random(ghostColorIndex);
-        this.color = new Vector4f(random.nextFloat(), random.nextFloat(), random.nextFloat(), 1.0f);
-//        switch (ghostColorIndex) {
-//            case 0:
-//                this.color = red;
-//                break;
-//            case 1:
-//                this.color = blue;
-//                break;
-//            case 2:
-//                this.color = pink;
-//                break;
-//            case 3:
-//                this.color = orange;
-//                break;
-//        }
+        this.color = GhostColors.getColor(ghostColorIndex);
     }
 
     public void setKillableColor() {

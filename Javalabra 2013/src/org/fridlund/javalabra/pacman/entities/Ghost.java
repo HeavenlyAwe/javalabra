@@ -227,7 +227,8 @@ public class Ghost extends MovableEntityAbstract {
 
             //ghost.setWarning(false);
 
-            dx = (int) Math.round(16 * level.getTileWidth() + ghost.getGhostColorIndex() * level.getTileWidth() - this.getX());
+            // using % 4 to get it at the four first ghost's locations. Prevents them from spawning outside the nest to the right.
+            dx = (int) Math.round(16 * level.getTileWidth() + (ghost.getGhostColorIndex() % 4) * level.getTileWidth() - this.getX());
             dy = (int) Math.round(17 * level.getTileHeight() - this.getY());
             if (Math.abs(dx) < level.getTileWidth() && Math.abs(dy) < level.getTileHeight()) {
                 setInNest();

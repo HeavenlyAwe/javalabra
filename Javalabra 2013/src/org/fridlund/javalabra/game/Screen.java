@@ -20,11 +20,18 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class Screen {
 
+    private static int lastX;
+    private static int lastY;
+
     public static void setupDisplay(String title) {
         try {
             Display.setDisplayMode(new DisplayMode(800, 640));
             Display.setTitle(title);
             Display.create();
+
+            lastX = Display.getX();
+            lastY = Display.getY();
+
         } catch (LWJGLException ex) {
             Logger.getLogger(Screen.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -53,5 +60,14 @@ public class Screen {
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    public static boolean isMoved() {
+        if (lastX != Display.getX() || lastY != Display.getY()) {
+            lastX = Display.getX();
+            lastY = Display.getY();
+            return true;
+        }
+        return false;
     }
 }

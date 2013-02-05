@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.fridlund.javalabra.game.utils.Timer;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import static org.lwjgl.opengl.ARBTextureRectangle.GL_TEXTURE_RECTANGLE_ARB;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -88,14 +89,28 @@ public abstract class GameLWJGL {
 
         while (running && !Display.isCloseRequested()) {
 
+            if (gameLoopRestrictions()) {
+                Timer.reset();
+            }
+
             update(Timer.getDelta());
             render();
 
             Display.update();
-//            Display.sync(60);
         }
 
         cleanUpGame();
+    }
+
+    /**
+     * Override this method, if you for some reason wants to pause the render
+     * and update. If the method returns true, it'll reset the timer to the
+     * current instance, and render the update function useless.
+     *
+     * @return
+     */
+    public boolean gameLoopRestrictions() {
+        return false;
     }
 
     public void render() {
