@@ -78,4 +78,55 @@ public class GhostTest {
         assertEquals("X position wrong.", 14 * level.getTileWidth() + 2 * level.getTileWidth(), ghost.getX(), 3);
         assertEquals("Y position wrong.", 16 * level.getTileHeight() + 20, ghost.getY(), 3);
     }
+    
+    @Test
+    public void ghostReleaseableInBeginningTest(){
+        assertFalse("Ghost should not be releaseable.", ghost.isReleaseable());
+    }
+    
+    @Test
+    public void setGhostReleaseableTest(){
+        ghost.setReleaseable(true);
+        assertTrue("Ghsot is not releaseable.", ghost.isReleaseable());
+    }
+
+    @Test
+    public void ghostNotKillableTest() {
+        assertFalse("Ghost is killable.", !ghost.isInvincible());
+    }
+
+    @Test
+    public void ghostKillableTest() {
+        ghost.setKillable();
+        assertTrue("Ghost is not killable.", !ghost.isInvincible());
+    }
+
+    @Test
+    public void ghostInvincibleTest() {
+        assertTrue("Ghost not invincible.", ghost.isInvincible());
+    }
+
+    @Test
+    public void ghostAliveTest() {
+        assertTrue("Ghost is dead.", !ghost.isDead());
+    }
+
+    @Test
+    public void ghostWarningWithoutBeingKillableTest() {
+        ghost.setWarningAnimation();
+        assertFalse("Warning flag is active.", ghost.isWarning());
+    }
+
+    @Test
+    public void ghostWarningWhenKillableTest() {
+        ghost.setKillable();
+        ghost.setWarningAnimation();
+        assertTrue("Warning flag is active.", ghost.isWarning());
+    }
+
+    @Test
+    public void killedTest() {
+        ghost.kill();
+        assertTrue("Ghost not dead.", ghost.isDead());
+    }
 }
