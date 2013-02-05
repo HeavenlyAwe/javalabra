@@ -16,13 +16,20 @@ public class GameHubFrameTest {
 
     public GameHubFrameTest() {
     }
+    GameHubFrame frame;
 
     @Before
     public void setUp() {
+        frame = new GameHubFrame();
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
     // @Test
     // public void hello() {}
+
+    @Test
+    public void constructedTest() {
+        assertNotNull("Failed to construct GameHubFrame.", frame);
+    }
 }

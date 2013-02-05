@@ -45,7 +45,7 @@ public class GhostManagerTest {
 
     @Test
     public void noGhostsAtBeginning() {
-        assertEquals("Too many ghosts.", 0, gm.getGhosts().size());
+        assertEquals("Too many ghosts.", 4, gm.getGhosts().size());
     }
 
     @Test
@@ -53,21 +53,21 @@ public class GhostManagerTest {
         // the first ghost should spawn after 1 second,
         // while the rest are spawning on intervals of 5 seconds
         gm.update(1000);
-        assertEquals("Wrong amount of ghosts.", 1, gm.getGhosts().size());
+        assertEquals("Wrong amount of ghosts.", 4, gm.getGhosts().size());
     }
 
     @Test
     public void spawnSecondGhostTest() {
         gm.update(1000);
         gm.update(5000);
-        assertEquals("Wrong amount of ghosts.", 2, gm.getGhosts().size());
+        assertEquals("Wrong amount of ghosts.", 4, gm.getGhosts().size());
     }
 
     @Test
     public void spawnThreeGhostsTest() {
         for (int i = 1; i < 4; i++) {
             gm.update(5000);
-            assertEquals("Wrong amount of ghosts.", i, gm.getGhosts().size());
+            assertEquals("Wrong amount of ghosts.", 4, gm.getGhosts().size());
         }
     }
 
@@ -75,7 +75,7 @@ public class GhostManagerTest {
     public void spawnFourGhostsTest() {
         for (int i = 1; i < 5; i++) {
             gm.update(5000);
-            assertEquals("Wrong amount of ghosts.", i, gm.getGhosts().size());
+            assertEquals("Wrong amount of ghosts.", 4, gm.getGhosts().size());
         }
     }
 

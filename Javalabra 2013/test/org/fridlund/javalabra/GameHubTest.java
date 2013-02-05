@@ -15,8 +15,6 @@ import static org.junit.Assert.*;
  */
 public class GameHubTest {
     
-    public GameHubTest() {
-    }
     GameHub hub;
     
     @Before

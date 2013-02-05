@@ -4,7 +4,10 @@
  */
 package org.fridlund.javalabra.pacman;
 
+import org.fridlund.javalabra.Launcher;
+import org.fridlund.javalabra.game.Screen;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -15,7 +18,11 @@ public class PacmanGameTest {
 
     PacmanGame game;
 
-    public PacmanGameTest() {
+    @BeforeClass
+    public static void init() {
+        Launcher.setupNativesLWJGL();
+        Screen.setupDisplay("PacmanTest");
+        Screen.setupLWJGL();
     }
 
     @Before
