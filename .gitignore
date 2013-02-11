@@ -3,8 +3,13 @@
 # Package Files #
 *.war
 *.ear
-/Javalabra 2013/nbproject/private/
-/Javalabra 2013/build/
-/Javalabra 2013/dist/
 /documentation/*.docx
-/HeartBeatChallenge/nbproject/private/
+/GameHub/nbproject/private/
+/GameHub/build/
+/GameHub/dist/
+/PacmanGame/nbproject/private/
+/PacmanGame/build/
+/PacmanGame/dist/
+/Engine/nbproject/private/
+/Engine/build/
+/Engine/dist/
