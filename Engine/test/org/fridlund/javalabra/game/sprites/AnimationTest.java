@@ -4,14 +4,12 @@
  */
 package org.fridlund.javalabra.game.sprites;
 
-import org.fridlund.javalabra.Launcher;
 import org.fridlund.javalabra.game.Screen;
 import org.fridlund.javalabra.game.utils.TextureLoader;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *
@@ -21,7 +19,7 @@ public class AnimationTest {
 
     @BeforeClass
     public static void init() {
-        Launcher.setupNativesLWJGL();
+        Screen.setupNativesLWJGL();
         Screen.setupDisplay("PacmanTest");
         Screen.setupLWJGL();
     }
@@ -35,7 +33,7 @@ public class AnimationTest {
     
     @Before
     public void setUp() {
-        int textureID = TextureLoader.loadTextureLinear("res/pacman/images/pacman.png");
+        int textureID = TextureLoader.loadTextureLinear(getClass().getResourceAsStream("/org/fridlund/javalabra/game/sprites/pacman.png"));
         SpriteSheet sheet = new SpriteSheet(textureID, 32, 32, 128, 128);
         animation = new Animation(sheet);
     }
