@@ -115,8 +115,8 @@ public abstract class GameLWJGL {
     public void update(float delta) {
         Display.setTitle("FPS: " + Timer.getFPS());
     }
-    
-    public String getTitle(){
+
+    public String getTitle() {
         return title;
     }
 }

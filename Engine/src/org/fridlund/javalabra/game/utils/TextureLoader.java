@@ -25,13 +25,11 @@ import org.newdawn.slick.opengl.PNGDecoder;
  */
 public class TextureLoader {
 
-    public static int loadTextureLinear(String filepath) {
+    public static int loadTextureLinear(InputStream in) {
         int textureID = glGenTextures();
-
+        
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, textureID);
-        InputStream in = null;
         try {
-            in = new FileInputStream(filepath);
             PNGDecoder decoder = new PNGDecoder(in);
             ByteBuffer buffer = BufferUtils.createByteBuffer(4 * decoder.getWidth() * decoder.getHeight());
             decoder.decode(buffer, decoder.getWidth() * 4, PNGDecoder.Format.RGBA);
@@ -44,9 +42,8 @@ public class TextureLoader {
             glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 
         } catch (FileNotFoundException ex) {
-            System.out.println("Could not find file: " + filepath);
+            Logger.getLogger(TextureLoader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            System.out.println("Couldn't load texture");
             Logger.getLogger(TextureLoader.class.getName()).log(Level.SEVERE, null, ex);
         }
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
