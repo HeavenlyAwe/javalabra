@@ -15,7 +15,7 @@ import org.fridlund.javalabra.game.utils.TextureLoader;
  */
 public class Snack extends EntityAbstract {
 
-    private static String texturePath = "res/images/snack.png";
+    private static String texturePath = "/res/images/snack.png";
     protected static int width = 16;
     protected static int height = 16;
     protected Animation animation;
@@ -25,7 +25,7 @@ public class Snack extends EntityAbstract {
     }
 
     public void setupAnimation() {
-        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), width, width, 16, 16);
+        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream(texturePath)), width, width, 16, 16);
         animation = new Animation(sheet);
     }
 

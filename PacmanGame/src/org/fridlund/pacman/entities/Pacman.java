@@ -21,7 +21,7 @@ import org.lwjgl.util.vector.Vector4f;
  */
 public class Pacman extends MovableEntityAbstract {
 
-    private static String texturePath = "res/images/pacman.png";
+    private static String texturePath = "/res/images/pacman.png";
     private Map<String, Animation> animations;
     private Map<String, Animation> eyeAnimations;
     private Animation animation;
@@ -33,7 +33,6 @@ public class Pacman extends MovableEntityAbstract {
     private boolean immortal = false;
     private float immortalTimerMax = 3000;
     private float immortalTimer = 0;
-    
     /*
      * Colors for making pacman yellow (and transparent when immortal).
      */
@@ -67,7 +66,7 @@ public class Pacman extends MovableEntityAbstract {
         animations = new HashMap<>();
         eyeAnimations = new HashMap<>();
 
-        SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), 32, 32, 256, 128);
+        SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream(texturePath)), 32, 32, 256, 128);
 
         setWidth(32);
         setHeight(32);

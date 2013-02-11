@@ -19,7 +19,7 @@ import org.lwjgl.util.vector.Vector4f;
  */
 public class GhostGraphics {
 
-    private static String texturePath = "res/images/ghost_silhuette.png";
+    private static String texturePath = "/res/images/ghost_silhuette.png";
     public static int spriteWidth = 32;
     public static int spriteHeight = 32;
     private Animation eyeAnimation;
@@ -43,7 +43,7 @@ public class GhostGraphics {
      */
     private void createAnimations() {
 
-        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), spriteWidth, spriteHeight, 256, 64);
+        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream(texturePath)), spriteWidth, spriteHeight, 256, 64);
         eyeAnimations = new HashMap<>();
 
         Animation downAnimation = new Animation(sheet);

@@ -4,16 +4,18 @@
  */
 package org.fridlund.pacman.level;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.fridlund.javalabra.game.entities.Entity;
 import org.fridlund.javalabra.game.sprites.Sprite;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
 import static org.lwjgl.opengl.ARBTextureRectangle.GL_TEXTURE_RECTANGLE_ARB;
 import static org.lwjgl.opengl.GL11.*;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 /**
  * The level and it's loading, update and render method.
@@ -22,8 +24,8 @@ import org.newdawn.slick.SlickException;
  */
 public class Level {
 
-    private String texturePath = "res/images/level_tile_set.png";
-    private String levelPath = "res/levels/level1.png";
+    private String texturePath = "/res/levels/level_tile_set.png";
+    private String levelPath = "/res/levels/level1.png";
     private int[][] tiles;
     private SpriteSheet sheet;
     private static int tileWidth = 16;
@@ -58,10 +60,9 @@ public class Level {
      * level from a image file.
      */
     private void setup() {
-        System.err.println(texturePath);
-        sheet = new SpriteSheet(TextureLoader.loadTextureLinear(texturePath), tileWidth, tileHeight, 128, 128);
+        sheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream(texturePath)), tileWidth, tileHeight, 128, 128);
         generateLevelFromImage();
-        printLevelInAscii();
+//        printLevelInAscii();
     }
 
     /**
@@ -71,7 +72,7 @@ public class Level {
      */
     private void generateLevelFromImage() {
         try {
-            Image image = new Image(levelPath);
+            BufferedImage image = ImageIO.read(getClass().getResourceAsStream(levelPath));
 
             int levelSizeX = image.getWidth();
             int levelSizeY = image.getHeight();
@@ -88,29 +89,30 @@ public class Level {
 
                     int tileX = x;
 
+                    Color color = new Color(image.getRGB(x, y));
                     // VOID tile
-                    if (image.getColor(x, y).getRed() == 255
-                            && image.getColor(x, y).getGreen() == 255
-                            && image.getColor(x, y).getBlue() == 255
-                            && image.getColor(x, y).getAlpha() == 0) {
+                    if (color.getRed() == 255
+                            && color.getGreen() == 255
+                            && color.getBlue() == 255
+                            && color.getAlpha() == 0) {
                         tiles[tileX][tileY] = VOID;
                     } // WALL tile
-                    else if (image.getColor(x, y).getRed() == 0
-                            && image.getColor(x, y).getGreen() == 0
-                            && image.getColor(x, y).getBlue() == 0
-                            && image.getColor(x, y).getAlpha() == 255) {
+                    else if (color.getRed() == 0
+                            && color.getGreen() == 0
+                            && color.getBlue() == 0
+                            && color.getAlpha() == 255) {
                         tiles[tileX][tileY] = WALL;
                     } // WALKABLE tile
-                    else if (image.getColor(x, y).getRed() == 255
-                            && image.getColor(x, y).getGreen() == 255
-                            && image.getColor(x, y).getBlue() == 255
-                            && image.getColor(x, y).getAlpha() == 255) {
+                    else if (color.getRed() == 255
+                            && color.getGreen() == 255
+                            && color.getBlue() == 255
+                            && color.getAlpha() == 255) {
                         tiles[tileX][tileY] = WALKABLE;
                     } // GHOST tile
-                    else if (image.getColor(x, y).getRed() == 255
-                            && image.getColor(x, y).getGreen() == 0
-                            && image.getColor(x, y).getBlue() == 255
-                            && image.getColor(x, y).getAlpha() == 255) {
+                    else if (color.getRed() == 255
+                            && color.getGreen() == 0
+                            && color.getBlue() == 255
+                            && color.getAlpha() == 255) {
                         tiles[tileX][tileY] = GHOST_TILE;
                     } else {
                         tiles[tileX][tileY] = VOID;
@@ -118,8 +120,7 @@ public class Level {
                 }
             }
 
-            image.destroy();
-        } catch (SlickException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }

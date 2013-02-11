@@ -4,72 +4,51 @@
  */
 package org.fridlund.pacman.managers;
 
-import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.fridlund.javalabra.game.Screen;
+import org.fridlund.pacman.entities.Pacman;
+import org.fridlund.pacman.level.Level;
+import org.fridlund.pacman.scenes.GameplayScene;
+import org.junit.AfterClass;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *
  * @author Christoffer
  */
 public class SnackManagerTest {
-    
-    public SnackManagerTest() {
+
+    @BeforeClass
+    public static void init() {
+        Screen.setupNativesLWJGL();
+        Screen.setupDisplay("PacmanTest");
+        Screen.setupLWJGL();
     }
-    
+
+    @AfterClass
+    public static void cleanUp() {
+        Screen.cleanUp();
+    }
+    SnackManager sm;
+
     @Before
     public void setUp() {
+        GameplayScene game = new GameplayScene();
+        Level level = new Level();
+        Pacman pacman = new Pacman(level);
+
+        sm = new SnackManager(game, pacman, level);
     }
 
-    /**
-     * Test of cleanUp method, of class SnackManager.
-     */
     @Test
-    public void testCleanUp() {
-        System.out.println("cleanUp");
-        SnackManager instance = null;
-        instance.cleanUp();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void checkSnackManagerConstructedTest() {
+        assertNotNull("SnackManager wasn't created.", sm);
     }
 
-    /**
-     * Test of update method, of class SnackManager.
-     */
-    @Test
-    public void testUpdate() {
-        System.out.println("update");
-        float delta = 0.0F;
-        SnackManager instance = null;
-        instance.update(delta);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of render method, of class SnackManager.
-     */
-    @Test
-    public void testRender() {
-        System.out.println("render");
-        SnackManager instance = null;
-        instance.render();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getSnacks method, of class SnackManager.
-     */
-    @Test
-    public void testGetSnacks() {
-        System.out.println("getSnacks");
-        SnackManager instance = null;
-        List expResult = null;
-        List result = instance.getSnacks();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void checkNoSnacksAtBeginningTest() {
+//        assertEquals("Too many snacks.", 0, sm.getSnacks().size());
+//    }
 }
