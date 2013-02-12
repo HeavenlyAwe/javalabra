@@ -29,6 +29,7 @@ public class Pacman extends MovableEntityAbstract {
     private Level level;
     private ArrayList<Integer> allowedTiles;
     private int points;
+    private int maxLives;
     private int lives;
     private boolean immortal = false;
     private float immortalTimerMax = 3000;
@@ -44,6 +45,7 @@ public class Pacman extends MovableEntityAbstract {
         super();
 
         this.level = level;
+        this.maxLives = 3;
         this.lives = 3;
         this.points = 0;
 
@@ -241,6 +243,10 @@ public class Pacman extends MovableEntityAbstract {
      * GETTERS
      */
     //=================================================================
+    public int getMaxLives() {
+        return maxLives;
+    }
+
     public int getLives() {
         return lives;
     }
@@ -251,5 +257,9 @@ public class Pacman extends MovableEntityAbstract {
 
     public boolean isImmortal() {
         return immortal;
+    }
+
+    public Animation getAnimation(String key) {
+        return animations.get(key);
     }
 }

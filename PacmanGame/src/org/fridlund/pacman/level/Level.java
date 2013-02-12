@@ -5,11 +5,13 @@
 package org.fridlund.pacman.level;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import org.fridlund.javalabra.game.entities.Entity;
 import org.fridlund.javalabra.game.sprites.Sprite;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
@@ -89,30 +91,35 @@ public class Level {
 
                     int tileX = x;
 
-                    Color color = new Color(image.getRGB(x, y));
+                    int argb = image.getRGB(x, y);
+                    int red = (argb >> 16) & 0xFF;
+                    int green = (argb >> 8) & 0xFF;
+                    int blue = argb & 0xFF;
+                    int alpha = (argb >> 24) & 0xFF;
+
                     // VOID tile
-                    if (color.getRed() == 255
-                            && color.getGreen() == 255
-                            && color.getBlue() == 255
-                            && color.getAlpha() == 0) {
+                    if (red == 255
+                            && green == 255
+                            && blue == 255
+                            && alpha == 0) {
                         tiles[tileX][tileY] = VOID;
                     } // WALL tile
-                    else if (color.getRed() == 0
-                            && color.getGreen() == 0
-                            && color.getBlue() == 0
-                            && color.getAlpha() == 255) {
+                    else if (red == 0
+                            && green == 0
+                            && blue == 0
+                            && alpha == 255) {
                         tiles[tileX][tileY] = WALL;
                     } // WALKABLE tile
-                    else if (color.getRed() == 255
-                            && color.getGreen() == 255
-                            && color.getBlue() == 255
-                            && color.getAlpha() == 255) {
+                    else if (red == 255
+                            && green == 255
+                            && blue == 255
+                            && alpha == 255) {
                         tiles[tileX][tileY] = WALKABLE;
                     } // GHOST tile
-                    else if (color.getRed() == 255
-                            && color.getGreen() == 0
-                            && color.getBlue() == 255
-                            && color.getAlpha() == 255) {
+                    else if (red == 255
+                            && green == 0
+                            && blue == 255
+                            && alpha == 255) {
                         tiles[tileX][tileY] = GHOST_TILE;
                     } else {
                         tiles[tileX][tileY] = VOID;
@@ -284,6 +291,14 @@ public class Level {
         if (entity.getX() < -entity.getWidth()) {
             return true;
         }
+        return false;
+    }
+
+    public boolean outsideLevel(Entity entity) {
+        if (outsideOnTheLeft(entity) || outsideOnTheRight(entity) || entity.getY() < -entity.getHeight() || entity.getY() > levelHeight) {
+            return true;
+        }
+
         return false;
     }
 

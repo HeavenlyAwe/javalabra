@@ -11,6 +11,7 @@ import org.fridlund.pacman.level.Level;
 import org.lwjgl.util.vector.Vector4f;
 
 /**
+ * Simple ghost AI
  *
  * @author Christoffer
  */

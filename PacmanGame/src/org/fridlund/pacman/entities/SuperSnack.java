@@ -17,6 +17,10 @@ public class SuperSnack extends Snack {
 
     private static String texturePath = "/res/images/super_snack.png";
 
+    public SuperSnack(SpecialAction specialAction) {
+        super(specialAction);
+    }
+
     @Override
     public void setupAnimation() {
         InputStream in = getClass().getResourceAsStream(texturePath);

@@ -60,7 +60,7 @@ public class GameplayScene extends Scene {
         pacman = new Pacman(level);
         input = new PacmanInputProfile(this, pacman, level);
 
-        hud = new Hud(camera, level, pacman);
+        hud = new Hud(level, pacman);
 
         snackManager = new SnackManager(this, pacman, level);
         ghostManager = new GhostManager(this, pacman, level, 16);
