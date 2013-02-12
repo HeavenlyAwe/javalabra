@@ -34,7 +34,7 @@ public class GameHub {
     private void loadGames() {
 
         File gameFolder = new File("games");
-        if(gameFolder == null){
+        if (gameFolder == null) {
             System.out.println("Couldn't find folder games");
             return;
         }
@@ -53,7 +53,7 @@ public class GameHub {
                 File file = new File(dir.getAbsolutePath() + "/" + dir.getName() + ".jar");
 
                 if (file == null) {
-                    System.out.println("Couldn't find file: " + dir.getName() + ".jar inside " + dir.getAbsolutePath());
+                    System.out.println("Couldn't find file: " + dir.getName());
                     return;
                 }
 
