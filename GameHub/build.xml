@@ -78,5 +78,8 @@
         <copy todir="${dist.dir}/lib/natives/">
             <fileset dir="lib/natives/"/>
         </copy>
+        
+        <mkdir dir="${dist.dir}/games/" />
+        <mkdir dir="${dist.dir}/games/PacmanGame/" />
     </target>    
 </project>
