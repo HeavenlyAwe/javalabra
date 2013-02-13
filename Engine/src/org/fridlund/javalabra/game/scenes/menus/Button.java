@@ -33,11 +33,24 @@ public class Button extends MenuItem {
     public void update(float delta) {
         super.update(delta);
 
+        leftMouseClicked = false;
+        rightMouseClicked = false;
+
         Point mouseCursor = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
         if (rect.contains(mouseCursor)) {
             red = 1.0f;
-            if (Mouse.isButtonDown(0)) {
-                leftMouseClicked = true;
+            while (Mouse.next()) {
+                if (Mouse.isButtonDown(0)) {
+                    if (Mouse.getEventButtonState()) {
+                        leftMouseClicked = true;
+                    } else {
+                    }
+                } else if (Mouse.isButtonDown(1)) {
+                    if (Mouse.getEventButtonState()) {
+                        rightMouseClicked = true;
+                    } else {
+                    }
+                }
             }
         } else {
             red = 0.2f;
@@ -49,6 +62,10 @@ public class Button extends MenuItem {
 
     public boolean isLeftMouseDown() {
         return leftMouseClicked;
+    }
+
+    public boolean isRightMouseDown() {
+        return rightMouseClicked;
     }
 
     @Override

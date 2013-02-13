@@ -28,10 +28,10 @@ public class FontLoader {
 
     private static void initFontLoader() {
         fonts = new HashMap<>();
-        loadFont("Dialog", FontStyle.PLAIN, 18);
+        loadFont("dialog18", "Dialog", FontStyle.PLAIN, 18);
     }
 
-    public static void loadFont(String fontName, FontStyle style, int size) {
+    public static void loadFont(String key, String fontName, FontStyle style, int size) {
         if (fonts == null) {
             initFontLoader();
         }
@@ -57,31 +57,31 @@ public class FontLoader {
             ex.printStackTrace();
         }
 
-        fonts.put(fontName.toLowerCase(), font);
+        fonts.put(key, font);
     }
 
-    public static UnicodeFont getFont(String fontName) {
+    public static UnicodeFont getFont(String key) {
         if (fonts == null) {
             initFontLoader();
         }
 
-        fontName = fontName.toLowerCase();
+        key = key.toLowerCase();
 
-        if (fonts.get(fontName) == null) {
-            return fonts.get("dialog");
+        if (fonts.get(key) == null) {
+            return fonts.get("dialog18");
         }
-        return fonts.get(fontName);
+        return fonts.get(key);
     }
 
-    public static void renderString(String text, float x, float y, String fontName) {
+    public static void renderString(String text, float x, float y, String key) {
         glDisable(GL_TEXTURE_RECTANGLE_ARB);
-        FontLoader.getFont(fontName).drawString(x, y, text);
+        FontLoader.getFont(key).drawString(x, y, text);
         glEnable(GL_TEXTURE_RECTANGLE_ARB);
     }
 
-    public static void renderString(String text, float x, float y, String fontName, Color color) {
+    public static void renderString(String text, float x, float y, String key, Color color) {
         glDisable(GL_TEXTURE_RECTANGLE_ARB);
-        FontLoader.getFont(fontName).drawString(x, y, text, color);
+        FontLoader.getFont(key).drawString(x, y, text, color);
         glEnable(GL_TEXTURE_RECTANGLE_ARB);
     }
 }

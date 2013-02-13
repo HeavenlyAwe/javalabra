@@ -37,9 +37,7 @@ public class SceneManager {
     }
 
     public void cleanUp() {
-        for (int i = 0; i < scenes.size(); i++) {
-            scenes.get(i).cleanUp();
-        }
+        scenes.clear();
     }
 
     public void update(float delta) {
@@ -50,7 +48,15 @@ public class SceneManager {
         scenes.get(currentSceneID).render();
     }
 
+    /**
+     * Calls the previous scenes disable method and activates the new scene
+     * connected to that specific id and calls the new scene's show method.
+     *
+     * @param id
+     */
     public void setCurrentScene(int id) {
+        scenes.get(currentSceneID).disable();
         this.currentSceneID = id;
+        scenes.get(id).show();
     }
 }

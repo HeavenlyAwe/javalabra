@@ -22,6 +22,12 @@ public abstract class Scene {
         this.sceneManager = sceneManager;
     }
 
+    public void show() {
+    }
+
+    public void disable() {
+    }
+
     public abstract void setup();
 
     public abstract void cleanUp();
