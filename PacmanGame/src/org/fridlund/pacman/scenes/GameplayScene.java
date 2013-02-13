@@ -6,18 +6,17 @@ package org.fridlund.pacman.scenes;
 
 import org.fridlund.javalabra.game.Screen;
 import org.fridlund.javalabra.game.scenes.Scene;
-import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.pacman.cameras.PacmanCamera;
 import org.fridlund.pacman.entities.Pacman;
 import org.fridlund.pacman.highscores.HighScore;
 import org.fridlund.pacman.highscores.HighScoreManager;
+import org.fridlund.pacman.hud.DebugHud;
 import org.fridlund.pacman.hud.Hud;
 import org.fridlund.pacman.input.PacmanInputProfile;
 import org.fridlund.pacman.level.Level;
 import org.fridlund.pacman.managers.GhostManager;
 import org.fridlund.pacman.managers.Manager;
 import org.fridlund.pacman.managers.SnackManager;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.vector.Vector3f;
@@ -40,6 +39,8 @@ public class GameplayScene extends Scene {
     private PacmanInputProfile input;
     private Pacman pacman;
     private boolean paused;
+    private DebugHud debugHud;
+    private boolean debug;
 
     public GameplayScene(int id, HighScoreManager highScoreManager) {
         super(id);
@@ -73,7 +74,8 @@ public class GameplayScene extends Scene {
         pacman = new Pacman(level);
         input = new PacmanInputProfile(this, pacman, level);
 
-        hud = new Hud(level, pacman);
+        hud = new Hud(pacman);
+        debugHud = new DebugHud();
 
         snackManager = new SnackManager(this, pacman, level);
         ghostManager = new GhostManager(this, pacman, level, 16);
@@ -186,6 +188,9 @@ public class GameplayScene extends Scene {
     private void renderHud() {
         Screen.applyProjectionMatrix();
         hud.render();
+        if (debug) {
+            debugHud.render();
+        }
         camera.applyProjectionMatrix();
     }
 
@@ -220,6 +225,10 @@ public class GameplayScene extends Scene {
 
     public void pause() {
         paused = !paused;
+    }
+
+    public void toggleDebug() {
+        debug = !debug;
     }
 
     //=================================================================
@@ -283,5 +292,9 @@ public class GameplayScene extends Scene {
     //=================================================================
     public boolean isPaused() {
         return paused;
+    }
+
+    public boolean isDebug() {
+        return debug;
     }
 }

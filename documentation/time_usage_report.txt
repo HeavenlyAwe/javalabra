@@ -1,5 +1,22 @@
 
 ===================================
+14.02.2013
+-----------------------------------
+
+14-18	- Worked on a HighScore system.
+19-20	- Finished the HighScore system.
+22-00	- Refactored the Menu system. Moved the addButton and addLabel methods to
+	  the abstract MenuScene, got rid of some copy pasted code that way. Added
+	  titles to the MenuScenes, and cleared out the render code.
+	- Refactored the InputProfile in pacman, to only accept "Cheats" when F1 has
+	  been pressed. Couldn't make a pause menu very easily, just dimmed out the 
+	  screen when escape has been pressed. For now the only way to quit the game
+	  is by pressing the cross or using cheats to access the Game Over scene.
+
+
+
+
+===================================
 13.02.2013
 -----------------------------------
 

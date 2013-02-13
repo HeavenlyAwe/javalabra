@@ -22,8 +22,8 @@ public abstract class MenuScene extends Scene {
     protected String titleFont;
     private String title;
     protected float y;
-    protected float w;
-    protected float h;
+    private float w;
+    private float h;
     private float titleY;
     private float titleX;
     private int titleW;

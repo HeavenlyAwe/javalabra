@@ -116,19 +116,25 @@ public class PacmanInputProfile extends InputProfile {
     public void handleKeyboardInput(float delta) {
 
         while (Keyboard.next()) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-                game.superSnackEaten();
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_G)) {
-                game.rotateCameraLeft();
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
-                game.rotateCameraRight();
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_F11)) {
-                game.setGameWon();
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_F12)) {
-                game.setGameOver();
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
                 game.pause();
+            } else if (Keyboard.isKeyDown(Keyboard.KEY_F1)) {
+                game.toggleDebug();
             }
+            if (game.isDebug()) {
+                if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                    game.superSnackEaten();
+                } else if (Keyboard.isKeyDown(Keyboard.KEY_G)) {
+                    game.rotateCameraLeft();
+                } else if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
+                    game.rotateCameraRight();
+                } else if (Keyboard.isKeyDown(Keyboard.KEY_F11)) {
+                    game.setGameWon();
+                } else if (Keyboard.isKeyDown(Keyboard.KEY_F12)) {
+                    game.setGameOver();
+                }
+            }
+
         }
 
         if (!game.isPaused()) {

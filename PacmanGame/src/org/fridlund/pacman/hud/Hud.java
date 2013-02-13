@@ -9,7 +9,6 @@ import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.javalabra.game.utils.TextureLoader;
 import org.fridlund.pacman.entities.Pacman;
-import org.fridlund.pacman.level.Level;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -20,12 +19,10 @@ import static org.lwjgl.opengl.GL11.*;
 public class Hud {
 
     private String fontName;
-    private Level level;
     private Pacman pacman;
     private Animation lifeAnimation;
 
-    public Hud(Level level, Pacman pacman) {
-        this.level = level;
+    public Hud(Pacman pacman) {
         this.pacman = pacman;
 
         this.fontName = "times30";
