@@ -12,7 +12,6 @@ import org.fridlund.pacman.entities.Pacman;
 import org.fridlund.pacman.level.Level;
 import org.fridlund.pacman.scenes.GameplayScene;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
 /**
  * Handles all the input in the Pacman game. Have fields of the different
@@ -123,24 +122,31 @@ public class PacmanInputProfile extends InputProfile {
                 game.rotateCameraLeft();
             } else if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
                 game.rotateCameraRight();
+            } else if (Keyboard.isKeyDown(Keyboard.KEY_F11)) {
+                game.setGameWon();
+            } else if (Keyboard.isKeyDown(Keyboard.KEY_F12)) {
+                game.setGameOver();
             } else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-                game.setGameOver("Forced Game Over");
+                game.pause();
             }
         }
 
-        // allows for movement in x and y direction at the same time
-        if (!keyDown(left) && keyDown(right)) {
-            dx = speed * delta;
-        } else if (keyDown(left) && !keyDown(right)) {
-            dx = -speed * delta;
-        }
+        if (!game.isPaused()) {
 
-        if (keyDown(up) && !keyDown(down)) {
-            dy = speed * delta;
-        } else if (!keyDown(up) && keyDown(down)) {
-            dy = -speed * delta;
-        }
+            // allows for movement in x and y direction at the same time
+            if (!keyDown(left) && keyDown(right)) {
+                dx = speed * delta;
+            } else if (keyDown(left) && !keyDown(right)) {
+                dx = -speed * delta;
+            }
 
+            if (keyDown(up) && !keyDown(down)) {
+                dy = speed * delta;
+            } else if (!keyDown(up) && keyDown(down)) {
+                dy = -speed * delta;
+            }
+
+        }
     }
 
     //=================================================================

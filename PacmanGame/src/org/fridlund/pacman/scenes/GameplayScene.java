@@ -17,6 +17,7 @@ import org.fridlund.pacman.level.Level;
 import org.fridlund.pacman.managers.GhostManager;
 import org.fridlund.pacman.managers.Manager;
 import org.fridlund.pacman.managers.SnackManager;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.vector.Vector3f;
@@ -38,8 +39,7 @@ public class GameplayScene extends Scene {
     private Level level;
     private PacmanInputProfile input;
     private Pacman pacman;
-    private String gameOverMessage;
-    private boolean gameOver;
+    private boolean paused;
 
     public GameplayScene(int id, HighScoreManager highScoreManager) {
         super(id);
@@ -64,8 +64,7 @@ public class GameplayScene extends Scene {
     public void show() {
         level = new Level();
 
-        gameOverMessage = "";
-        gameOver = false;
+        paused = false;
 
         camera = new PacmanCamera((float) Display.getWidth() / (float) Display.getHeight(),
                 300, new Vector3f(level.getWidth() / 2, level.getHeight() / 2, 300),
@@ -105,10 +104,9 @@ public class GameplayScene extends Scene {
         super.update(delta);
 
         camera.update(delta);
+        input.update(delta);
 
-        if (!gameOver) {
-
-            input.update(delta);
+        if (!paused) {
             pacman.update(delta);
             snackManager.update(delta);
             ghostManager.update(delta);
@@ -136,6 +134,11 @@ public class GameplayScene extends Scene {
         ghostManager.render();
 
         renderBorder();
+
+        if (paused) {
+            dimScreen();
+        }
+
         renderHud();
 
         Screen.applyProjectionMatrix();
@@ -170,20 +173,19 @@ public class GameplayScene extends Scene {
         glEnd();
     }
 
+    private void dimScreen() {
+        Screen.applyProjectionMatrix();
+        glColor4f(0, 0, 0, 0.5f);
+        glRectf(0, 0, Display.getWidth(), Display.getHeight());
+        camera.applyProjectionMatrix();
+    }
+
     /**
      * Renders the few elements showing info to the player.
      */
     private void renderHud() {
         Screen.applyProjectionMatrix();
-
         hud.render();
-
-        // fix this to show correct message when game is over
-        int w = FontLoader.getFont("times new roman").getWidth(gameOverMessage);
-        int h = FontLoader.getFont("times new roman").getHeight(gameOverMessage);
-
-        FontLoader.renderString(gameOverMessage, (Display.getWidth() - w) / 2, (Display.getHeight() - h) / 2, "times new roman");
-
         camera.applyProjectionMatrix();
     }
 
@@ -216,6 +218,10 @@ public class GameplayScene extends Scene {
         camera.rotateRight();
     }
 
+    public void pause() {
+        paused = !paused;
+    }
+
     //=================================================================
     /*
      * SETTERS
@@ -238,16 +244,25 @@ public class GameplayScene extends Scene {
     }
 
     /**
-     * Stops the update loop and sets the message to be drawn on the screen.
+     * Shows the game over menu, and your points won't get stored in the high
+     * scores file.
      *
      * @param message
      */
-    public void setGameOver(String message) {
-        this.gameOver = true;
-        this.gameOverMessage = message;
+    public void setGameOver() {
+        this.paused = true;
         getSceneManager().setCurrentScene(SceneIDs.GAME_OVER_SCENE_ID);
+    }
+
+    /**
+     * Basically the same menu as the game over, but now your points will get
+     * stored in the high scores file.
+     */
+    public void setGameWon() {
+        this.paused = true;
         this.highScoreManager.addHighScore(new HighScore(pacman.getPoints()));
         this.highScoreManager.saveHighScore();
+        getSceneManager().setCurrentScene(SceneIDs.GAME_WON_SCENE_ID);
     }
 
     /**
@@ -259,5 +274,14 @@ public class GameplayScene extends Scene {
      */
     public void setGhostsReleaseable(boolean releaseable) {
         ghostManager.setGhostReleaseable(releaseable);
+    }
+
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
+    public boolean isPaused() {
+        return paused;
     }
 }

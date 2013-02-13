@@ -124,7 +124,6 @@ public class GhostManager extends Manager {
      */
     private void spawnGhosts() {
         for (int color = 0; color < numberOfGhosts; color++) {
-            System.out.println("Ghost color: " + color);
             Ghost ghost = new Ghost(new GhostGraphics(color), level);
             ghost.update(0);
             ghost.setReleaseable(false);
@@ -164,7 +163,7 @@ public class GhostManager extends Manager {
                 // force the ghostTimer to its maximum to make a ghost respawn directly
                 releaseTimer = releaseInterval;
             } else {
-                game.setGameOver("Game Over");
+                game.setGameOver();
             }
         }
     }

@@ -44,7 +44,6 @@ public class Hud {
         renderLives();
 
         FontLoader.renderString("Points: " + pacman.getPoints(), 10, 10, fontName);
-//        FontLoader.renderString("Lives: " + pacman.getLives(), 10, 35, "times new roman");
     }
 
     private void renderLives() {

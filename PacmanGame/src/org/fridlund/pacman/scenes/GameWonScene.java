@@ -9,22 +9,16 @@ import org.fridlund.javalabra.game.scenes.menus.Button;
 
 /**
  *
- *
  * @author Christoffer
  */
-public class GameOverScene extends MenuScene {
+public class GameWonScene extends MenuScene {
 
     private String fontName = "times30";
 
-    public GameOverScene(int id) {
-        super(id, "Game Over", "times50");
+    public GameWonScene(int id) {
+        super(id, "Victory", "times50");
     }
 
-    //=================================================================
-    /*
-     * OVERRIDDEN METHODS
-     */
-    //=================================================================
     @Override
     public void cleanUp() {
     }

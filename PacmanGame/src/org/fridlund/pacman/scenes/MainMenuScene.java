@@ -16,8 +16,6 @@ import org.fridlund.javalabra.game.scenes.menus.Button;
 public class MainMenuScene extends MenuScene {
 
     public static final String fontName = "times30";
-    private int w;
-    private int h;
 
     public MainMenuScene(int id) {
         super(id, "Main Menu", "times50");

@@ -206,7 +206,7 @@ public class SnackManager extends Manager {
      */
     private void checkVictory() {
         if (snacks.isEmpty()) {
-            game.setGameOver("You Win! Points = " + pacman.getPoints());
+            game.setGameWon();
         }
     }
 

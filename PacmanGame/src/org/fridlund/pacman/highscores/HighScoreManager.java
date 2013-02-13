@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
-import java.util.PriorityQueue;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,17 +23,16 @@ import java.util.logging.Logger;
  */
 public class HighScoreManager {
 
-    private PriorityQueue<HighScore> highScoreList;
+    private List<HighScore> highScoreList;
 
     public HighScoreManager() {
         loadHighScore();
         if (highScoreList == null) {
-            highScoreList = new PriorityQueue(5, new HighScoreComparator());
+            highScoreList = new LinkedList<>();
         }
     }
 
     public void addHighScore(HighScore highScore) {
-        System.out.println(highScoreList);
         highScoreList.add(highScore);
     }
 
@@ -63,7 +64,10 @@ public class HighScoreManager {
 
             FileInputStream fileIn = new FileInputStream("high_scores/pacman_high_score");
             ObjectInputStream in = new ObjectInputStream(fileIn);
-            highScoreList = (PriorityQueue) in.readObject();
+            highScoreList = (LinkedList) in.readObject();
+            
+            Collections.sort(highScoreList, new HighScoreComparator());
+            
             in.close();
             fileIn.close();
         } catch (ClassNotFoundException ex) {
