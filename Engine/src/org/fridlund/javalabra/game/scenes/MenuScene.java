@@ -41,7 +41,7 @@ public abstract class MenuScene extends Scene {
 
     @Override
     public void show() {
-        y = 25;
+        y = 50;
         titleY = y;
         titleW = FontLoader.getFont(titleFont).getWidth(title);
         titleX = (Display.getWidth() - titleW) / 2;
