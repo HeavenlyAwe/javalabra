@@ -38,6 +38,10 @@ public class GameplayScene extends Scene {
     private String gameOverMessage = "";
     private boolean gameOver = false;
 
+    public GameplayScene(int id) {
+        super(id);
+    }
+
     //=================================================================
     /*
      * OVERRIDDEN METHODS
@@ -55,7 +59,6 @@ public class GameplayScene extends Scene {
         camera = new PacmanCamera((float) Display.getWidth() / (float) Display.getHeight(),
                 300, new Vector3f(level.getWidth() / 2, level.getHeight() / 2, 300),
                 new Vector3f(level.getWidth() / 2, level.getHeight() / 2, 0));
-        camera.applyProjectionMatrix();
 
         pacman = new Pacman(level);
         input = new PacmanInputProfile(this, pacman, level);
@@ -64,7 +67,6 @@ public class GameplayScene extends Scene {
 
         snackManager = new SnackManager(this, pacman, level);
         ghostManager = new GhostManager(this, pacman, level, 16);
-
     }
 
     /**
@@ -113,6 +115,7 @@ public class GameplayScene extends Scene {
     public void render() {
         super.render();
 
+        camera.applyProjectionMatrix();
         camera.applyModelViewMatrix(true);
 
         level.render();
@@ -123,6 +126,8 @@ public class GameplayScene extends Scene {
 
         renderBorder();
         renderHud();
+
+        Screen.applyProjectionMatrix();
     }
 
     //=================================================================

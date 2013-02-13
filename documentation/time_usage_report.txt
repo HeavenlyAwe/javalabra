@@ -1,13 +1,20 @@
+
+===================================
+13.02.2013
+-----------------------------------
+
+15-17	- Added a scene manager, to switch between different screens and menus easier.
+	  No I could get rid of the annoying if clause in the mainmenuscene's update
+	  and render methods.
+
+
+
+
 ===================================
 12.02.2013
 -----------------------------------
 
-16-18	- Separated the lwjgl-wrapper into one project, the GameHub into a second project
-	  and Pacman into a third project. Started to find out how to load files from
-	  inside a jar file.
-18-20	- Made a lot of refactoring work, changed the build scripts to copy right files
-	  and made the Pacman project runnable without the need of the GameHub
-22-04	- Refactored some more.
+00-04	- Refactored some more.
 	- Figured out how to use the classloader to load files from the jar. Had to do 
 	  some minor changes to the TextureLoader class. Now it takes an InputStream 
 	  instead of a String path to the texture. This allows the jar to send a relative
@@ -27,7 +34,23 @@
 11.02.2013
 -----------------------------------
 
-No progress.
+16-18	- Separated the lwjgl-wrapper into one project, the GameHub into a second project
+	  and Pacman into a third project. Started to find out how to load files from
+	  inside a jar file.
+18-20	- Made a lot of refactoring work, changed the build scripts to copy right files
+	  and made the Pacman project runnable without the need of the GameHub
+22-00	- Refactored some more.
+	- Figured out how to use the classloader to load files from the jar. Had to do 
+	  some minor changes to the TextureLoader class. Now it takes an InputStream 
+	  instead of a String path to the texture. This allows the jar to send a relative
+	  path to the textureloader instead of using the TextureLoader class's own
+	  relative path.
+	- Fixed the Hud to show life icons instead of the text label.
+	- Added snacks to change the camera angle. Now camera rotates left when eating
+	  cherries and right when eating apples.
+	- Can't figure out what causes the bug, when ghosts aren't spawning inside the
+	  nest. They are logically in the nest, but their graphics are underneath it.
+	  This doesn't happen all the time either...
 
 
 

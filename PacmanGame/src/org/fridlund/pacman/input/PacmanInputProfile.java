@@ -97,11 +97,11 @@ public class PacmanInputProfile extends InputProfile {
      */
     @Override
     public void handleMouseInput(float delta) {
-        if (Mouse.isButtonDown(0)) {
-            game.rotateCameraLeft();
-        } else if (Mouse.isButtonDown(1)) {
-            game.rotateCameraRight();
-        }
+//        if (Mouse.isButtonDown(0)) {
+//            game.rotateCameraLeft();
+//        } else if (Mouse.isButtonDown(1)) {
+//            game.rotateCameraRight();
+//        }
     }
 
     @Override
@@ -119,6 +119,10 @@ public class PacmanInputProfile extends InputProfile {
         while (Keyboard.next()) {
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
                 game.superSnackEaten();
+            } else if (Keyboard.isKeyDown(Keyboard.KEY_G)) {
+                game.rotateCameraLeft();
+            } else if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
+                game.rotateCameraRight();
             }
         }
 

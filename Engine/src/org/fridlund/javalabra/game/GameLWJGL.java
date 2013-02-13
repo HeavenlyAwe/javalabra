@@ -30,33 +30,6 @@ public abstract class GameLWJGL {
         setup();
     }
 
-//    public void setupDisplay() {
-//        try {
-//            Display.setDisplayMode(new DisplayMode(800, 640));
-//            Display.setTitle(this.title);
-//            Display.create();
-//        } catch (LWJGLException ex) {
-//            Logger.getLogger(GameLWJGL.class.getName()).log(Level.SEVERE, null, ex);
-//            cleanUpGame();
-//        }
-//    }
-//
-//    public void setupLWJGL() {
-//        glMatrixMode(GL_PROJECTION);
-//        glLoadIdentity();
-//        glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
-//        glMatrixMode(GL_MODELVIEW);
-//        glLoadIdentity();
-//        glViewport(0, 0, Display.getWidth(), Display.getHeight());
-//
-//        glEnable(GL_TEXTURE_2D);
-//        glEnable(GL_TEXTURE_RECTANGLE_ARB);
-//        glEnable(GL_CULL_FACE);
-//        glCullFace(GL_BACK);
-//        glDisable(GL_DEPTH_TEST);
-//        glEnable(GL_BLEND);
-//        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    }
     public abstract void setup();
 
     private void cleanUpGame() {

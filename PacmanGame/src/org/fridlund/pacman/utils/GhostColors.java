@@ -17,6 +17,9 @@ public class GhostColors {
 
     private static Vector4f[] colors = new Vector4f[10];
 
+    /**
+     * Creates the colors if they haven't been initialized.
+     */
     private static void setup() {
         int index = 0;
 

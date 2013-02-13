@@ -13,6 +13,10 @@ import org.fridlund.javalabra.game.scenes.Scene;
  */
 public class GameOverScene extends Scene {
 
+    public GameOverScene(int id) {
+        super(id);
+    }
+
     //=================================================================
     /*
      * OVERRIDDEN METHODS

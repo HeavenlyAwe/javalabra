@@ -10,7 +10,7 @@ import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
 
 /**
- *
+ * 
  * @author Christoffer
  */
 public class SpecialSnack extends Snack {

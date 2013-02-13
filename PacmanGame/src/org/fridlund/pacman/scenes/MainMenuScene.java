@@ -18,10 +18,13 @@ import org.lwjgl.opengl.Display;
 public class MainMenuScene extends MenuScene {
 
     public static final String fontName = "Times New Roman";
-    private GameplayScene gameplay;
     private int w = 0;
     private int h = 0;
     private float y = 100;
+
+    public MainMenuScene(int id) {
+        super(id);
+    }
 
     //=================================================================
     /*
@@ -54,16 +57,13 @@ public class MainMenuScene extends MenuScene {
      */
     @Override
     public void update(float delta) {
+        super.update(delta);
 
-        if (gameplay != null) {
-            gameplay.update(delta);
-        } else {
-            for (int i = 0; i < menuItems.size(); i++) {
-                menuItems.get(i).update(delta);
-                if (menuItems.get(i) instanceof Button) {
-                    if (((Button) menuItems.get(i)).isLeftMouseDown() && menuItems.get(i).getText().equals("Start Game")) {
-                        gameplay = new GameplayScene();
-                    }
+        for (int i = 0; i < menuItems.size(); i++) {
+            menuItems.get(i).update(delta);
+            if (menuItems.get(i) instanceof Button) {
+                if (((Button) menuItems.get(i)).isLeftMouseDown() && menuItems.get(i).getText().equals("Start Game")) {
+                    getSceneManager().setCurrentScene(SceneIDs.GAMEPLAY_SCENE_ID);
                 }
             }
         }
@@ -74,13 +74,10 @@ public class MainMenuScene extends MenuScene {
      */
     @Override
     public void render() {
+        super.render();
 
-        if (gameplay != null) {
-            gameplay.render();
-        } else {
-            for (int i = 0; i < menuItems.size(); i++) {
-                menuItems.get(i).render();
-            }
+        for (int i = 0; i < menuItems.size(); i++) {
+            menuItems.get(i).render();
         }
 
     }

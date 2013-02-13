@@ -36,7 +36,7 @@ public class GhostManagerTest {
 
     @Before
     public void setUp() {
-        GameplayScene game = new GameplayScene();
+        GameplayScene game = new GameplayScene(0);
         Level level = new Level();
         Pacman pacman = new Pacman(level);
 

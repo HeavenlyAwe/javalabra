@@ -4,13 +4,13 @@
  */
 package org.fridlund.pacman.entities;
 
-import org.fridlund.javalabra.game.entities.EntityAbstract;
 import org.fridlund.javalabra.game.entities.MovableEntityAbstract;
 import org.fridlund.javalabra.game.sprites.Animation;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
 
 /**
+ * The yellow snacks that Pacman eats.
  *
  * @author Christoffer
  */
@@ -23,11 +23,7 @@ public class Snack extends MovableEntityAbstract {
     private SpecialAction specialAction;
 
     public Snack() {
-        this(new SpecialAction() {
-            @Override
-            public void execute() {
-            }
-        });
+        this(null);
     }
 
     public Snack(SpecialAction specialAction) {
@@ -35,11 +31,11 @@ public class Snack extends MovableEntityAbstract {
         this.specialAction = specialAction;
     }
 
-    public void setupAnimation() {
-        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream(texturePath)), width, width, 16, 16);
-        animation = new Animation(sheet);
-    }
-
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
     @Override
     public void setup() {
         setWidth(width);
@@ -61,7 +57,20 @@ public class Snack extends MovableEntityAbstract {
         animation.render(x, y);
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    public void setupAnimation() {
+        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream(texturePath)), width, width, 16, 16);
+        animation = new Animation(sheet);
+    }
+
     public void executeAction() {
+        if(specialAction == null){
+            return;
+        }
         specialAction.execute();
     }
 }
