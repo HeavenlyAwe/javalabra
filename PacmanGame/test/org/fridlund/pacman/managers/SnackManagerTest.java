@@ -6,6 +6,7 @@ package org.fridlund.pacman.managers;
 
 import org.fridlund.javalabra.game.Screen;
 import org.fridlund.pacman.entities.Pacman;
+import org.fridlund.pacman.highscores.HighScoreManager;
 import org.fridlund.pacman.level.Level;
 import org.fridlund.pacman.scenes.GameplayScene;
 import org.junit.AfterClass;
@@ -35,7 +36,7 @@ public class SnackManagerTest {
 
     @Before
     public void setUp() {
-        GameplayScene game = new GameplayScene(0);
+        GameplayScene game = new GameplayScene(0, new HighScoreManager());
         Level level = new Level();
         Pacman pacman = new Pacman(level);
 
@@ -46,7 +47,6 @@ public class SnackManagerTest {
     public void checkSnackManagerConstructedTest() {
         assertNotNull("SnackManager wasn't created.", sm);
     }
-
 //    @Test
 //    public void checkNoSnacksAtBeginningTest() {
 //        assertEquals("Too many snacks.", 0, sm.getSnacks().size());

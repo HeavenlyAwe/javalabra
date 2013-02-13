@@ -123,6 +123,8 @@ public class PacmanInputProfile extends InputProfile {
                 game.rotateCameraLeft();
             } else if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
                 game.rotateCameraRight();
+            } else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+                game.setGameOver("Forced Game Over");
             }
         }
 

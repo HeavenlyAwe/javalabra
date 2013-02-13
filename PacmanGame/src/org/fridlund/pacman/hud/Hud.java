@@ -19,6 +19,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class Hud {
 
+    private String fontName;
     private Level level;
     private Pacman pacman;
     private Animation lifeAnimation;
@@ -26,6 +27,8 @@ public class Hud {
     public Hud(Level level, Pacman pacman) {
         this.level = level;
         this.pacman = pacman;
+
+        this.fontName = "times30";
 
         SpriteSheet spriteSheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream("/res/images/pacman.png")), 32, 32, 256, 128);
 
@@ -40,7 +43,7 @@ public class Hud {
     public void render() {
         renderLives();
 
-        FontLoader.renderString("Points: " + pacman.getPoints(), 10, 10, "times new roman");
+        FontLoader.renderString("Points: " + pacman.getPoints(), 10, 10, fontName);
 //        FontLoader.renderString("Lives: " + pacman.getLives(), 10, 35, "times new roman");
     }
 

@@ -6,8 +6,6 @@ package org.fridlund.pacman.scenes;
 
 import org.fridlund.javalabra.game.scenes.MenuScene;
 import org.fridlund.javalabra.game.scenes.menus.Button;
-import org.fridlund.javalabra.game.utils.FontLoader;
-import org.lwjgl.opengl.Display;
 
 /**
  * Main menu, contains buttons and eventual graphics related to the menu. It's
@@ -17,13 +15,12 @@ import org.lwjgl.opengl.Display;
  */
 public class MainMenuScene extends MenuScene {
 
-    public static final String fontName = "Times New Roman";
-    private int w = 0;
-    private int h = 0;
-    private float y = 100;
+    public static final String fontName = "times30";
+    private int w;
+    private int h;
 
     public MainMenuScene(int id) {
-        super(id);
+        super(id, "Main Menu", "times50");
     }
 
     //=================================================================
@@ -38,8 +35,11 @@ public class MainMenuScene extends MenuScene {
     public void setup() {
         super.setup();
 
-        addButton("Start Game");
-        addButton("Exit");
+        y = 100;
+
+        addButton("Start Game", "times30");
+        addButton("High Scores", "times30");
+        addButton("Quit", "times30");
     }
 
     /**
@@ -64,6 +64,11 @@ public class MainMenuScene extends MenuScene {
             if (menuItems.get(i) instanceof Button) {
                 if (((Button) menuItems.get(i)).isLeftMouseDown() && menuItems.get(i).getText().equals("Start Game")) {
                     getSceneManager().setCurrentScene(SceneIDs.GAMEPLAY_SCENE_ID);
+                } else if (((Button) menuItems.get(i)).isLeftMouseDown() && menuItems.get(i).getText().equals("High Scores")) {
+                    getSceneManager().setCurrentScene(SceneIDs.HIGH_SCORES_SCENE_ID);
+                } else if (((Button) menuItems.get(i)).isLeftMouseDown() && menuItems.get(i).getText().equals("Quit")) {
+                    getSceneManager().cleanUp();
+                    System.exit(0);
                 }
             }
         }
@@ -75,32 +80,5 @@ public class MainMenuScene extends MenuScene {
     @Override
     public void render() {
         super.render();
-
-        for (int i = 0; i < menuItems.size(); i++) {
-            menuItems.get(i).render();
-        }
-
-    }
-
-    //=================================================================
-    /*
-     * PRIVATE METHODS
-     */
-    //=================================================================
-    /**
-     * Places a button in the menuItem list, and automatically calculates the
-     * next y-coordinate based on the height of this element and the previous
-     * y-coordinate.
-     *
-     * @param text
-     */
-    private void addButton(String text) {
-        w = FontLoader.getFont(fontName).getWidth(text);
-        h = FontLoader.getFont(fontName).getHeight(text);
-
-        float x = (Display.getWidth() - w) / 2;
-        y += 2 * h;
-
-        menuItems.add(new Button(text, x, y, w, h, fontName));
     }
 }

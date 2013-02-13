@@ -177,9 +177,11 @@ public class GhostManager extends Manager {
      * @param key
      */
     private void killGhost(int key) {
-        ghosts.get(key).kill();
-        pacman.addPoints(ghostKillingPoints);
-        ghostKillingPoints += 200;
+        if (!ghosts.get(key).isDead()) {
+            ghosts.get(key).kill();
+            pacman.addPoints(ghostKillingPoints);
+            ghostKillingPoints += 200;
+        }
     }
 
     //=================================================================

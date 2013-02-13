@@ -9,6 +9,8 @@ import org.fridlund.javalabra.game.scenes.Scene;
 import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.pacman.cameras.PacmanCamera;
 import org.fridlund.pacman.entities.Pacman;
+import org.fridlund.pacman.highscores.HighScore;
+import org.fridlund.pacman.highscores.HighScoreManager;
 import org.fridlund.pacman.hud.Hud;
 import org.fridlund.pacman.input.PacmanInputProfile;
 import org.fridlund.pacman.level.Level;
@@ -28,6 +30,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class GameplayScene extends Scene {
 
+    private HighScoreManager highScoreManager;
     private Hud hud;
     private PacmanCamera camera;
     private Manager snackManager;
@@ -35,11 +38,12 @@ public class GameplayScene extends Scene {
     private Level level;
     private PacmanInputProfile input;
     private Pacman pacman;
-    private String gameOverMessage = "";
-    private boolean gameOver = false;
+    private String gameOverMessage;
+    private boolean gameOver;
 
-    public GameplayScene(int id) {
+    public GameplayScene(int id, HighScoreManager highScoreManager) {
         super(id);
+        this.highScoreManager = highScoreManager;
     }
 
     //=================================================================
@@ -54,7 +58,14 @@ public class GameplayScene extends Scene {
      */
     @Override
     public void setup() {
+    }
+
+    @Override
+    public void show() {
         level = new Level();
+
+        gameOverMessage = "";
+        gameOver = false;
 
         camera = new PacmanCamera((float) Display.getWidth() / (float) Display.getHeight(),
                 300, new Vector3f(level.getWidth() / 2, level.getHeight() / 2, 300),
@@ -234,6 +245,9 @@ public class GameplayScene extends Scene {
     public void setGameOver(String message) {
         this.gameOver = true;
         this.gameOverMessage = message;
+        getSceneManager().setCurrentScene(SceneIDs.GAME_OVER_SCENE_ID);
+        this.highScoreManager.addHighScore(new HighScore(pacman.getPoints()));
+        this.highScoreManager.saveHighScore();
     }
 
     /**
