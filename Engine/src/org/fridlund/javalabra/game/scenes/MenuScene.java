@@ -6,6 +6,7 @@ package org.fridlund.javalabra.game.scenes;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.fridlund.javalabra.game.scenes.menus.Action;
 import org.fridlund.javalabra.game.scenes.menus.Button;
 import org.fridlund.javalabra.game.scenes.menus.Label;
 import org.fridlund.javalabra.game.scenes.menus.MenuItem;
@@ -66,14 +67,14 @@ public abstract class MenuScene extends Scene {
      * @param text
      * @param fontKey
      */
-    public void addButton(String text, String fontKey) {
+    public void addButton(String text, Action action, String fontKey) {
         w = FontLoader.getFont(fontKey).getWidth(text);
         h = FontLoader.getFont(fontKey).getFont().getSize();
 
         float x = (Display.getWidth() - w) / 2;
         y += 2 * h;
 
-        menuItems.add(new Button(text, x, y, w, h, fontKey));
+        menuItems.add(new Button(text, x, y, w, h, action, fontKey));
     }
 
     public void addLabel(String text, String fontKey) {

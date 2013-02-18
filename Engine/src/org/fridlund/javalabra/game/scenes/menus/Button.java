@@ -6,7 +6,7 @@ package org.fridlund.javalabra.game.scenes.menus;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import org.lwjgl.input.Mouse;
+import java.awt.event.ActionListener;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -20,52 +20,64 @@ public class Button extends MenuItem {
     private Rectangle rect;
     private float w;
     private float h;
+    private Action action;
 
-    public Button(String text, float x, float y, float w, float h, String fontName) {
+    public Button(String text, float x, float y, float w, float h, Action action, String fontName) {
         super(text, x, y, fontName);
         this.w = w;
         this.h = h;
+        this.action = action;
 
         this.rect = new Rectangle((int) (x - padding), (int) (y - padding), (int) (w + 2 * padding), (int) (h + 2 * padding));
     }
 
-    @Override
-    public void update(float delta) {
-        super.update(delta);
+    public void addAction(Action action) {
+        this.action = action;
+    }
+//    @Override
+//    public void update(float delta) {
+//        super.update(delta);
+//
+//        leftMouseClicked = false;
+//        rightMouseClicked = false;
+//
+//        Point mouseCursor = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
+//        if (rect.contains(mouseCursor)) {
+//            red = 1.0f;
+//            while (Mouse.next()) {
+//                if (Mouse.isButtonDown(0)) {
+//                    if (Mouse.getEventButtonState()) {
+//                        leftMouseClicked = true;
+//                    } else {
+//                    }
+//                } else if (Mouse.isButtonDown(1)) {
+//                    if (Mouse.getEventButtonState()) {
+//                        rightMouseClicked = true;
+//                    } else {
+//                    }
+//                }
+//            }
+//        } else {
+//            red = 0.2f;
+//        }
+//    }
+    private float red = 0.2f;
 
-        leftMouseClicked = false;
-        rightMouseClicked = false;
-
-        Point mouseCursor = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
-        if (rect.contains(mouseCursor)) {
+    public boolean isUnderMouse(int mouseX, int mouseY) {
+        Point mouseCursor = new Point(mouseX, Display.getHeight() - mouseY);
+        boolean inside = rect.contains(mouseCursor);
+        if (inside) {
             red = 1.0f;
-            while (Mouse.next()) {
-                if (Mouse.isButtonDown(0)) {
-                    if (Mouse.getEventButtonState()) {
-                        leftMouseClicked = true;
-                    } else {
-                    }
-                } else if (Mouse.isButtonDown(1)) {
-                    if (Mouse.getEventButtonState()) {
-                        rightMouseClicked = true;
-                    } else {
-                    }
-                }
-            }
         } else {
             red = 0.2f;
         }
-    }
-    private float red = 0.2f;
-    private boolean leftMouseClicked = false;
-    private boolean rightMouseClicked = false;
-
-    public boolean isLeftMouseDown() {
-        return leftMouseClicked;
+        return inside;
     }
 
-    public boolean isRightMouseDown() {
-        return rightMouseClicked;
+    public void executeAction() {
+        if (action != null) {
+            action.execute();
+        }
     }
 
     @Override
