@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.LWJGLUtil;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import static org.lwjgl.opengl.ARBTextureRectangle.GL_TEXTURE_RECTANGLE_ARB;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -72,8 +74,8 @@ public class Screen {
         }
         return false;
     }
-    
-     /**
+
+    /**
      * Loads the natives for LWJGL, from the natives folder inside the lib
      * directory. By using this method you don't have to explicitly have to
      * choose natives (because they are different for different platforms).
@@ -82,7 +84,7 @@ public class Screen {
         String lwjglPath = "org.lwjgl.librarypath";
         String userDir = System.getProperty("user.dir");
         String nativePath = "lib/natives";
-        
+
         File nativeFile = new File(new File(userDir, nativePath),
                 LWJGLUtil.getPlatformName());
 

@@ -28,7 +28,6 @@ public class FontLoader {
 
     private static void initFontLoader() {
         fonts = new HashMap<>();
-        loadFont("dialog18", "Dialog", FontStyle.PLAIN, 18);
     }
 
     public static void loadFont(String key, String fontName, FontStyle style, int size) {
@@ -53,6 +52,8 @@ public class FontLoader {
         font.addAsciiGlyphs();
         try {
             font.loadGlyphs();
+
+            System.out.println("Loaded: " + fontName);
         } catch (SlickException ex) {
             ex.printStackTrace();
         }

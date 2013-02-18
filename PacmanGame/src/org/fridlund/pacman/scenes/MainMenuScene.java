@@ -4,6 +4,7 @@
  */
 package org.fridlund.pacman.scenes;
 
+import org.fridlund.javalabra.game.GameLWJGL;
 import org.fridlund.javalabra.game.scenes.MenuScene;
 import org.fridlund.javalabra.game.scenes.menus.Action;
 import org.fridlund.pacman.input.MenuInputProfile;
@@ -16,11 +17,13 @@ import org.fridlund.pacman.input.MenuInputProfile;
  */
 public class MainMenuScene extends MenuScene {
 
+    private GameLWJGL game;
     private MenuInputProfile inputProfile;
     public static final String fontName = "times30";
 
-    public MainMenuScene(int id, MenuInputProfile inputProfile) {
+    public MainMenuScene(int id, GameLWJGL game, MenuInputProfile inputProfile) {
         super(id, "Main Menu", "times50");
+        this.game = game;
         this.inputProfile = inputProfile;
     }
 
@@ -53,8 +56,7 @@ public class MainMenuScene extends MenuScene {
         addButton("Quit", new Action() {
             @Override
             public void execute() {
-                getSceneManager().cleanUp();
-                System.exit(0);
+                game.stop();
             }
         }, "times30");
     }

@@ -48,7 +48,6 @@ public abstract class GameLWJGL {
 
     public void stop() {
         running = false;
-        cleanUpGame();
     }
 
     public void run() {

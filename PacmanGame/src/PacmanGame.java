@@ -14,8 +14,6 @@ import org.fridlund.pacman.scenes.GameplayScene;
 import org.fridlund.pacman.scenes.HighScoreScene;
 import org.fridlund.pacman.scenes.MainMenuScene;
 import org.fridlund.pacman.scenes.SceneIDs;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 
 /**
  * The extended game, this starts the main menu scene
@@ -38,6 +36,7 @@ public class PacmanGame extends GameLWJGL {
     //=================================================================
     @Override
     public void setup() {
+        FontLoader.loadFont("dialog18", "Dialog", FontLoader.FontStyle.PLAIN, 18);
         FontLoader.loadFont("times30", "Times New Roman", FontLoader.FontStyle.PLAIN, 30);
         FontLoader.loadFont("times50", "Times New Roman", FontLoader.FontStyle.BOLD, 50);
 
@@ -46,7 +45,7 @@ public class PacmanGame extends GameLWJGL {
         MenuInputProfile inputProfile = new MenuInputProfile();
 
         sceneManager = new SceneManager();
-        sceneManager.addScene(new MainMenuScene(SceneIDs.MAIN_MENU_SCENE_ID, inputProfile));
+        sceneManager.addScene(new MainMenuScene(SceneIDs.MAIN_MENU_SCENE_ID, this, inputProfile));
         sceneManager.addScene(new GameplayScene(SceneIDs.GAMEPLAY_SCENE_ID, highScoreManager));
         sceneManager.addScene(new HighScoreScene(SceneIDs.HIGH_SCORES_SCENE_ID, inputProfile, highScoreManager));
         sceneManager.addScene(new GameOverScene(SceneIDs.GAME_OVER_SCENE_ID, inputProfile));
