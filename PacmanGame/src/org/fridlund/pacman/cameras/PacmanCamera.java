@@ -127,10 +127,16 @@ public class PacmanCamera extends Camera {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     * Defines the rotation direction. Used when Pacman eats the cherries
+     */
     public void rotateLeft() {
         this.dir = RotateDirection.LEFT;
     }
 
+    /**
+     * Eefines the rotation direction. Used when Pacman eats the apple.
+     */
     public void rotateRight() {
         this.dir = RotateDirection.RIGHT;
     }

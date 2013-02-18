@@ -28,6 +28,8 @@ public class PacmanInputProfile extends InputProfile {
     private float speed;
     private float dx;
     private float dy;
+    private String controllerComponent;
+    private boolean released;
 
     /*
      * Buttons for use when moving around in the world
@@ -38,11 +40,13 @@ public class PacmanInputProfile extends InputProfile {
     private int right = Keyboard.KEY_D;
 
     public PacmanInputProfile(GameplayScene game, Pacman pacman, Level level) {
+        super();
+
         this.game = game;
         this.pacman = pacman;
         this.level = level;
+        this.released = true;
 
-        this.controller = null;
         this.speed = 0.1f;
 
         this.dx = 0;
@@ -208,23 +212,60 @@ public class PacmanInputProfile extends InputProfile {
      */
     private void selectControllerAction(float delta) {
         for (Component c : controller.getComponents()) {
-            switch (c.getName()) {
-                case "Y Axis":
-                    if (c.getPollData() > 0.1f) {
-                        pacman.setDY(speed * c.getPollData() * delta);
-                        dy = speed * c.getPollData() * delta;
-                    } else if (c.getPollData() < -0.1f) {
-                        dy = speed * c.getPollData() * delta;
-                    }
-                    break;
-                case "X Axis":
-                    if (c.getPollData() > 0.5f) {
-                        dx = speed * delta;
-                    } else if (c.getPollData() < -0.5f) {
-                        dx = speed * delta;
-                    }
-                    break;
+
+            controllerComponent = c.getName();
+
+            if (controllerComponent.equalsIgnoreCase("Y Axis")) {
+                if (c.getPollData() > 0.2f) {
+                    dy = -speed * delta;
+                } else if (c.getPollData() < -0.2f) {
+                    dy = speed * delta;
+                }
+                pacman.setDY(dy);
+            } else if (controllerComponent.equalsIgnoreCase("X Axis")) {
+                if (c.getPollData() > 0.2f) {
+                    dx = speed * delta;
+                } else if (c.getPollData() < -0.2f) {
+                    dx = -speed * delta;
+                }
+                pacman.setDX(dx);
+            } else if (controllerComponent.equalsIgnoreCase("Button 5")) {
+                if (c.getPollData() == 1 && released) {
+                    game.toggleDebug();
+                    released = false;
+                }
+                if (c.getPollData() == 0) {
+                    released = true;
+                }
             }
+
+            if (game.isDebug()) {
+                switch (c.getName()) {
+                    case "Z Axis":
+                        if (c.getPollData() > 0.5f) {
+                            game.rotateCameraLeft();
+                        } else if (c.getPollData() < -0.5f) {
+                            game.rotateCameraRight();
+                        }
+                        break;
+                    case "Button 0":
+                        if (c.getPollData() == 1) {
+                            game.superSnackEaten();
+                        }
+                        break;
+                    case "Button 6":
+                        if (c.getPollData() == 1) {
+                            game.setGameOver();
+                        }
+                        break;
+                    case "Button 7":
+                        if (c.getPollData() == 1) {
+                            game.setGameWon();
+                        }
+                        break;
+                }
+            }
+
         }
     }
 }

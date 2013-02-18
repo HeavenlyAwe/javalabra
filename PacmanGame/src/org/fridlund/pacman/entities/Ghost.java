@@ -57,6 +57,11 @@ public class Ghost extends MovableEntityAbstract {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     * Assigns the width and the hight of the ghost based on the graphics
+     * loaded. Here is also the tiles allowed for the ghosts to walk on are
+     * defined.
+     */
     @Override
     public void setup() {
 
@@ -101,6 +106,11 @@ public class Ghost extends MovableEntityAbstract {
      * PRIVATE METHODS
      */
     //=================================================================
+    /**
+     * Places the ghost in the nest.
+     *
+     * @param ghostColorIndex
+     */
     private void spawn(int ghostColorIndex) {
         // spawning the ghosts inside the "ghost area" offseted by two tiles to the right for each color.
         float spawnX = 14 * level.getTileWidth() + (ghostColorIndex % 4) * 2 * level.getTileWidth();
@@ -108,6 +118,11 @@ public class Ghost extends MovableEntityAbstract {
         setPosition(spawnX, spawnY);
     }
 
+    /**
+     * Moves the ghost up and down inside the nest.
+     *
+     * @param delta
+     */
     private void moveUpDown(float delta) {
         dy = moveUpDownDirection * speed * delta;
         if (level.walkableTile(this, 0, dy, allowedTiles)) {
@@ -117,6 +132,12 @@ public class Ghost extends MovableEntityAbstract {
         }
     }
 
+    /**
+     * This method is used to move the ghost outside the nest, when it is
+     * allowed to move outside.
+     *
+     * @param delta
+     */
     private void getOutOfNest(float delta) {
         setInvincible();
         switch (direction) {
@@ -134,6 +155,8 @@ public class Ghost extends MovableEntityAbstract {
                 break;
         }
 
+        // Makes the ghost go to the center of the nest before it starts to
+        // move out. The boundaries are checked against a padding of one pixel.
         if (getX() != 17 * level.getTileWidth()) {
             if (Math.round(getX()) < 17 * level.getTileWidth() - 1f) {
                 dx = speed * delta;
@@ -160,11 +183,18 @@ public class Ghost extends MovableEntityAbstract {
         }
     }
 
+    /**
+     * When the ghost is outside the nest, the ghosts position is updated in
+     * this method.
+     *
+     * @param delta
+     */
     private void updateDirection(float delta) {
 
         dx = 0;
         dy = 0;
 
+        // choose the direction-specific-animation, based on the direction the ghost is moving.
         switch (direction) {
             case UP:
                 dy = speed * delta;
@@ -184,8 +214,10 @@ public class Ghost extends MovableEntityAbstract {
                 break;
         }
 
+        // set the color to the default for this specific ghost.
         ghost.setRegularColor();
 
+        // reset the color based on the current animation
         if (!this.isInvincible()) {
             ghost.setAnimation("killable");
             ghost.setKillableColor();
@@ -195,15 +227,23 @@ public class Ghost extends MovableEntityAbstract {
             return;
         }
 
+        // if the next tile isn't movable, find a new direction
         if (!level.walkableTile(this, dx, dy, this.allowedTiles)) {
             randomizeDirection();
         }
 
+        // if the next tile is walkable, use the move method.
         if (level.walkableTile(this, dx, dy, this.allowedTiles)) {
             this.move(dx, dy);
         }
     }
 
+    /**
+     * Activates the blinking on the ghost. When the warning timer is full it
+     * changes between white and the killable color.
+     *
+     * @param delta
+     */
     private void warningEffect(float delta) {
         if (this.isWarning()) {
             warningTimer += delta;
@@ -216,17 +256,19 @@ public class Ghost extends MovableEntityAbstract {
             if (warningTimer >= 300) {
                 warningTimer = 0;
             }
-            // ghost.setWarning(true);
-        } else {
-            // ghost.setWarning(false);
         }
     }
 
+    /**
+     * Controls the state of the ghost. If it is dead it'll transport the ghost
+     * back to the nest.
+     *
+     * @param delta
+     * @return
+     */
     private boolean checkDead(float delta) {
         if (this.isDead()) {
             ghost.setAnimation("killed");
-
-            //ghost.setWarning(false);
 
             // using % 4 to get it at the four first ghost's locations. Prevents them from spawning outside the nest to the right.
             dx = (int) Math.round(16 * level.getTileWidth() + (ghost.getGhostColorIndex() % 4) * level.getTileWidth() - this.getX());
@@ -238,14 +280,17 @@ public class Ghost extends MovableEntityAbstract {
                 return true;
             }
             float length = (float) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-            dx = dx / length * delta;
-            dy = dy / length * delta;
+            dx = dx / length * 0.5f * delta;
+            dy = dy / length * 0.5f * delta;
             this.move(dx, dy);
             return true;
         }
         return false;
     }
 
+    /**
+     * If it can't go right it will go left.
+     */
     private void tryRightDirection() {
         if (level.walkableTile(this, this.getWidth() / 2, 0, this.allowedTiles)) {
             direction = Direction.RIGHT;
@@ -254,6 +299,9 @@ public class Ghost extends MovableEntityAbstract {
         }
     }
 
+    /**
+     * If it cant go left it will go right.
+     */
     private void tryLeftDirection() {
         if (level.walkableTile(this, -this.getHeight() / 2, 0, this.allowedTiles)) {
             direction = Direction.LEFT;
@@ -262,6 +310,9 @@ public class Ghost extends MovableEntityAbstract {
         }
     }
 
+    /**
+     * If it cant go up it will go down.
+     */
     private void tryUpDirection() {
         if (level.walkableTile(this, 0, this.getHeight() / 2, this.allowedTiles)) {
             direction = Direction.UP;
@@ -270,6 +321,9 @@ public class Ghost extends MovableEntityAbstract {
         }
     }
 
+    /**
+     * If it cant go down it will go up.
+     */
     private void tryDownDirection() {
         if (level.walkableTile(this, 0, -this.getHeight() / 2, this.allowedTiles)) {
             direction = Direction.DOWN;
@@ -278,6 +332,9 @@ public class Ghost extends MovableEntityAbstract {
         }
     }
 
+    /**
+     * Chooses one of three other directions (then it already have) randomly.
+     */
     private void randomizeDirection() {
 
         if (direction == Direction.UP) {
@@ -308,6 +365,10 @@ public class Ghost extends MovableEntityAbstract {
 
     }
 
+    /**
+     * Sets <br> <b>outOfNest</b> flag to <i>false</i> <br> <b>dead</b> flag to
+     * <i>false</i> <br> and makes the ghost invincible again.
+     */
     private void setInNest() {
         outOfNest = false;
         this.dead = false;

@@ -7,6 +7,7 @@ import org.fridlund.javalabra.game.GameLWJGL;
 import org.fridlund.javalabra.game.scenes.SceneManager;
 import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.pacman.highscores.HighScoreManager;
+import org.fridlund.pacman.input.MenuInputProfile;
 import org.fridlund.pacman.scenes.GameOverScene;
 import org.fridlund.pacman.scenes.GameWonScene;
 import org.fridlund.pacman.scenes.GameplayScene;
@@ -42,12 +43,14 @@ public class PacmanGame extends GameLWJGL {
 
         highScoreManager = new HighScoreManager();
 
+        MenuInputProfile inputProfile = new MenuInputProfile();
+
         sceneManager = new SceneManager();
-        sceneManager.addScene(new MainMenuScene(SceneIDs.MAIN_MENU_SCENE_ID));
+        sceneManager.addScene(new MainMenuScene(SceneIDs.MAIN_MENU_SCENE_ID, inputProfile));
         sceneManager.addScene(new GameplayScene(SceneIDs.GAMEPLAY_SCENE_ID, highScoreManager));
-        sceneManager.addScene(new HighScoreScene(SceneIDs.HIGH_SCORES_SCENE_ID, highScoreManager));
-        sceneManager.addScene(new GameOverScene(SceneIDs.GAME_OVER_SCENE_ID));
-        sceneManager.addScene(new GameWonScene(SceneIDs.GAME_WON_SCENE_ID));
+        sceneManager.addScene(new HighScoreScene(SceneIDs.HIGH_SCORES_SCENE_ID, inputProfile, highScoreManager));
+        sceneManager.addScene(new GameOverScene(SceneIDs.GAME_OVER_SCENE_ID, inputProfile));
+        sceneManager.addScene(new GameWonScene(SceneIDs.GAME_WON_SCENE_ID, inputProfile));
 
         sceneManager.setCurrentScene(0);
     }
@@ -63,10 +66,10 @@ public class PacmanGame extends GameLWJGL {
         sceneManager.update(delta);
     }
 
-    @Override
-    public boolean gameLoopRestrictions() {
-        return !Display.isActive() || !Mouse.isInsideWindow();
-    }
+//    @Override
+//    public boolean gameLoopRestrictions() {
+//        return !Display.isActive() || !Mouse.isInsideWindow();
+//    }
 
     @Override
     public void render() {

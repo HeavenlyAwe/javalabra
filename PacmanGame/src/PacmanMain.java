@@ -11,6 +11,11 @@ import org.fridlund.javalabra.game.Screen;
  */
 public class PacmanMain {
 
+    /**
+     * Starts a new thread with the pacman game
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         Screen.setupNativesLWJGL();
         new Thread() {

@@ -7,9 +7,11 @@ package org.fridlund.pacman.scenes;
 import java.util.Collection;
 import java.util.Iterator;
 import org.fridlund.javalabra.game.scenes.MenuScene;
+import org.fridlund.javalabra.game.scenes.menus.Action;
 import org.fridlund.javalabra.game.scenes.menus.Button;
 import org.fridlund.pacman.highscores.HighScore;
 import org.fridlund.pacman.highscores.HighScoreManager;
+import org.fridlund.pacman.input.MenuInputProfile;
 
 /**
  *
@@ -17,11 +19,13 @@ import org.fridlund.pacman.highscores.HighScoreManager;
  */
 public class HighScoreScene extends MenuScene {
 
+    private MenuInputProfile inputProfile;
     private HighScoreManager highScoreManager;
     private String fontName = "times30";
 
-    public HighScoreScene(int id, HighScoreManager highScoreManager) {
+    public HighScoreScene(int id, MenuInputProfile inputProfile, HighScoreManager highScoreManager) {
         super(id, "High Scores", "times50");
+        this.inputProfile = inputProfile;
         this.highScoreManager = highScoreManager;
     }
 
@@ -53,7 +57,12 @@ public class HighScoreScene extends MenuScene {
         }
 
         y += 50;
-        addButton("Back", fontName);
+        addButton("Back", new Action() {
+            @Override
+            public void execute() {
+                getSceneManager().setCurrentScene(SceneIDs.MAIN_MENU_SCENE_ID);
+            }
+        }, fontName);
     }
 
     @Override
@@ -62,13 +71,7 @@ public class HighScoreScene extends MenuScene {
 
     @Override
     public void update(float delta) {
-        for (int i = 0; i < menuItems.size(); i++) {
-            menuItems.get(i).update(delta);
-            if (menuItems.get(i) instanceof Button) {
-                if (((Button) menuItems.get(i)).isLeftMouseDown() && menuItems.get(i).getText().equals("Back")) {
-                    getSceneManager().setCurrentScene(SceneIDs.MAIN_MENU_SCENE_ID);
-                }
-            }
-        }
+        inputProfile.setMenuItems(menuItems);
+        inputProfile.update(delta);
     }
 }

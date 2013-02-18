@@ -5,7 +5,8 @@
 package org.fridlund.pacman.scenes;
 
 import org.fridlund.javalabra.game.scenes.MenuScene;
-import org.fridlund.javalabra.game.scenes.menus.Button;
+import org.fridlund.javalabra.game.scenes.menus.Action;
+import org.fridlund.pacman.input.MenuInputProfile;
 
 /**
  * Main menu, contains buttons and eventual graphics related to the menu. It's
@@ -15,10 +16,12 @@ import org.fridlund.javalabra.game.scenes.menus.Button;
  */
 public class MainMenuScene extends MenuScene {
 
+    private MenuInputProfile inputProfile;
     public static final String fontName = "times30";
 
-    public MainMenuScene(int id) {
+    public MainMenuScene(int id, MenuInputProfile inputProfile) {
         super(id, "Main Menu", "times50");
+        this.inputProfile = inputProfile;
     }
 
     //=================================================================
@@ -35,9 +38,25 @@ public class MainMenuScene extends MenuScene {
 
         y = 100;
 
-        addButton("Start Game", "times30");
-        addButton("High Scores", "times30");
-        addButton("Quit", "times30");
+        addButton("Start Game", new Action() {
+            @Override
+            public void execute() {
+                getSceneManager().setCurrentScene(SceneIDs.GAMEPLAY_SCENE_ID);
+            }
+        }, "times30");
+        addButton("High Scores", new Action() {
+            @Override
+            public void execute() {
+                getSceneManager().setCurrentScene(SceneIDs.HIGH_SCORES_SCENE_ID);
+            }
+        }, "times30");
+        addButton("Quit", new Action() {
+            @Override
+            public void execute() {
+                getSceneManager().cleanUp();
+                System.exit(0);
+            }
+        }, "times30");
     }
 
     /**
@@ -57,19 +76,8 @@ public class MainMenuScene extends MenuScene {
     public void update(float delta) {
         super.update(delta);
 
-        for (int i = 0; i < menuItems.size(); i++) {
-            menuItems.get(i).update(delta);
-            if (menuItems.get(i) instanceof Button) {
-                if (((Button) menuItems.get(i)).isLeftMouseDown() && menuItems.get(i).getText().equals("Start Game")) {
-                    getSceneManager().setCurrentScene(SceneIDs.GAMEPLAY_SCENE_ID);
-                } else if (((Button) menuItems.get(i)).isLeftMouseDown() && menuItems.get(i).getText().equals("High Scores")) {
-                    getSceneManager().setCurrentScene(SceneIDs.HIGH_SCORES_SCENE_ID);
-                } else if (((Button) menuItems.get(i)).isLeftMouseDown() && menuItems.get(i).getText().equals("Quit")) {
-                    getSceneManager().cleanUp();
-                    System.exit(0);
-                }
-            }
-        }
+        inputProfile.setMenuItems(menuItems);
+        inputProfile.update(delta);
     }
 
     /**
