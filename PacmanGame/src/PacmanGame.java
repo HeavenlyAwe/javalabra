@@ -36,7 +36,6 @@ public class PacmanGame extends Game {
     //=================================================================
     @Override
     public void setup() {
-        FontLoader.loadFont("dialog18", "Dialog", FontLoader.FontStyle.PLAIN, 18);
         FontLoader.loadFont("times30", "Times New Roman", FontLoader.FontStyle.PLAIN, 30);
         FontLoader.loadFont("times50", "Times New Roman", FontLoader.FontStyle.BOLD, 50);
 
@@ -56,6 +55,7 @@ public class PacmanGame extends Game {
 
     @Override
     public void cleanUp() {
+        FontLoader.cleanUp();
         sceneManager.cleanUp();
     }
 
@@ -69,7 +69,6 @@ public class PacmanGame extends Game {
 //    public boolean gameLoopRestrictions() {
 //        return !Display.isActive() || !Mouse.isInsideWindow();
 //    }
-
     @Override
     public void render() {
         super.render();

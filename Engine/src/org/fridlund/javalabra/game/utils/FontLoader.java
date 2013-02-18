@@ -28,6 +28,12 @@ public class FontLoader {
 
     private static void initFontLoader() {
         fonts = new HashMap<>();
+        loadFont("dialog18", "Dialog", FontStyle.PLAIN, 18);
+    }
+
+    public static void cleanUp() {
+        fonts.clear();
+        fonts = null;
     }
 
     public static void loadFont(String key, String fontName, FontStyle style, int size) {
