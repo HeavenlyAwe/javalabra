@@ -1,3 +1,14 @@
+===================================
+18.02.2013
+-----------------------------------
+
+01-04	- Added support for Xbox360 controller.
+	- Changed the menu systems to use an action interface instead of clicking buttons
+	  through their names.
+	- Buttons only knows when the cursor is inside them now.
+	- Move cursor with hand controller when using that.
+
+
 
 ===================================
 14.02.2013
