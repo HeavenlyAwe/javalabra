@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.fridlund.javalabra.game.GameLWJGL;
+import org.fridlund.javalabra.game.Game;
 
 /**
  * Shows a list of all games in the game folder. Choose one of the games through
@@ -24,7 +24,7 @@ import org.fridlund.javalabra.game.GameLWJGL;
  */
 public class GameHub {
 
-    private static Map<String, GameLWJGL> games;
+    private static Map<String, Game> games;
 
     public GameHub() {
         games = new HashMap<>();
@@ -63,7 +63,7 @@ public class GameHub {
 
                 Class cls = cl.loadClass(dir.getName());
 
-                GameLWJGL game = (GameLWJGL) cls.newInstance();
+                Game game = (Game) cls.newInstance();
                 games.put(game.getTitle(), game);
 
             } catch (InstantiationException ex) {

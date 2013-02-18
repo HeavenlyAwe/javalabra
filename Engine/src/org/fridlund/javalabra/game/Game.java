@@ -12,12 +12,12 @@ import static org.lwjgl.opengl.GL11.*;
  *
  * @author Christoffer
  */
-public abstract class GameLWJGL {
+public abstract class Game {
 
     private String title;
     private boolean running;
 
-    public GameLWJGL(String title) {
+    public Game(String title) {
         this.title = title;
     }
 

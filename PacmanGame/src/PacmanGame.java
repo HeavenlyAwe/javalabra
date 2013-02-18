@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-import org.fridlund.javalabra.game.GameLWJGL;
+import org.fridlund.javalabra.game.Game;
 import org.fridlund.javalabra.game.scenes.SceneManager;
 import org.fridlund.javalabra.game.utils.FontLoader;
 import org.fridlund.pacman.highscores.HighScoreManager;
@@ -20,7 +20,7 @@ import org.fridlund.pacman.scenes.SceneIDs;
  *
  * @author Christoffer
  */
-public class PacmanGame extends GameLWJGL {
+public class PacmanGame extends Game {
 
     private HighScoreManager highScoreManager;
     private SceneManager sceneManager;
