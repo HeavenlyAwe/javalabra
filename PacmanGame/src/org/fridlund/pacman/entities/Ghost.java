@@ -11,23 +11,27 @@ import org.fridlund.pacman.level.Level;
 import org.lwjgl.util.vector.Vector4f;
 
 /**
- * Simple ghost AI
+ * Simple ghost AI, Chooses a random direction of the ones accessible (except
+ * the one from it came), when it collides with a wall.
  *
  * @author Christoffer
  */
 public class Ghost extends MovableEntityAbstract {
 
-    private GhostGraphics ghost;
+    private GhostGraphics ghost;                // Graphics instance, can use the same graphics for other kinds of ghost AIs
     private Level level;
-    private Direction direction;
+    private Direction direction;                // Defines the direction for the graphics.
     private Random random;
     private float speed;
+    private int moveUpDownDirection;            // Used when the Ghost bounces inside the nest.
+    protected ArrayList<Integer> allowedTiles;  // The tiles that ghosts can walk on.
+    private float warningTimer;
+    /*
+     * Boolean flags defining different behaviour.
+     */
     private boolean outOfNest;
-    private int moveUpDownDirection;
-    protected ArrayList<Integer> allowedTiles;
     private boolean isInvincible;
     private boolean isWarning;
-    private float warningTimer;
     private boolean dead;
     private boolean releaseable;
 

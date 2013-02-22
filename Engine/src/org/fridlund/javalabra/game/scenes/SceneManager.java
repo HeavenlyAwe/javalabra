@@ -21,6 +21,24 @@ public class SceneManager {
         scenes = new HashMap<>();
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    /**
+     * Clears the Scene map.
+     */
+    public void cleanUp() {
+        scenes.clear();
+    }
+
+    /**
+     * Adds a new Scene to the map. You can't use same ID in two scenes. Check
+     * the SceneIDs class for currently usable IDs.
+     *
+     * @param scene
+     */
     public void addScene(Scene scene) {
         if (scenes.containsKey(scene.getID())) {
             System.out.println("ID already in use!");
@@ -31,13 +49,14 @@ public class SceneManager {
         scenes.put(scene.getID(), scene);
     }
 
+    /**
+     * Removes the Scene attached to the id.
+     *
+     * @param id
+     */
     public void removeScene(int id) {
         scenes.get(id).cleanUp();
         scenes.remove(id);
-    }
-
-    public void cleanUp() {
-        scenes.clear();
     }
 
     public void update(float delta) {
@@ -48,6 +67,11 @@ public class SceneManager {
         scenes.get(currentSceneID).render();
     }
 
+    //=================================================================
+    /*
+     * SETTERS
+     */
+    //=================================================================
     /**
      * Calls the previous scenes disable method and activates the new scene
      * connected to that specific id and calls the new scene's show method.

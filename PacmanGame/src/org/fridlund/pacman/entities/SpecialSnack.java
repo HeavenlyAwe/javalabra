@@ -10,7 +10,9 @@ import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
 
 /**
- * 
+ * A place holder for the special action command. When the SpecialSnack's
+ * execute command is called, it'll execute the interfaces execute method.
+ *
  * @author Christoffer
  */
 public class SpecialSnack extends Snack {
@@ -31,13 +33,24 @@ public class SpecialSnack extends Snack {
         animation = new Animation(sheet);
     }
 
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
     /**
-     * Overriding this method to get rid of the original loading method.
+     * This method is overridden with an empty one, to disable the default
+     * loading.
      */
     @Override
     public void setupAnimation() {
     }
 
+    /**
+     * Randomizes a direction for the special snack.
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         timer += delta;
@@ -53,6 +66,16 @@ public class SpecialSnack extends Snack {
         }
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
     public float getTimer() {
         return timer;
     }

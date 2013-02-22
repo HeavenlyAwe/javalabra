@@ -5,14 +5,10 @@
 package org.fridlund.javalabra.game;
 
 import java.io.File;
-import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.LWJGLUtil;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import static org.lwjgl.opengl.ARBTextureRectangle.GL_TEXTURE_RECTANGLE_ARB;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -41,10 +37,18 @@ public class Screen {
         }
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
     public static void cleanUp() {
         Display.destroy();
     }
 
+    /**
+     * Sets the ortographical projection matrix, for rendering in screen space.
+     */
     public static void applyProjectionMatrix() {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
@@ -53,19 +57,25 @@ public class Screen {
         glLoadIdentity();
     }
 
+    /**
+     * Setup the OpenGL, texture2D, depth test etc.
+     */
     public static void setupLWJGL() {
         applyProjectionMatrix();
         glViewport(0, 0, Display.getWidth(), Display.getHeight());
 
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_TEXTURE_RECTANGLE_ARB);
-//        glEnable(GL_CULL_FACE);
-//        glCullFace(GL_BACK);
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
+    /**
+     * Check if the window is moved.
+     *
+     * @return
+     */
     public static boolean isMoved() {
         if (lastX != Display.getX() || lastY != Display.getY()) {
             lastX = Display.getX();

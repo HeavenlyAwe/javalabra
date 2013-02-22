@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 
 /**
+ * The graphics for the GameHub
  *
  * @author Christoffer
  */

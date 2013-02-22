@@ -24,15 +24,18 @@ import org.fridlund.pacman.scenes.GameplayScene;
  */
 public class SnackManager extends Manager {
 
-    private List<Snack> snacks;            // list of all snacks in the world
-    private float superSnackTimerMax;       // for how long time will Pacman be invincible when eating a SuperSnack
-    private float superSnackTimer;          // how long remaining of the super-ability
-    private boolean superSnackEaten;        // checks if a SuperSnack has been eaten
-    private boolean superSnackWarningSent;  // checks if the ghosts are soon dangerous warning has been set
+    private List<Snack> snacks;                 // list of all snacks in the world
+    private float superSnackTimerMax;           // for how long time will Pacman be invincible when eating a SuperSnack
+    private float superSnackTimer;              // how long remaining of the super-ability
+    private boolean superSnackEaten;            // checks if a SuperSnack has been eaten
+    private boolean superSnackWarningSent;      // checks if the ghosts are soon dangerous warning has been set
+    /*
+     * Action listeners for the different SpecialSnacks used in the game
+     */
     private SpecialAction eatSuperSnackAction;
     private SpecialAction eatCherryAction;
     private SpecialAction eatAppleAction;
-    private ArrayList<Integer> allowedTiles;
+    private ArrayList<Integer> allowedTiles;    // This is basically the same as Pacman.allowedTiles
     private Random random;
 
     /**

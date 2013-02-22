@@ -21,6 +21,16 @@ public class SuperSnack extends Snack {
         super(specialAction);
     }
 
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
+    /**
+     * Assigns the image for the super snack. This is overridden to change the
+     * default image used by the regular snack. Kind of a ugly hack, but what
+     * can you do!
+     */
     @Override
     public void setupAnimation() {
         InputStream in = getClass().getResourceAsStream(texturePath);

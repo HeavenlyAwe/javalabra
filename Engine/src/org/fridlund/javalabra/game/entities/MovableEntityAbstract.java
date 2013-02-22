@@ -5,6 +5,8 @@
 package org.fridlund.javalabra.game.entities;
 
 /**
+ * Simple abstract implementation of the MovableEntity interface and the
+ * abstract implementation of the Entity.
  *
  * @author Christoffer
  */
@@ -25,6 +27,11 @@ public abstract class MovableEntityAbstract extends EntityAbstract implements Mo
         dy = 0.0f;
     }
 
+    //=================================================================
+    /*
+     * OVERRIDDE METHODS
+     */
+    //=================================================================
     @Override
     public void move(float dx, float dy) {
         this.dx = dx;
@@ -34,19 +41,29 @@ public abstract class MovableEntityAbstract extends EntityAbstract implements Mo
         this.setY(y + dy);
     }
 
+    //=================================================================
+    /*
+     * SETTERS
+     */
+    //=================================================================
     @Override
     public void setDX(float dx) {
         this.dx = dx;
     }
 
     @Override
-    public float getDX() {
-        return dx;
-    }
-
-    @Override
     public void setDY(float dy) {
         this.dy = dy;
+    }
+
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
+    @Override
+    public float getDX() {
+        return dx;
     }
 
     @Override

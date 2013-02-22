@@ -12,7 +12,7 @@ import org.fridlund.javalabra.game.Screen;
 public class PacmanMain {
 
     /**
-     * Starts a new thread with the pacman game
+     * Starts a new thread with the Pacman game. Used when not running from the GameHub
      *
      * @param args
      */

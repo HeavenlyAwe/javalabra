@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * A manager to save and load the serialized High Scores.
  *
  * @author Christoffer
  */
@@ -32,10 +33,24 @@ public class HighScoreManager {
         }
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    /**
+     * Adds a new high score to the list
+     *
+     * @param highScore
+     */
     public void addHighScore(HighScore highScore) {
         highScoreList.add(highScore);
     }
 
+    /**
+     * Saves the serializable list to the pacman_high_score file inside the
+     * high_scores folder.
+     */
     public void saveHighScore() {
         try {
             File highScoreFolder = new File("high_scores");
@@ -54,6 +69,11 @@ public class HighScoreManager {
         }
     }
 
+    /**
+     * loads the pacman_high_score file from the high_scores folder. If the
+     * folder or the file doesn't exist the method returns and prompts a message
+     * of "No high scores saved yet".
+     */
     public void loadHighScore() {
         try {
             File highScoreFolder = new File("high_scores/pacman_high_score");
@@ -65,9 +85,9 @@ public class HighScoreManager {
             FileInputStream fileIn = new FileInputStream("high_scores/pacman_high_score");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             highScoreList = (LinkedList) in.readObject();
-            
+
             Collections.sort(highScoreList, new HighScoreComparator());
-            
+
             in.close();
             fileIn.close();
         } catch (ClassNotFoundException ex) {
@@ -77,6 +97,11 @@ public class HighScoreManager {
         }
     }
 
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
     public Collection getHighScoreList() {
         return highScoreList;
     }

@@ -22,18 +22,22 @@ import org.lwjgl.util.vector.Vector4f;
 public class Pacman extends MovableEntityAbstract {
 
     private static String texturePath = "/res/images/pacman.png";
-    private Map<String, Animation> animations;
-    private Map<String, Animation> eyeAnimations;
-    private Animation animation;
-    private Animation eyeAnimation;
-    private Level level;
-    private ArrayList<Integer> allowedTiles;
+    private Map<String, Animation> animations;          // Map containing the body animations
+    private Map<String, Animation> eyeAnimations;       // Map containing the eye animations
+    private Animation animation;                        // Current body animation
+    private Animation eyeAnimation;                     // Current eye animation
+    private Level level;                                // Current level
+    private ArrayList<Integer> allowedTiles;            // The tiles that Pacman is allowed to walk on
+    /*
+     * Stats
+     */
     private int points;
     private int maxLives;
     private int lives;
+    private boolean angry = false;
     private boolean immortal = false;
-    private float immortalTimerMax = 3000;
-    private float immortalTimer = 0;
+    private float immortalTimerMax = 3000;              // For how long should Pacman be immortal after
+    private float immortalTimer = 0;                    // he's become immortal
     /*
      * Colors for making pacman yellow (and transparent when immortal).
      */
@@ -62,6 +66,10 @@ public class Pacman extends MovableEntityAbstract {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     * Creates the body and eye animation pairs. Assigns the current animation
+     * to right animation as default
+     */
     @Override
     public void setup() {
 
@@ -105,6 +113,13 @@ public class Pacman extends MovableEntityAbstract {
         }
     }
 
+    /**
+     * Calculates the immortal timer, based on the delta time accumulated
+     * through updates. Makes Pacman flash between transparent and yellow when
+     * he's immortal. Otherwise he's always yellow.
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
 
@@ -136,6 +151,13 @@ public class Pacman extends MovableEntityAbstract {
         eyeAnimation.render(x, y);
     }
 
+    /**
+     * Calls the super.move(dx, 0) and super.move(0, dy) after each other, to
+     * stop Pacman from getting stuck, when trying to enter a side corridor.
+     *
+     * @param dx
+     * @param dy
+     */
     @Override
     public void move(float dx, float dy) {
         if (level.walkableTile(this, dx, 0, allowedTiles)) {
@@ -151,6 +173,19 @@ public class Pacman extends MovableEntityAbstract {
      * PRIVATE METHODS
      */
     //=================================================================
+    /**
+     * Creates a body animation based on the indices the sprite sheet is
+     * accessed with. You should always call the
+     *
+     * @createEyeAnimation() method at the same time, to avoid
+     * NullPointerExceptions
+     *
+     * @param spriteX
+     * @param spriteY
+     * @param dt
+     * @param sheet
+     * @return
+     */
     private Animation createAnimation(int spriteX, int spriteY, int dt, SpriteSheet sheet) {
         Animation anim = new Animation(sheet);
 
@@ -164,6 +199,20 @@ public class Pacman extends MovableEntityAbstract {
         return anim;
     }
 
+    /**
+     * Creates an eye animation based on the indices the sprite sheet is
+     * accessed with. You should always call the
+     *
+     * @createAnimation() method at the same time, to avoid
+     * NullPointerExceptions
+     *
+     * @param key
+     * @param spriteX
+     * @param spriteAngryX
+     * @param spriteY
+     * @param dt
+     * @param sheet
+     */
     private void createEyeAnimation(String key, int spriteX, int spriteAngryX, int spriteY, int dt, SpriteSheet sheet) {
         Animation anim = new Animation(sheet);
         anim.addFrame(spriteX, spriteY, dt);
@@ -180,10 +229,20 @@ public class Pacman extends MovableEntityAbstract {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     * Spawns Pacman at tile (17, 1).
+     */
     public void spawn() {
         this.spawn(17, 1);
     }
 
+    /**
+     * Spawns Pacman at tile (tileX, tileY). Remember that Pacman is two tiles
+     * wide and high.
+     *
+     * @param tileX
+     * @param tileY
+     */
     public void spawn(int tileX, int tileY) {
         setPosition(tileX * level.getTileWidth(), tileY * level.getTileHeight());
     }
@@ -223,8 +282,13 @@ public class Pacman extends MovableEntityAbstract {
     public void setImmortal() {
         this.immortal = true;
     }
-    private boolean angry = false;
 
+    /**
+     * Selects both body and eye animation at the same time. If angry flag is
+     * true, it'll choose the angry eye animations instead of the regular one.
+     *
+     * @param key
+     */
     public void setAnimation(String key) {
         animation = animations.get(key);
         if (angry || immortal) {

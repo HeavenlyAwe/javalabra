@@ -5,6 +5,7 @@
 package org.fridlund.pacman.scenes;
 
 /**
+ * Class containing static fields, for easy Scene management
  *
  * @author Christoffer
  */

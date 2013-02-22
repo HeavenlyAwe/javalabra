@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import org.fridlund.javalabra.game.Screen;
 
 /**
+ * Starts the game hub.
  *
  * @author Christoffer
  */

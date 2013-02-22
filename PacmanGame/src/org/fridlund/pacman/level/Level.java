@@ -4,14 +4,11 @@
  */
 package org.fridlund.pacman.level;
 
-import java.awt.Color;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import org.fridlund.javalabra.game.entities.Entity;
 import org.fridlund.javalabra.game.sprites.Sprite;
 import org.fridlund.javalabra.game.sprites.SpriteSheet;
@@ -34,8 +31,9 @@ public class Level {
     private static int tileHeight = 16;
     private float levelWidth;
     private float levelHeight;
-    // makes a little offset to the sourrounding walls, to not make the entity
-    // get stuck when moving in the tunnels
+    /*
+     * makes a little offset to the sourrounding walls, to not make the entity get stuck when moving in the tunnels
+     */
     private float entityOffsetToWalls = 1.0f;
     // render variables
     private Sprite sprite;
@@ -64,7 +62,6 @@ public class Level {
     private void setup() {
         sheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream(texturePath)), tileWidth, tileHeight, 128, 128);
         generateLevelFromImage();
-//        printLevelInAscii();
     }
 
     /**
@@ -133,18 +130,6 @@ public class Level {
     }
 
     /**
-     * Helper method to print the loaded level in ASCII characters.
-     */
-    private void printLevelInAscii() {
-        for (int y = 0; y < tiles[0].length; y++) {
-            for (int x = 0; x < tiles.length; x++) {
-                System.out.print(tiles[x][y]);
-            }
-            System.out.println("");
-        }
-    }
-
-    /**
      * Helper method to render the different tiles, based on the value they have
      * been assigned in the loadLevel method. The different tiles are then
      * rendered by accessing parts of the sprite sheet and drawing the specified
@@ -208,17 +193,24 @@ public class Level {
      */
     //=================================================================
     /**
-     * Updates the tiles.
-     *
-     * Currently no animated tiles, so this method is not really needed.
+     * Helper method to print the loaded level in ASCII characters.
+     */
+    public void printLevelInAscii() {
+        for (int y = 0; y < tiles[0].length; y++) {
+            for (int x = 0; x < tiles.length; x++) {
+                System.out.print(tiles[x][y]);
+            }
+            System.out.println("");
+        }
+    }
+
+    /**
+     * For the moment this level doesn't have any tiles with animations, so this
+     * is just an empty method body.
      *
      * @param delta
      */
     public void update(float delta) {
-//        for (int y = 0; y < tiles[0].length; y++) {
-//            for (int x = 0; x < tiles.length; x++) {
-//            }
-//        }
     }
 
     /**

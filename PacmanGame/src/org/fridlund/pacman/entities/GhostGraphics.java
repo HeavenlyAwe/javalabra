@@ -14,6 +14,8 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.vector.Vector4f;
 
 /**
+ * Contains the animation for the Ghost entity. This way you can assign the same
+ * graphics to several different Ghost AI.
  *
  * @author Christoffer
  */
@@ -22,9 +24,9 @@ public class GhostGraphics {
     private static String texturePath = "/res/images/ghost_silhuette.png";
     public static int spriteWidth = 32;
     public static int spriteHeight = 32;
-    private Animation eyeAnimation;
-    private Map<String, Animation> eyeAnimations;
-    private Animation bodyAnimation;
+    private Map<String, Animation> eyeAnimations;       // Map containing all eye animations.
+    private Animation bodyAnimation;                    // Current body animation
+    private Animation eyeAnimation;                     // Current eye animation
     private int ghostColorIndex;
     /*
      * Color is chosen by ghostColorIndex
@@ -37,9 +39,14 @@ public class GhostGraphics {
         createAnimations();
     }
 
+    //=================================================================
+    /*
+     * PRIVATE METHODS
+     */
+    //=================================================================
     /**
-     * This should have been called from setup, but since that method is
-     * overloaded, it is called before the constructor
+     * This method creates all the body and eye animations used from the ghost
+     * AI. This also creates a death animation.
      */
     private void createAnimations() {
 
@@ -80,12 +87,34 @@ public class GhostGraphics {
         }
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
     public void cleanUp() {
         for (String key : eyeAnimations.keySet()) {
             eyeAnimations.get(key).cleanUp();
         }
         bodyAnimation.cleanUp();
     }
+
+    public void update(float delta) {
+        bodyAnimation.update(delta);
+        eyeAnimation.update(delta);
+    }
+
+    public void render(float x, float y) {
+        glColor4f(color.x, color.y, color.z, color.w);
+        bodyAnimation.render(x, y);
+        glColor4f(1, 1, 1, 1);
+        eyeAnimation.render(x, y);
+    }
+    //=================================================================
+    /*
+     * SETTERS
+     */
+    //=================================================================
 
     public void setColor(Vector4f color) {
         this.color = color;
@@ -103,18 +132,11 @@ public class GhostGraphics {
         eyeAnimation = eyeAnimations.get(key);
     }
 
-    public void update(float delta) {
-        bodyAnimation.update(delta);
-        eyeAnimation.update(delta);
-    }
-
-    public void render(float x, float y) {
-        glColor4f(color.x, color.y, color.z, color.w);
-        bodyAnimation.render(x, y);
-        glColor4f(1, 1, 1, 1);
-        eyeAnimation.render(x, y);
-    }
-
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
     public int getGhostColorIndex() {
         return ghostColorIndex;
     }

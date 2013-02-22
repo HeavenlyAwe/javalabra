@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 /**
+ * A custom Comparator used by the HighScoreManager, to sort the High Scores in
+ * descending order.
  *
  * @author Christoffer
  */

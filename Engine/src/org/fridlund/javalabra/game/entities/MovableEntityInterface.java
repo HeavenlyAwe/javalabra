@@ -5,6 +5,7 @@
 package org.fridlund.javalabra.game.entities;
 
 /**
+ * Interface containing all the methods used when Moving an entity around.
  *
  * @author Christoffer
  */

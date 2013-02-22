@@ -15,6 +15,7 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
 /**
+ * A static class, containing all the Fonts that the game could like to use.
  *
  * @author Christoffer
  */
@@ -31,11 +32,23 @@ public class FontLoader {
         loadFont("dialog18", "Dialog", FontStyle.PLAIN, 18);
     }
 
+    /**
+     * Empties the font map.
+     */
     public static void cleanUp() {
         fonts.clear();
         fonts = null;
     }
 
+    /**
+     * Creates a new font. If you use an already used key, then it will update
+     * the old one.
+     *
+     * @param key - access the font with this
+     * @param fontName - defines what system font to load.
+     * @param style - italic, bold or plain.
+     * @param size - pixel size
+     */
     public static void loadFont(String key, String fontName, FontStyle style, int size) {
         if (fonts == null) {
             initFontLoader();
@@ -67,6 +80,12 @@ public class FontLoader {
         fonts.put(key, font);
     }
 
+    /**
+     * Use the key, that you gave when loading a font.
+     *
+     * @param key
+     * @return
+     */
     public static UnicodeFont getFont(String key) {
         if (fonts == null) {
             initFontLoader();
@@ -80,12 +99,31 @@ public class FontLoader {
         return fonts.get(key);
     }
 
+    /**
+     * Draws the text to the screen, at the defined coordinate with the defined
+     * font.
+     *
+     * @param text
+     * @param x
+     * @param y
+     * @param key
+     */
     public static void renderString(String text, float x, float y, String key) {
         glDisable(GL_TEXTURE_RECTANGLE_ARB);
         FontLoader.getFont(key).drawString(x, y, text);
         glEnable(GL_TEXTURE_RECTANGLE_ARB);
     }
 
+    /**
+     * Draws the text to the screen, at the defined coordinate with the defined
+     * font and color.
+     *
+     * @param text
+     * @param x
+     * @param y
+     * @param key
+     * @param color
+     */
     public static void renderString(String text, float x, float y, String key, Color color) {
         glDisable(GL_TEXTURE_RECTANGLE_ARB);
         FontLoader.getFont(key).drawString(x, y, text, color);

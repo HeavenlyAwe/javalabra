@@ -42,6 +42,11 @@ public class FirstPersonCamera extends Camera {
         this.aspectRatio = aspectRatio;
     }
 
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
     @Override
     public void applyProjectionMatrix() {
         glMatrixMode(GL_PROJECTION);
@@ -56,6 +61,16 @@ public class FirstPersonCamera extends Camera {
         handleKeyboardInput(delta);
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    /**
+     * Look around with the mouse.
+     *
+     * @param delta
+     */
     public void handleMouseInput(float delta) {
         if (!Mouse.isGrabbed()) {
             return;
@@ -87,6 +102,11 @@ public class FirstPersonCamera extends Camera {
         rotation = new Vector3f(pitch, yaw, roll);
     }
 
+    /**
+     * Move around with UP, DOWN, LEFT, RIGHT, SPACE and LEFT SHIFT keys.
+     *
+     * @param delta
+     */
     public void handleKeyboardInput(float delta) {
         boolean keyUp = Keyboard.isKeyDown(Keyboard.KEY_UP);
         boolean keyDown = Keyboard.isKeyDown(Keyboard.KEY_DOWN);
@@ -130,6 +150,13 @@ public class FirstPersonCamera extends Camera {
         }
     }
 
+    /**
+     * Moves the camera based on where you are looking with the mouse.
+     *
+     * @param dx
+     * @param dy
+     * @param dz
+     */
     public void moveFromLook(float dx, float dy, float dz) {
         float nX = this.position.x;
         float nY = this.position.y;

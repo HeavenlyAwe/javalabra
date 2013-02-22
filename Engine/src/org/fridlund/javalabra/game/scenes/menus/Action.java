@@ -5,6 +5,7 @@
 package org.fridlund.javalabra.game.scenes.menus;
 
 /**
+ * Simple action listener interface used in the menu system.
  *
  * @author Christoffer
  */

@@ -14,6 +14,8 @@ import org.fridlund.javalabra.game.utils.FontLoader;
 import org.lwjgl.opengl.Display;
 
 /**
+ * Abstract MenuScene instantiated from the Scene class. Containing a list of
+ * menu items and a title. The title can be specified with it's own font.
  *
  * @author Christoffer
  */
@@ -35,11 +37,20 @@ public abstract class MenuScene extends Scene {
         this.titleFont = titleFont;
     }
 
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
     @Override
     public void setup() {
         menuItems = new ArrayList<>();
     }
 
+    /**
+     * Resets the Y coordinate. This method is called every time the menu is
+     * shown by the SceneManager.
+     */
     @Override
     public void show() {
         y = 50;
@@ -48,6 +59,9 @@ public abstract class MenuScene extends Scene {
         titleX = (Display.getWidth() - titleW) / 2;
     }
 
+    /**
+     * Renders the Title and all the menu items.
+     */
     @Override
     public void render() {
         super.render();
@@ -59,6 +73,11 @@ public abstract class MenuScene extends Scene {
         }
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
     /**
      * Places a button in the menuItem list, and automatically calculates the
      * next y-coordinate based on the height of this element and the previous
@@ -77,6 +96,14 @@ public abstract class MenuScene extends Scene {
         menuItems.add(new Button(text, x, y, w, h, action, fontKey));
     }
 
+    /**
+     * Places a non-clickable label in the menuItem list, and automatically
+     * calculates the next y-coordinate based on the height of this element and
+     * the previous y-coordinate.
+     *
+     * @param text
+     * @param fontKey
+     */
     public void addLabel(String text, String fontKey) {
         w = FontLoader.getFont(fontKey).getWidth(text);
         h = FontLoader.getFont(fontKey).getFont().getSize();

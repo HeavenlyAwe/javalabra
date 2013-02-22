@@ -8,12 +8,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.fridlund.javalabra.game.scenes.MenuScene;
 import org.fridlund.javalabra.game.scenes.menus.Action;
-import org.fridlund.javalabra.game.scenes.menus.Button;
 import org.fridlund.pacman.highscores.HighScore;
 import org.fridlund.pacman.highscores.HighScoreManager;
 import org.fridlund.pacman.input.MenuInputProfile;
 
 /**
+ * Scene showing the top five high scores and a back button.
  *
  * @author Christoffer
  */
@@ -29,11 +29,19 @@ public class HighScoreScene extends MenuScene {
         this.highScoreManager = highScoreManager;
     }
 
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
     @Override
-    public void setup() {
-        super.setup();
+    public void cleanUp() {
     }
 
+    /**
+     * Called when the menu is showed. Replaces all the buttons (a little bit
+     * inefficient, when they are recreated)
+     */
     @Override
     public void show() {
         super.show();
@@ -65,10 +73,12 @@ public class HighScoreScene extends MenuScene {
         }, fontName);
     }
 
-    @Override
-    public void cleanUp() {
-    }
-
+    /**
+     * Calls the inputProfile's setMenuItems method, before updating the
+     * inputProfile.
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         inputProfile.setMenuItems(menuItems);

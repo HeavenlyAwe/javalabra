@@ -31,6 +31,11 @@ public class GameHub {
         loadGames();
     }
 
+    //=================================================================
+    /*
+     * PRIVATE METHODS
+     */
+    //=================================================================
     private void loadGames() {
 
         File gameFolder = new File("games");
@@ -48,50 +53,43 @@ public class GameHub {
         System.out.println("Loading games from: " + gameFolder.getAbsolutePath());
 
         for (File dir : subfolders) {
-
-            try {
-                File file = new File(dir.getAbsolutePath() + "/" + dir.getName() + ".jar");
-
-                if (file == null) {
-                    System.out.println("Couldn't find file: " + dir.getName());
-                    return;
-                }
-
-                URL url = file.toURI().toURL();
-                URL[] urls = new URL[]{url};
-                ClassLoader cl = new URLClassLoader(urls);
-
-                Class cls = cl.loadClass(dir.getName());
-
-                Game game = (Game) cls.newInstance();
-                games.put(game.getTitle(), game);
-
-            } catch (InstantiationException ex) {
-                Logger.getLogger(GameHub.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(GameHub.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(GameHub.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(GameHub.class.getName()).log(Level.SEVERE, null, ex);
+            if (createGameInstance(dir)) {
+                return;
             }
         }
 
     }
 
-    /**
-     * Returns a list of Strings containing the names of all games.
-     *
-     * @return
-     */
-    public ArrayList<String> getListOfGames() {
-        ArrayList<String> listOfGames = new ArrayList<>();
-        for (String name : games.keySet()) {
-            listOfGames.add(name);
+    private boolean createGameInstance(File dir) {
+        try {
+            File file = new File(dir.getAbsolutePath() + "/" + dir.getName() + ".jar");
+            if (file == null) {
+                System.out.println("Couldn't find file: " + dir.getName());
+                return true;
+            }
+            URL url = file.toURI().toURL();
+            URL[] urls = new URL[]{url};
+            ClassLoader cl = new URLClassLoader(urls);
+            Class cls = cl.loadClass(dir.getName());
+            Game game = (Game) cls.newInstance();
+            games.put(game.getTitle(), game);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(GameHub.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(GameHub.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GameHub.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(GameHub.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listOfGames;
+        return false;
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
     /**
      * Starts a new thread where the game is run.
      *
@@ -104,5 +102,23 @@ public class GameHub {
                 games.get(gameName).start();
             }
         }.start();
+    }
+
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
+    /**
+     * Returns a list of Strings containing the names of all games.
+     *
+     * @return
+     */
+    public ArrayList<String> getListOfGames() {
+        ArrayList<String> listOfGames = new ArrayList<>();
+        for (String name : games.keySet()) {
+            listOfGames.add(name);
+        }
+        return listOfGames;
     }
 }

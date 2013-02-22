@@ -5,6 +5,7 @@
 package org.fridlund.javalabra.game.entities;
 
 /**
+ * Interface containing all the methods used in an Entity object.
  *
  * @author Christoffer
  */
@@ -21,7 +22,7 @@ public interface Entity {
     public boolean collision(Entity entity);
 
     public void setPosition(float x, float y);
-    
+
     public void setX(float x);
 
     public float getX();
@@ -37,8 +38,8 @@ public interface Entity {
     public void setHeight(float height);
 
     public float getHeight();
-    
+
     public void setCollisionOffset(float offset);
-    
+
     public float getCollisionOffset();
 }

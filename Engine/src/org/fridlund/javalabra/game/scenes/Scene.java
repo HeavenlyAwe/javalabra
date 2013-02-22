@@ -5,6 +5,8 @@
 package org.fridlund.javalabra.game.scenes;
 
 /**
+ * The abstract Scene class. This is used by the SceneManager to maintain all
+ * the different scenes in the project.
  *
  * @author Christoffer
  */
@@ -18,6 +20,11 @@ public abstract class Scene {
         setup();
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
     public void addSceneManager(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
     }
@@ -28,16 +35,26 @@ public abstract class Scene {
     public void disable() {
     }
 
-    public abstract void setup();
-
-    public abstract void cleanUp();
-
     public void update(float delta) {
     }
 
     public void render() {
     }
 
+    //=================================================================
+    /*
+     * ABSTRACT METHODS
+     */
+    //=================================================================
+    public abstract void setup();
+
+    public abstract void cleanUp();
+
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
     public int getID() {
         return id;
     }

@@ -6,11 +6,10 @@ package org.fridlund.pacman.scenes;
 
 import org.fridlund.javalabra.game.scenes.MenuScene;
 import org.fridlund.javalabra.game.scenes.menus.Action;
-import org.fridlund.javalabra.game.scenes.menus.Button;
 import org.fridlund.pacman.input.MenuInputProfile;
 
 /**
- *
+ * Scene that is shown, whenever the player dies.
  *
  * @author Christoffer
  */
@@ -33,6 +32,9 @@ public class GameOverScene extends MenuScene {
     public void cleanUp() {
     }
 
+    /**
+     * Replaces the menuItems every time the scene is shown.
+     */
     @Override
     public void show() {
         super.show();
@@ -52,6 +54,12 @@ public class GameOverScene extends MenuScene {
         }, fontName);
     }
 
+    /**
+     * Calls the inputProfile.setMenuItems() method before updating the
+     * inputProfile.
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         inputProfile.setMenuItems(menuItems);

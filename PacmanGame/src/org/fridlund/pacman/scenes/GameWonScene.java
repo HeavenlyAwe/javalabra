@@ -6,31 +6,39 @@ package org.fridlund.pacman.scenes;
 
 import org.fridlund.javalabra.game.scenes.MenuScene;
 import org.fridlund.javalabra.game.scenes.menus.Action;
-import org.fridlund.javalabra.game.scenes.menus.Button;
 import org.fridlund.pacman.input.MenuInputProfile;
 
 /**
+ * Scene that is shown whenever a player wins the game.
  *
  * @author Christoffer
  */
 public class GameWonScene extends MenuScene {
-    
+
     private MenuInputProfile inputProfile;
     private String fontName = "times30";
-    
+
     public GameWonScene(int id, MenuInputProfile inputProfile) {
         super(id, "Victory", "times50");
         this.inputProfile = inputProfile;
     }
-    
+
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
     @Override
     public void cleanUp() {
     }
-    
+
+    /**
+     * Replaces all the buttons on the correct position.
+     */
     @Override
     public void show() {
         super.show();
-        
+
         y = 100;
         addButton("Play Again", new Action() {
             @Override
@@ -45,7 +53,13 @@ public class GameWonScene extends MenuScene {
             }
         }, fontName);
     }
-    
+
+    /**
+     * Calls the inputProfile.setMenuItems() method before updating the
+     * inputProfile
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         inputProfile.setMenuItems(menuItems);

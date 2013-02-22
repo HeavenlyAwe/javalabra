@@ -7,35 +7,31 @@ package org.fridlund.javalabra.game.scenes.menus;
 import org.fridlund.javalabra.game.utils.FontLoader;
 
 /**
+ * Simple menu item, used in the menu system.
  *
  * @author Christoffer
  */
-public class MenuItem {
+public abstract class MenuItem {
 
-    protected String text;
     protected float x;
     protected float y;
-    private String fontName;
 
-    public MenuItem(String text, float x, float y, String fontName) {
-        this.text = text;
+    public MenuItem(float x, float y) {
         this.x = x;
         this.y = y;
-        this.fontName = fontName;
     }
 
-    public void update(float delta) {
-    }
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    public abstract void update(float delta);
 
-    public void render() {
-        FontLoader.renderString(text, x, y, fontName);
-    }
-
-    public String getFontName() {
-        return fontName;
-    }
-
-    public String getText() {
-        return text;
-    }
+    public abstract void render();
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
 }

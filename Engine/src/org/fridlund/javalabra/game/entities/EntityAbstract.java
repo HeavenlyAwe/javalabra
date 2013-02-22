@@ -5,6 +5,7 @@
 package org.fridlund.javalabra.game.entities;
 
 /**
+ * Simple abstract implementation of the Entity interface.
  *
  * @author Christoffer
  */
@@ -29,6 +30,17 @@ public abstract class EntityAbstract implements Entity {
         setup();
     }
 
+    //=================================================================
+    /*
+     * OVERRIDDEN METHODS
+     */
+    //=================================================================
+    /**
+     * Checks if another entity is colliding with this one.
+     *
+     * @param entity
+     * @return
+     */
     @Override
     public boolean collision(Entity entity) {
 
@@ -40,16 +52,13 @@ public abstract class EntityAbstract implements Entity {
         } else {
             return false;
         }
-//        return ((this.x + this.width > entity.getX() || this.x < entity.getX() + entity.getWidth()) 
-//                && (this.y < entity.getY() + entity.getHeight() || this.y + this.height > entity.getY()));
-
-//            return true;
-//        }
-//        Rectangle spriteRect = new Rectangle((int) sprite.getX(), (int) sprite.getY(), (int) sprite.getWidth(), (int) sprite.getHeight());
-//        Rectangle hitBox = new Rectangle((int) x, (int) y, (int) width, (int) height);
-//        return spriteRect.contains(hitBox);
     }
 
+    //=================================================================
+    /*
+     * SETTERS
+     */
+    //=================================================================
     @Override
     public void setPosition(float x, float y) {
         this.x = x;
@@ -62,18 +71,8 @@ public abstract class EntityAbstract implements Entity {
     }
 
     @Override
-    public float getX() {
-        return x;
-    }
-
-    @Override
     public void setY(float y) {
         this.y = y;
-    }
-
-    @Override
-    public float getY() {
-        return y;
     }
 
     @Override
@@ -82,23 +81,38 @@ public abstract class EntityAbstract implements Entity {
     }
 
     @Override
-    public float getWidth() {
-        return width;
-    }
-
-    @Override
     public void setHeight(float height) {
         this.height = height;
     }
 
     @Override
-    public float getHeight() {
-        return height;
+    public void setCollisionOffset(float offset) {
+        this.collisionOffset = offset;
+    }
+
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
+    @Override
+    public float getX() {
+        return x;
     }
 
     @Override
-    public void setCollisionOffset(float offset) {
-        this.collisionOffset = offset;
+    public float getY() {
+        return y;
+    }
+
+    @Override
+    public float getWidth() {
+        return width;
+    }
+
+    @Override
+    public float getHeight() {
+        return height;
     }
 
     @Override

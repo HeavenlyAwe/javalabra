@@ -10,7 +10,7 @@ import org.fridlund.javalabra.game.sprites.SpriteSheet;
 import org.fridlund.javalabra.game.utils.TextureLoader;
 
 /**
- * The yellow snacks that Pacman eats.
+ * The default yellow snacks that Pacman eats.
  *
  * @author Christoffer
  */
@@ -36,6 +36,9 @@ public class Snack extends MovableEntityAbstract {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     * Sets the default width, height and animation for this entity.
+     */
     @Override
     public void setup() {
         setWidth(width);
@@ -48,10 +51,18 @@ public class Snack extends MovableEntityAbstract {
         animation.cleanUp();
     }
 
+    /**
+     * Overridden with an empty place holder.
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
     }
 
+    /**
+     * Renders the animation assigned with this entity.
+     */
     @Override
     public void render() {
         animation.render(x, y);
@@ -62,15 +73,24 @@ public class Snack extends MovableEntityAbstract {
      * PUBLIC METHODS
      */
     //=================================================================
-    public void setupAnimation() {
-        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream(texturePath)), width, width, 16, 16);
-        animation = new Animation(sheet);
-    }
-
+    /**
+     * If the special action isn't null, this will trigger the action assigned
+     * to this snack.
+     */
     public void executeAction() {
-        if(specialAction == null){
+        if (specialAction == null) {
             return;
         }
         specialAction.execute();
+    }
+    //=================================================================
+    /*
+     * SETTERS
+     */
+    //=================================================================
+
+    public void setupAnimation() {
+        SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream(texturePath)), width, width, 16, 16);
+        animation = new Animation(sheet);
     }
 }

@@ -34,6 +34,9 @@ public class PacmanGame extends Game {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     * Setups all necessary stuff for the game to be able to run.
+     */
     @Override
     public void setup() {
         FontLoader.loadFont("times30", "Times New Roman", FontLoader.FontStyle.PLAIN, 30);
@@ -65,10 +68,6 @@ public class PacmanGame extends Game {
         sceneManager.update(delta);
     }
 
-//    @Override
-//    public boolean gameLoopRestrictions() {
-//        return !Display.isActive() || !Mouse.isInsideWindow();
-//    }
     @Override
     public void render() {
         super.render();

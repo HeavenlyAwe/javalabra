@@ -18,6 +18,7 @@ public abstract class InputProfile {
         setup();
     }
 
+    
     public abstract void setup();
 
     public void update(float delta) {

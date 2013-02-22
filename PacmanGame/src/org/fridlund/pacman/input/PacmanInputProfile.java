@@ -15,7 +15,8 @@ import org.lwjgl.input.Keyboard;
 
 /**
  * Handles all the input in the Pacman game. Have fields of the different
- * objects that has to be modified by input.
+ * objects that has to be modified by input. Has support for the XBox360
+ * Controller. Can't tell what happens if you use another kind of Controller.
  *
  * @author Christoffer
  */
@@ -29,7 +30,9 @@ public class PacmanInputProfile extends InputProfile {
     private float dx;
     private float dy;
     private String controllerComponent;
-    private boolean released;
+    private boolean released;               // Checks if the button pressed is released. Specially useful
+                                            // when controlling menus (you don't get any random clicks
+                                            // on the underlaying menu).
 
     /*
      * Buttons for use when moving around in the world

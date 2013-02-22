@@ -5,6 +5,7 @@
 package org.fridlund.pacman.entities;
 
 /**
+ * Used as a simple ActionListener (without event information).
  *
  * @author Christoffer
  */

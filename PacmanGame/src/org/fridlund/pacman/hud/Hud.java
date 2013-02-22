@@ -13,6 +13,8 @@ import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
+ * The Heads Up Display. Containing the health-bar and the informative text at
+ * the upper left corner.
  *
  * @author Christoffer
  */
@@ -34,15 +36,15 @@ public class Hud {
         lifeAnimation.update(0);
     }
 
-    public void update(float delta) {
-    }
-
-    public void render() {
-        renderLives();
-
-        FontLoader.renderString("Points: " + pacman.getPoints(), 10, 10, fontName);
-    }
-
+    //=================================================================
+    /*
+     * PRIVATE METHODS
+     */
+    //=================================================================
+    /**
+     * Renders the life symbols down left. The amount of symbols depends on how
+     * many lives Pacman has.
+     */
     private void renderLives() {
 
         float x0 = 10;
@@ -55,5 +57,21 @@ public class Hud {
             }
             lifeAnimation.render(x0 + i * 1.1f * pacman.getWidth(), y0);
         }
+    }
+
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    public void update(float delta) {
+    }
+
+    /**
+     * Renders the health-bar and the points collected by Pacman.
+     */
+    public void render() {
+        renderLives();
+        FontLoader.renderString("Points: " + pacman.getPoints(), 10, 10, fontName);
     }
 }
