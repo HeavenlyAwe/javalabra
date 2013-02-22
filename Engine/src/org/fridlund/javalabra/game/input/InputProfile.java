@@ -17,27 +17,41 @@ public abstract class InputProfile {
     public InputProfile() {
         setup();
     }
-
-    
-    public abstract void setup();
-
-    public void update(float delta) {
-        handleInput(delta);
-    }
+//=================================================================
+    /*
+     * PRIVATE METHODS
+     */
+    //=================================================================
 
     private void handleInput(float delta) {
         handleControllerInput(delta);
         handleMouseInput(delta);
         handleKeyboardInput(delta);
     }
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+
+    public void update(float delta) {
+        handleInput(delta);
+    }
+
+    public final boolean keyDown(int key) {
+        return Keyboard.isKeyDown(key);
+    }
+    //=================================================================
+    /*
+     * ABSTRACT METHODS
+     */
+    //=================================================================
+
+    public abstract void setup();
 
     public abstract void handleControllerInput(float delta);
 
     public abstract void handleMouseInput(float delta);
 
     public abstract void handleKeyboardInput(float delta);
-
-    public final boolean keyDown(int key) {
-        return Keyboard.isKeyDown(key);
-    }
 }

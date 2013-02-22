@@ -5,6 +5,8 @@
 package org.fridlund.javalabra.game.sprites;
 
 /**
+ * Contains a map of several images in one image. This speeds up the asset
+ * loading process, when loading images.
  *
  * @author Christoffer
  */
@@ -27,6 +29,14 @@ public class SpriteSheet {
         setup();
     }
 
+    //=================================================================
+    /*
+     * PUBLIC METHODS
+     */
+    //=================================================================
+    /**
+     * Creates sub images from the specified sizes in the constructor.
+     */
     public void setup() {
         int spritesX = imageWidth / spriteWidth;
         int spritesY = imageHeight / spriteHeight;
@@ -44,6 +54,18 @@ public class SpriteSheet {
         }
     }
 
+    //=================================================================
+    /*
+     * GETTERS
+     */
+    //=================================================================
+    /**
+     * Get the sub image at the coordinate in the image.
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public Sprite getSprite(int x, int y) {
         if (x < 0 || x >= sprites.length || y < 0 || y >= sprites[0].length) {
             throw new IndexOutOfBoundsException("Can't get sprite outside Sprite Sheet!");

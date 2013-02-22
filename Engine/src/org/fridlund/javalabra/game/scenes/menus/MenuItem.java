@@ -4,8 +4,6 @@
  */
 package org.fridlund.javalabra.game.scenes.menus;
 
-import org.fridlund.javalabra.game.utils.FontLoader;
-
 /**
  * Simple menu item, used in the menu system.
  *

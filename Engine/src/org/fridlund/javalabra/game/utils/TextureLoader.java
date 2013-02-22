@@ -4,13 +4,9 @@
  */
 package org.fridlund.javalabra.game.utils;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,14 +16,22 @@ import static org.lwjgl.opengl.GL11.*;
 import org.newdawn.slick.opengl.PNGDecoder;
 
 /**
+ * Handles the OpenGL binding for textures or images.
  *
  * @author Christoffer
  */
 public class TextureLoader {
 
+    /**
+     * Load a texture with the specified input stream. This allows the use of
+     * embedded resources inside the game jar you are building.
+     *
+     * @param in
+     * @return
+     */
     public static int loadTextureLinear(InputStream in) {
         int textureID = glGenTextures();
-        
+
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, textureID);
         try {
             PNGDecoder decoder = new PNGDecoder(in);
@@ -49,19 +53,5 @@ public class TextureLoader {
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
 
         return textureID;
-    }
-
-    public static BufferedImage loadImage(String filepath) {
-        URL url = TextureLoader.class.getClass().getResource(filepath);
-        File file = new File(url.getFile());
-        
-        if(file.exists()){
-            System.out.println("Found on disk");
-        }
-        else {
-            System.out.println("Found in jar");
-        }
-        
-        return null;
     }
 }

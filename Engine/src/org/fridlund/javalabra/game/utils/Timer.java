@@ -7,6 +7,8 @@ package org.fridlund.javalabra.game.utils;
 import org.lwjgl.Sys;
 
 /**
+ * Makes the game update with a defined FPS, allowing your game to be run on
+ * whatever system, independently of the specifications of that system.
  *
  * @author Christoffer
  */
