@@ -16,16 +16,35 @@ import org.fridlund.javalabra.game.utils.TextureLoader;
  */
 public class Snack extends MovableEntityAbstract {
 
+    /**
+     *
+     */
     protected static String texturePath = "/res/images/snack.png";
+    /**
+     *
+     */
     protected static int width = 16;
+    /**
+     *
+     */
     protected static int height = 16;
+    /**
+     *
+     */
     protected Animation animation;
     private SpecialAction specialAction;
 
+    /**
+     *
+     */
     public Snack() {
         this(null);
     }
 
+    /**
+     *
+     * @param specialAction
+     */
     public Snack(SpecialAction specialAction) {
         this.setCollisionOffset(5.0f);
         this.specialAction = specialAction;
@@ -46,6 +65,9 @@ public class Snack extends MovableEntityAbstract {
         setupAnimation();
     }
 
+    /**
+     *
+     */
     @Override
     public void cleanUp() {
         animation.cleanUp();
@@ -89,6 +111,9 @@ public class Snack extends MovableEntityAbstract {
      */
     //=================================================================
 
+    /**
+     *
+     */
     public void setupAnimation() {
         SpriteSheet sheet = new SpriteSheet(TextureLoader.loadTextureLinear(getClass().getResourceAsStream(texturePath)), width, width, 16, 16);
         animation = new Animation(sheet);

@@ -42,6 +42,12 @@ public class PacmanInputProfile extends InputProfile {
     private int left = Keyboard.KEY_A;
     private int right = Keyboard.KEY_D;
 
+    /**
+     *
+     * @param game
+     * @param pacman
+     * @param level
+     */
     public PacmanInputProfile(GameplayScene game, Pacman pacman, Level level) {
         super();
 
@@ -110,6 +116,10 @@ public class PacmanInputProfile extends InputProfile {
 //        }
     }
 
+    /**
+     *
+     * @param delta
+     */
     @Override
     public void handleControllerInput(float delta) {
         if (controller != null) {
@@ -119,6 +129,10 @@ public class PacmanInputProfile extends InputProfile {
         }
     }
 
+    /**
+     *
+     * @param delta
+     */
     @Override
     public void handleKeyboardInput(float delta) {
 

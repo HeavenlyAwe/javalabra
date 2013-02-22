@@ -16,6 +16,9 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class Button extends TextMenuItem {
 
+    /**
+     *
+     */
     protected float padding = 10f;
     private Rectangle rect;
     private float w;
@@ -23,6 +26,16 @@ public class Button extends TextMenuItem {
     private Action action;
     private float red = 0.2f;
 
+    /**
+     *
+     * @param text
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     * @param action
+     * @param fontName
+     */
     public Button(String text, float x, float y, float w, float h, Action action, String fontName) {
         super(text, fontName, x, y);
 
@@ -38,10 +51,17 @@ public class Button extends TextMenuItem {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
     }
 
+    /**
+     *
+     */
     @Override
     public void render() {
         glBegin(GL_QUADS);
@@ -61,6 +81,10 @@ public class Button extends TextMenuItem {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     *
+     * @param action
+     */
     public void addAction(Action action) {
         this.action = action;
     }

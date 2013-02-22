@@ -17,19 +17,44 @@ import org.fridlund.pacman.scenes.GameplayScene;
  */
 public abstract class Manager {
 
+    /**
+     *
+     */
     protected GameplayScene game;
+    /**
+     *
+     */
     protected Pacman pacman;
+    /**
+     *
+     */
     protected Level level;
 
+    /**
+     *
+     * @param game
+     * @param pacman
+     * @param level
+     */
     public Manager(GameplayScene game, Pacman pacman, Level level) {
         this.game = game;
         this.pacman = pacman;
         this.level = level;
     }
 
+    /**
+     *
+     */
     public abstract void cleanUp();
 
+    /**
+     *
+     * @param delta
+     */
     public abstract void update(float delta);
 
+    /**
+     *
+     */
     public abstract void render();
 }

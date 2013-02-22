@@ -41,11 +41,26 @@ public class Level {
     /*
      * Tile indices, used when assigning allowed tiles to the different entities used in the game.
      */
+    /**
+     *
+     */
     public final static int VOID = 0;
+    /**
+     *
+     */
     public final static int WALL = 1;
+    /**
+     *
+     */
     public final static int WALKABLE = 2;
+    /**
+     *
+     */
     public final static int GHOST_TILE = 3;
 
+    /**
+     *
+     */
     public Level() {
         setup();
     }
@@ -286,6 +301,11 @@ public class Level {
         return false;
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     public boolean outsideLevel(Entity entity) {
         if (outsideOnTheLeft(entity) || outsideOnTheRight(entity) || entity.getY() < -entity.getHeight() || entity.getY() > levelHeight) {
             return true;
@@ -299,18 +319,34 @@ public class Level {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public float getWidth() {
         return levelWidth;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeight() {
         return levelHeight;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getTileWidth() {
         return tileWidth;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getTileHeight() {
         return tileHeight;
     }

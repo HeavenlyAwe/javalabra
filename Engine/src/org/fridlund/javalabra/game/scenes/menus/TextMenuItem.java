@@ -16,6 +16,13 @@ public abstract class TextMenuItem extends MenuItem {
     private String text;
     private String font;
 
+    /**
+     *
+     * @param text
+     * @param font
+     * @param x
+     * @param y
+     */
     public TextMenuItem(String text, String font, float x, float y) {
         super(x, y);
 
@@ -28,6 +35,9 @@ public abstract class TextMenuItem extends MenuItem {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     @Override
     public void render() {
         FontLoader.renderString(text, x, y, font);
@@ -43,10 +53,18 @@ public abstract class TextMenuItem extends MenuItem {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getFontName() {
         return font;
     }

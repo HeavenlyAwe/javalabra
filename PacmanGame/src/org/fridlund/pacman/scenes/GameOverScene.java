@@ -18,6 +18,11 @@ public class GameOverScene extends MenuScene {
     private MenuInputProfile inputProfile;
     private String fontName = "times30";
 
+    /**
+     *
+     * @param id
+     * @param inputProfile
+     */
     public GameOverScene(int id, MenuInputProfile inputProfile) {
         super(id, "Game Over", "times50");
         this.inputProfile = inputProfile;
@@ -28,6 +33,9 @@ public class GameOverScene extends MenuScene {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     @Override
     public void cleanUp() {
     }

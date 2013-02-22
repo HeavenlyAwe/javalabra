@@ -11,13 +11,34 @@ package org.fridlund.javalabra.game.entities;
  */
 public interface MovableEntityInterface {
 
+    /**
+     *
+     * @param dx
+     * @param dy
+     */
     public void move(float dx, float dy);
 
+    /**
+     *
+     * @param dx
+     */
     public void setDX(float dx);
 
+    /**
+     *
+     * @return
+     */
     public float getDX();
 
+    /**
+     *
+     * @param dy
+     */
     public void setDY(float dy);
 
+    /**
+     *
+     * @return
+     */
     public float getDY();
 }

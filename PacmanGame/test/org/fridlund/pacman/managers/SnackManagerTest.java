@@ -21,6 +21,9 @@ import org.junit.Test;
  */
 public class SnackManagerTest {
 
+    /**
+     *
+     */
     @BeforeClass
     public static void init() {
         Screen.setupNativesLWJGL();
@@ -28,12 +31,18 @@ public class SnackManagerTest {
         Screen.setupLWJGL();
     }
 
+    /**
+     *
+     */
     @AfterClass
     public static void cleanUp() {
         Screen.cleanUp();
     }
     SnackManager sm;
 
+    /**
+     *
+     */
     @Before
     public void setUp() {
         GameplayScene game = new GameplayScene(0, new HighScoreManager());
@@ -43,6 +52,9 @@ public class SnackManagerTest {
         sm = new SnackManager(game, pacman, level);
     }
 
+    /**
+     *
+     */
     @Test
     public void checkSnackManagerConstructedTest() {
         assertNotNull("SnackManager wasn't created.", sm);

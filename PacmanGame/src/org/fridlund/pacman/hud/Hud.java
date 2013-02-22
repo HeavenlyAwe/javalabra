@@ -24,6 +24,10 @@ public class Hud {
     private Pacman pacman;
     private Animation lifeAnimation;
 
+    /**
+     *
+     * @param pacman
+     */
     public Hud(Pacman pacman) {
         this.pacman = pacman;
 
@@ -64,6 +68,10 @@ public class Hud {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     *
+     * @param delta
+     */
     public void update(float delta) {
     }
 

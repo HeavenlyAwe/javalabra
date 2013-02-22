@@ -28,14 +28,29 @@ public class FirstPersonCamera extends Camera {
     private float speedY = 0.03f;
     private float speedZ = 0.03f;
 
+    /**
+     *
+     * @param aspectRatio
+     */
     public FirstPersonCamera(float aspectRatio) {
         this(aspectRatio, new Vector3f(0, 0, 0));
     }
 
+    /**
+     *
+     * @param aspectRatio
+     * @param position
+     */
     public FirstPersonCamera(float aspectRatio, Vector3f position) {
         this(aspectRatio, position, new Vector3f(0, 0, 0));
     }
 
+    /**
+     *
+     * @param aspectRatio
+     * @param position
+     * @param rotation
+     */
     public FirstPersonCamera(float aspectRatio, Vector3f position, Vector3f rotation) {
         super(position, rotation);
 
@@ -47,6 +62,9 @@ public class FirstPersonCamera extends Camera {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     @Override
     public void applyProjectionMatrix() {
         glMatrixMode(GL_PROJECTION);
@@ -55,6 +73,10 @@ public class FirstPersonCamera extends Camera {
         glMatrixMode(GL_MODELVIEW);
     }
 
+    /**
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         handleMouseInput(delta);

@@ -22,7 +22,13 @@ import org.lwjgl.util.vector.Vector4f;
 public class GhostGraphics {
 
     private static String texturePath = "/res/images/ghost_silhuette.png";
+    /**
+     *
+     */
     public static int spriteWidth = 32;
+    /**
+     *
+     */
     public static int spriteHeight = 32;
     private Map<String, Animation> eyeAnimations;       // Map containing all eye animations.
     private Animation bodyAnimation;                    // Current body animation
@@ -33,6 +39,10 @@ public class GhostGraphics {
      */
     private Vector4f color;
 
+    /**
+     *
+     * @param ghostColorIndex
+     */
     public GhostGraphics(int ghostColorIndex) {
         this.ghostColorIndex = ghostColorIndex;
         setRegularColor();
@@ -92,6 +102,9 @@ public class GhostGraphics {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     public void cleanUp() {
         for (String key : eyeAnimations.keySet()) {
             eyeAnimations.get(key).cleanUp();
@@ -99,11 +112,20 @@ public class GhostGraphics {
         bodyAnimation.cleanUp();
     }
 
+    /**
+     *
+     * @param delta
+     */
     public void update(float delta) {
         bodyAnimation.update(delta);
         eyeAnimation.update(delta);
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public void render(float x, float y) {
         glColor4f(color.x, color.y, color.z, color.w);
         bodyAnimation.render(x, y);
@@ -116,18 +138,32 @@ public class GhostGraphics {
      */
     //=================================================================
 
+    /**
+     *
+     * @param color
+     */
     public void setColor(Vector4f color) {
         this.color = color;
     }
 
+    /**
+     *
+     */
     public void setRegularColor() {
         this.color = GhostColors.getColor(ghostColorIndex);
     }
 
+    /**
+     *
+     */
     public void setKillableColor() {
         this.color = new Vector4f(0, 0, 0.5f, 1);
     }
 
+    /**
+     *
+     * @param key
+     */
     public void setAnimation(String key) {
         eyeAnimation = eyeAnimations.get(key);
     }
@@ -137,6 +173,10 @@ public class GhostGraphics {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public int getGhostColorIndex() {
         return ghostColorIndex;
     }

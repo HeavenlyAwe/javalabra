@@ -14,10 +14,16 @@ import org.junit.Test;
  */
 public class GameHubFrameTest {
 
+    /**
+     *
+     */
     public GameHubFrameTest() {
     }
     GameHubFrame frame;
 
+    /**
+     *
+     */
     @Before
     public void setUp() {
         frame = new GameHubFrame();
@@ -28,6 +34,9 @@ public class GameHubFrameTest {
     // @Test
     // public void hello() {}
 
+    /**
+     *
+     */
     @Test
     public void constructedTest() {
         assertNotNull("Failed to construct GameHubFrame.", frame);

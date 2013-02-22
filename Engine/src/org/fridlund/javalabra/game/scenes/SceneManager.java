@@ -17,6 +17,9 @@ public class SceneManager {
     private HashMap<Integer, Scene> scenes;
     private int currentSceneID;
 
+    /**
+     *
+     */
     public SceneManager() {
         scenes = new HashMap<>();
     }
@@ -59,10 +62,17 @@ public class SceneManager {
         scenes.remove(id);
     }
 
+    /**
+     *
+     * @param delta
+     */
     public void update(float delta) {
         scenes.get(currentSceneID).update(delta);
     }
 
+    /**
+     *
+     */
     public void render() {
         scenes.get(currentSceneID).render();
     }

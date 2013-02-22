@@ -26,6 +26,9 @@ public class HighScoreManager {
 
     private List<HighScore> highScoreList;
 
+    /**
+     *
+     */
     public HighScoreManager() {
         loadHighScore();
         if (highScoreList == null) {
@@ -102,6 +105,10 @@ public class HighScoreManager {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public Collection getHighScoreList() {
         return highScoreList;
     }

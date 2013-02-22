@@ -15,6 +15,10 @@ public abstract class Scene {
     private final int id;
     private SceneManager sceneManager;
 
+    /**
+     *
+     * @param id
+     */
     public Scene(int id) {
         this.id = id;
         setup();
@@ -25,19 +29,36 @@ public abstract class Scene {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     *
+     * @param sceneManager
+     */
     public void addSceneManager(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
     }
 
+    /**
+     *
+     */
     public void show() {
     }
 
+    /**
+     *
+     */
     public void disable() {
     }
 
+    /**
+     *
+     * @param delta
+     */
     public void update(float delta) {
     }
 
+    /**
+     *
+     */
     public void render() {
     }
 
@@ -46,8 +67,14 @@ public abstract class Scene {
      * ABSTRACT METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     public abstract void setup();
 
+    /**
+     *
+     */
     public abstract void cleanUp();
 
     //=================================================================
@@ -55,10 +82,18 @@ public abstract class Scene {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public int getID() {
         return id;
     }
 
+    /**
+     *
+     * @return
+     */
     public SceneManager getSceneManager() {
         return sceneManager;
     }

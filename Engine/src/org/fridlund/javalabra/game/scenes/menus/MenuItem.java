@@ -11,9 +11,20 @@ package org.fridlund.javalabra.game.scenes.menus;
  */
 public abstract class MenuItem {
 
+    /**
+     *
+     */
     protected float x;
+    /**
+     *
+     */
     protected float y;
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public MenuItem(float x, float y) {
         this.x = x;
         this.y = y;
@@ -24,8 +35,15 @@ public abstract class MenuItem {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     *
+     * @param delta
+     */
     public abstract void update(float delta);
 
+    /**
+     *
+     */
     public abstract void render();
     //=================================================================
     /*

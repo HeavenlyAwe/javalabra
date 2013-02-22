@@ -11,10 +11,21 @@ package org.fridlund.javalabra.game.scenes.menus;
  */
 public class Label extends TextMenuItem {
 
+    /**
+     *
+     * @param text
+     * @param x
+     * @param y
+     * @param fontName
+     */
     public Label(String text, float x, float y, String fontName) {
         super(text, fontName, x, y);
     }
 
+    /**
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
     }

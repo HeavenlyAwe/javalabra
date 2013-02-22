@@ -23,6 +23,12 @@ public class HighScoreScene extends MenuScene {
     private HighScoreManager highScoreManager;
     private String fontName = "times30";
 
+    /**
+     *
+     * @param id
+     * @param inputProfile
+     * @param highScoreManager
+     */
     public HighScoreScene(int id, MenuInputProfile inputProfile, HighScoreManager highScoreManager) {
         super(id, "High Scores", "times50");
         this.inputProfile = inputProfile;
@@ -34,6 +40,9 @@ public class HighScoreScene extends MenuScene {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     @Override
     public void cleanUp() {
     }

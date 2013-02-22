@@ -26,6 +26,9 @@ public class GameHub {
 
     private static Map<String, Game> games;
 
+    /**
+     *
+     */
     public GameHub() {
         games = new HashMap<>();
         loadGames();

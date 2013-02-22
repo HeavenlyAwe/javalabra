@@ -25,6 +25,9 @@ public class PacmanGame extends Game {
     private HighScoreManager highScoreManager;
     private SceneManager sceneManager;
 
+    /**
+     *
+     */
     public PacmanGame() {
         super("Pacman");
     }
@@ -56,18 +59,28 @@ public class PacmanGame extends Game {
         sceneManager.setCurrentScene(0);
     }
 
+    /**
+     *
+     */
     @Override
     public void cleanUp() {
         FontLoader.cleanUp();
         sceneManager.cleanUp();
     }
 
+    /**
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         super.update(delta);
         sceneManager.update(delta);
     }
 
+    /**
+     *
+     */
     @Override
     public void render() {
         super.render();

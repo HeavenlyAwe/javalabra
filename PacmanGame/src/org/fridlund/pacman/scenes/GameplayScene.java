@@ -42,6 +42,11 @@ public class GameplayScene extends Scene {
     private DebugHud debugHud;
     private boolean debug;
 
+    /**
+     *
+     * @param id
+     * @param highScoreManager
+     */
     public GameplayScene(int id, HighScoreManager highScoreManager) {
         super(id);
         this.highScoreManager = highScoreManager;
@@ -61,6 +66,9 @@ public class GameplayScene extends Scene {
     public void setup() {
     }
 
+    /**
+     *
+     */
     @Override
     public void show() {
         level = new Level();
@@ -223,10 +231,16 @@ public class GameplayScene extends Scene {
         camera.rotateRight();
     }
 
+    /**
+     *
+     */
     public void pause() {
         paused = !paused;
     }
 
+    /**
+     *
+     */
     public void toggleDebug() {
         debug = !debug;
     }
@@ -256,7 +270,6 @@ public class GameplayScene extends Scene {
      * Shows the game over menu, and your points won't get stored in the high
      * scores file.
      *
-     * @param message
      */
     public void setGameOver() {
         this.paused = true;
@@ -290,10 +303,18 @@ public class GameplayScene extends Scene {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public boolean isPaused() {
         return paused;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isDebug() {
         return debug;
     }

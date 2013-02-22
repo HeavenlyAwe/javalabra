@@ -21,9 +21,18 @@ import org.lwjgl.opengl.Display;
  */
 public abstract class MenuScene extends Scene {
 
+    /**
+     *
+     */
     protected List<MenuItem> menuItems;
+    /**
+     *
+     */
     protected String titleFont;
     private String title;
+    /**
+     *
+     */
     protected float y;
     private float w;
     private float h;
@@ -31,6 +40,12 @@ public abstract class MenuScene extends Scene {
     private float titleX;
     private int titleW;
 
+    /**
+     *
+     * @param id
+     * @param title
+     * @param titleFont
+     */
     public MenuScene(int id, String title, String titleFont) {
         super(id);
         this.title = title;
@@ -42,6 +57,9 @@ public abstract class MenuScene extends Scene {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     @Override
     public void setup() {
         menuItems = new ArrayList<>();
@@ -84,6 +102,7 @@ public abstract class MenuScene extends Scene {
      * y-coordinate.
      *
      * @param text
+     * @param action 
      * @param fontKey
      */
     public void addButton(String text, Action action, String fontKey) {

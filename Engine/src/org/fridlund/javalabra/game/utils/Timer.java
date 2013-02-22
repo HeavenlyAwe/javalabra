@@ -32,6 +32,9 @@ public class Timer {
         currentFPS = 0;
     }
 
+    /**
+     *
+     */
     public static void reset() {
         previousTime = getTime();
         lastTimer = getTime();
@@ -42,6 +45,7 @@ public class Timer {
     /**
      * Remember to call
      *
+     * @return 
      * @setup before usage of this method
      */
     public static long getTime() {
@@ -51,6 +55,7 @@ public class Timer {
     /**
      * Remember to call
      *
+     * @return 
      * @setup before usage of this method
      */
     public static float getDelta() {
@@ -66,6 +71,10 @@ public class Timer {
         return delta;
     }
 
+    /**
+     *
+     * @return
+     */
     public static int getFPS() {
         return currentFPS;
     }

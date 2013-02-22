@@ -18,6 +18,9 @@ import org.lwjgl.opengl.Display;
  */
 public class PacmanCameraTest {
 
+    /**
+     *
+     */
     @BeforeClass
     public static void init() {
         Screen.setupNativesLWJGL();
@@ -25,22 +28,34 @@ public class PacmanCameraTest {
         Screen.setupLWJGL();
     }
 
+    /**
+     *
+     */
     @AfterClass
     public static void cleanUp() {
         Screen.cleanUp();
     }
     PacmanCamera camera;
 
+    /**
+     *
+     */
     @Before
     public void setUp() {
         camera = new PacmanCamera(Display.getWidth() / Display.getHeight(), 300);
     }
 
+    /**
+     *
+     */
     @Test
     public void cameraConstructedTest() {
         assertNotNull("Camera failed to be constructed.", camera);
     }
 
+    /**
+     *
+     */
     @Test
     public void rotateCameraLeftTest() {
         camera.rotateLeft();
@@ -48,6 +63,9 @@ public class PacmanCameraTest {
         assertEquals("Wrong angle!", Math.PI, camera.getAngle(), 3);
     }
 
+    /**
+     *
+     */
     @Test
     public void rotateCameraLeftAfterRightTest() {
         camera.rotateRight();
@@ -57,6 +75,9 @@ public class PacmanCameraTest {
         assertEquals("Wrong angle!", Math.PI, camera.getAngle(), 3);
     }
 
+    /**
+     *
+     */
     @Test
     public void rotateCameraRightTest() {
         camera.rotateRight();
@@ -64,6 +85,9 @@ public class PacmanCameraTest {
         assertEquals("Wrong angle!", 0, camera.getAngle(), 3);
     }
 
+    /**
+     *
+     */
     @Test
     public void rotateCameraRightAfterLeftTest() {
         camera.rotateLeft();
@@ -73,6 +97,9 @@ public class PacmanCameraTest {
         assertEquals("Wrong angle!", 0, camera.getAngle(), 3);
     }
 
+    /**
+     *
+     */
     @Test
     public void rotateCameraLeftAfterLeftTest() {
         camera.rotateLeft();
@@ -82,6 +109,9 @@ public class PacmanCameraTest {
         assertEquals("Wrong angle!", Math.PI, camera.getAngle(), 3);
     }
 
+    /**
+     *
+     */
     @Test
     public void rotateCameraRightLeftLeftTest() {
         camera.rotateRight();
@@ -94,6 +124,9 @@ public class PacmanCameraTest {
         assertEquals("Wrong angle!", Math.PI, camera.getAngle(), 3);
     }
 
+    /**
+     *
+     */
     @Test
     public void rotateCameraLeftRightLeftTest() {
         camera.rotateLeft();
@@ -105,6 +138,9 @@ public class PacmanCameraTest {
         assertEquals("Wrong angle!", Math.PI, camera.getAngle(), 3);
     }
 
+    /**
+     *
+     */
     @Test
     public void rotateCameraRightLeftRightTest() {
         camera.rotateRight();
@@ -116,6 +152,9 @@ public class PacmanCameraTest {
         assertEquals("Wrong angle!", 0, camera.getAngle(), 3);
     }
 
+    /**
+     *
+     */
     @Test
     public void rotateCameraLeftRightRightTest() {
         camera.rotateLeft();

@@ -16,6 +16,10 @@ public class HighScore implements Serializable {
 
     private int points;
 
+    /**
+     *
+     * @param points
+     */
     public HighScore(int points) {
         this.points = points;
     }
@@ -30,6 +34,10 @@ public class HighScore implements Serializable {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public int getPoints() {
         return points;
     }

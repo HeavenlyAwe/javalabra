@@ -20,6 +20,12 @@ public class SpecialSnack extends Snack {
     private Direction dir;
     private float timer;
 
+    /**
+     *
+     * @param texturePath
+     * @param specialAction
+     * @param dir
+     */
     public SpecialSnack(String texturePath, SpecialAction specialAction, Direction dir) {
         super(specialAction);
         this.dir = dir;
@@ -76,6 +82,10 @@ public class SpecialSnack extends Snack {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public float getTimer() {
         return timer;
     }

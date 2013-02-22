@@ -19,8 +19,17 @@ public class MainMenuScene extends MenuScene {
 
     private Game game;
     private MenuInputProfile inputProfile;
+    /**
+     *
+     */
     public static final String fontName = "times30";
 
+    /**
+     *
+     * @param id
+     * @param game
+     * @param inputProfile
+     */
     public MainMenuScene(int id, Game game, MenuInputProfile inputProfile) {
         super(id, "Main Menu", "times50");
         this.game = game;

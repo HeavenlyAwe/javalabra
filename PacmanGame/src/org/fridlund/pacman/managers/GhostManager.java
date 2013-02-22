@@ -37,6 +37,7 @@ public class GhostManager extends Manager {
      * @param game
      * @param pacman
      * @param level
+     * @param numberOfGhosts  
      */
     public GhostManager(GameplayScene game, Pacman pacman, Level level, int numberOfGhosts) {
         super(game, pacman, level);
@@ -242,10 +243,18 @@ public class GhostManager extends Manager {
      */
     //=================================================================
 
+    /**
+     *
+     * @return
+     */
     public Map<Integer, Ghost> getGhosts() {
         return ghosts;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isGhostReleaseable() {
         return ghostReleasable;
     }

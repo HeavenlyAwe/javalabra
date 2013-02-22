@@ -25,6 +25,9 @@ public class GameHubFrame extends JFrame {
     private DefaultListModel<String> gameListModel;
     private GameHub hub;
 
+    /**
+     *
+     */
     public GameHubFrame() {
         this.setTitle("Game Hub");
 

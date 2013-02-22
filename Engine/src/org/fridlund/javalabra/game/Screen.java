@@ -23,6 +23,10 @@ public class Screen {
     private static int lastX;
     private static int lastY;
 
+    /**
+     *
+     * @param title
+     */
     public static void setupDisplay(String title) {
         try {
             Display.setDisplayMode(new DisplayMode(800, 640));
@@ -42,6 +46,9 @@ public class Screen {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     public static void cleanUp() {
         Display.destroy();
     }

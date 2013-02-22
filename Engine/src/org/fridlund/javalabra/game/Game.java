@@ -19,6 +19,10 @@ public abstract class Game {
     private String title;
     private boolean running;
 
+    /**
+     *
+     * @param title
+     */
     public Game(String title) {
         this.title = title;
     }
@@ -100,11 +104,18 @@ public abstract class Game {
         cleanUpGame();
     }
 
+    /**
+     *
+     */
     public void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0, 0, 0, 0);
     }
 
+    /**
+     *
+     * @param delta
+     */
     public void update(float delta) {
         Display.setTitle("FPS: " + Timer.getFPS());
     }
@@ -114,8 +125,14 @@ public abstract class Game {
      * ABSTRACT METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     public abstract void setup();
 
+    /**
+     *
+     */
     public abstract void cleanUp();
 
     //=================================================================
@@ -123,6 +140,10 @@ public abstract class Game {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public String getTitle() {
         return title;
     }

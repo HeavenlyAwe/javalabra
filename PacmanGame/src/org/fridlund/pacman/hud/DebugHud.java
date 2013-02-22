@@ -16,6 +16,9 @@ public class DebugHud {
 
     private String fontName;
 
+    /**
+     *
+     */
     public DebugHud() {
         fontName = "dialog18";
     }
@@ -25,6 +28,9 @@ public class DebugHud {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     public void render() {
 
         FontLoader.renderString("Victory Screen: F11", 10, 50, fontName);

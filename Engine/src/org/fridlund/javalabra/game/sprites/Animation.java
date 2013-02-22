@@ -25,6 +25,10 @@ public class Animation {
     private List<Integer> durations;
     private int timeSinceLastSprite;
 
+    /**
+     *
+     * @param sheet
+     */
     public Animation(SpriteSheet sheet) {
         this.sheet = sheet;
         this.sprites = new ArrayList<>();

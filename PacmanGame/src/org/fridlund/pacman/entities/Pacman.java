@@ -45,6 +45,10 @@ public class Pacman extends MovableEntityAbstract {
     private Vector4f yellow_transparent = new Vector4f(1, 1, 0, 0.2f);
     private Vector4f yellow = new Vector4f(1, 1, 0, 1);
 
+    /**
+     *
+     * @param level
+     */
     public Pacman(Level level) {
         super();
 
@@ -103,6 +107,9 @@ public class Pacman extends MovableEntityAbstract {
         eyeAnimation = eyeAnimations.get("right");
     }
 
+    /**
+     *
+     */
     @Override
     public void cleanUp() {
         for (String key : animations.keySet()) {
@@ -143,6 +150,9 @@ public class Pacman extends MovableEntityAbstract {
         eyeAnimation.update(delta);
     }
 
+    /**
+     *
+     */
     @Override
     public void render() {
         glColor4f(color.x, color.y, color.z, color.w);
@@ -279,6 +289,9 @@ public class Pacman extends MovableEntityAbstract {
      * SETTERS
      */
     //=================================================================
+    /**
+     *
+     */
     public void setImmortal() {
         this.immortal = true;
     }
@@ -298,6 +311,10 @@ public class Pacman extends MovableEntityAbstract {
         }
     }
 
+    /**
+     *
+     * @param angry
+     */
     public void setAngry(boolean angry) {
         this.angry = angry;
     }
@@ -307,22 +324,43 @@ public class Pacman extends MovableEntityAbstract {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public int getMaxLives() {
         return maxLives;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLives() {
         return lives;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPoints() {
         return points;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isImmortal() {
         return immortal;
     }
 
+    /**
+     *
+     * @param key
+     * @return
+     */
     public Animation getAnimation(String key) {
         return animations.get(key);
     }

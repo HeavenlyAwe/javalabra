@@ -15,17 +15,35 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public abstract class Camera {
 
+    /**
+     *
+     */
     protected Vector3f position;
+    /**
+     *
+     */
     protected Vector3f rotation;
 
+    /**
+     *
+     */
     public Camera() {
         this(new Vector3f(0, 0, 0));
     }
 
+    /**
+     *
+     * @param position
+     */
     public Camera(Vector3f position) {
         this(position, new Vector3f(0, 0, 0));
     }
 
+    /**
+     *
+     * @param position
+     * @param rotation
+     */
     public Camera(Vector3f position, Vector3f rotation) {
         this.position = position;
         this.rotation = rotation;
@@ -46,6 +64,9 @@ public abstract class Camera {
      */
     //=================================================================
 
+    /**
+     *
+     */
     public abstract void applyProjectionMatrix();
 
     //=================================================================
@@ -53,6 +74,10 @@ public abstract class Camera {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     *
+     * @param delta
+     */
     public void update(float delta) {
     }
 
@@ -78,18 +103,38 @@ public abstract class Camera {
      * SETTERS
      */
     //=================================================================
+    /**
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
     public void setPosition(float x, float y, float z) {
         this.position = new Vector3f(x, y, z);
     }
 
+    /**
+     *
+     * @param position
+     */
     public void setPosition(Vector3f position) {
         this.position = position;
     }
 
+    /**
+     *
+     * @param pitch
+     * @param yaw
+     * @param roll
+     */
     public void setRotation(float pitch, float yaw, float roll) {
         this.rotation = new Vector3f(pitch, yaw, roll);
     }
 
+    /**
+     *
+     * @param rotation
+     */
     public void setRotation(Vector3f rotation) {
         this.rotation = rotation;
     }

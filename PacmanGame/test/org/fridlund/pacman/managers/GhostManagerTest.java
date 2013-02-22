@@ -22,6 +22,9 @@ import sun.misc.Launcher;
  */
 public class GhostManagerTest {
 
+    /**
+     *
+     */
     @BeforeClass
     public static void init() {
         Screen.setupNativesLWJGL();
@@ -29,12 +32,18 @@ public class GhostManagerTest {
         Screen.setupLWJGL();
     }
 
+    /**
+     *
+     */
     @AfterClass
     public static void cleanUp() {
         Screen.cleanUp();
     }
     GhostManager gm;
 
+    /**
+     *
+     */
     @Before
     public void setUp() {
         GameplayScene game = new GameplayScene(0, new HighScoreManager());
@@ -44,11 +53,17 @@ public class GhostManagerTest {
         gm = new GhostManager(game, pacman, level, 4);
     }
 
+    /**
+     *
+     */
     @Test
     public void noGhostsAtBeginning() {
         assertEquals("Too many ghosts.", 4, gm.getGhosts().size());
     }
 
+    /**
+     *
+     */
     @Test
     public void spawnFirstGhostTest() {
         // the first ghost should spawn after 1 second,
@@ -57,6 +72,9 @@ public class GhostManagerTest {
         assertEquals("Wrong amount of ghosts.", 4, gm.getGhosts().size());
     }
 
+    /**
+     *
+     */
     @Test
     public void spawnSecondGhostTest() {
         gm.update(1000);
@@ -64,6 +82,9 @@ public class GhostManagerTest {
         assertEquals("Wrong amount of ghosts.", 4, gm.getGhosts().size());
     }
 
+    /**
+     *
+     */
     @Test
     public void spawnThreeGhostsTest() {
         for (int i = 1; i < 4; i++) {
@@ -72,6 +93,9 @@ public class GhostManagerTest {
         }
     }
 
+    /**
+     *
+     */
     @Test
     public void spawnFourGhostsTest() {
         for (int i = 1; i < 5; i++) {
@@ -80,6 +104,9 @@ public class GhostManagerTest {
         }
     }
 
+    /**
+     *
+     */
     @Test
     public void spawnFiveGhostsTest() {
         for (int i = 1; i < 5; i++) {
@@ -89,6 +116,9 @@ public class GhostManagerTest {
         assertEquals("Wrong amount of ghosts.", 4, gm.getGhosts().size());
     }
 
+    /**
+     *
+     */
     @Test
     public void spawnSixGhostsTest() {
         for (int i = 1; i < 6; i++) {

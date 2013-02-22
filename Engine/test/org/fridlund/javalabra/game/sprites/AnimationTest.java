@@ -17,6 +17,9 @@ import org.junit.Test;
  */
 public class AnimationTest {
 
+    /**
+     *
+     */
     @BeforeClass
     public static void init() {
         Screen.setupNativesLWJGL();
@@ -24,6 +27,9 @@ public class AnimationTest {
         Screen.setupLWJGL();
     }
 
+    /**
+     *
+     */
     @AfterClass
     public static void cleanUp() {
         Screen.cleanUp();
@@ -31,6 +37,9 @@ public class AnimationTest {
 
     private Animation animation;
     
+    /**
+     *
+     */
     @Before
     public void setUp() {
         int textureID = TextureLoader.loadTextureLinear(getClass().getResourceAsStream("/org/fridlund/javalabra/game/sprites/pacman.png"));
@@ -43,6 +52,9 @@ public class AnimationTest {
     // @Test
     // public void hello() {}
     
+    /**
+     *
+     */
     @Test
     public void checkSizeOfAnimation(){
     }

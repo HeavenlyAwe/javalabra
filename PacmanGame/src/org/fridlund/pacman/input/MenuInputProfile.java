@@ -29,6 +29,9 @@ public class MenuInputProfile extends InputProfile {
     private float deadZone;
     private boolean released;
 
+    /**
+     *
+     */
     public MenuInputProfile() {
         dx = 0;
         dy = 0;
@@ -54,6 +57,10 @@ public class MenuInputProfile extends InputProfile {
         }
     }
 
+    /**
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         super.update(delta);
@@ -113,6 +120,10 @@ public class MenuInputProfile extends InputProfile {
         }
     }
 
+    /**
+     *
+     * @param delta
+     */
     @Override
     public void handleKeyboardInput(float delta) {
     }
@@ -175,6 +186,10 @@ public class MenuInputProfile extends InputProfile {
      * SETTERS
      */
     //=================================================================
+    /**
+     *
+     * @param menuItems
+     */
     public void setMenuItems(Collection<MenuItem> menuItems) {
         this.menuItems = menuItems;
     }

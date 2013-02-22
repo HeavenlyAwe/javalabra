@@ -19,6 +19,14 @@ public class SpriteSheet {
     private int imageHeight;
     private Sprite[][] sprites;
 
+    /**
+     *
+     * @param textureID
+     * @param spriteWidth
+     * @param spriteHeight
+     * @param imageWidth
+     * @param imageHeight
+     */
     public SpriteSheet(int textureID, int spriteWidth, int spriteHeight, int imageWidth, int imageHeight) {
         this.textureID = textureID;
         this.spriteWidth = spriteWidth;
@@ -73,6 +81,10 @@ public class SpriteSheet {
         return sprites[x][y];
     }
 
+    /**
+     *
+     * @return
+     */
     public int getTextureID() {
         return textureID;
     }

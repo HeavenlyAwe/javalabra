@@ -24,6 +24,9 @@ public class Ghost extends MovableEntityAbstract {
     private Random random;
     private float speed;
     private int moveUpDownDirection;            // Used when the Ghost bounces inside the nest.
+    /**
+     *
+     */
     protected ArrayList<Integer> allowedTiles;  // The tiles that ghosts can walk on.
     private float warningTimer;
     /*
@@ -35,6 +38,11 @@ public class Ghost extends MovableEntityAbstract {
     private boolean dead;
     private boolean releaseable;
 
+    /**
+     *
+     * @param ghost
+     * @param level
+     */
     public Ghost(GhostGraphics ghost, Level level) {
         this.ghost = ghost;
         this.level = level;
@@ -77,16 +85,26 @@ public class Ghost extends MovableEntityAbstract {
         this.allowedTiles.add(Level.WALKABLE);
     }
 
+    /**
+     *
+     */
     @Override
     public void cleanUp() {
         ghost.cleanUp();
     }
 
+    /**
+     *
+     */
     @Override
     public void render() {
         ghost.render(x, y);
     }
 
+    /**
+     *
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         dx = 0;
@@ -384,6 +402,9 @@ public class Ghost extends MovableEntityAbstract {
      * PUBLIC METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     public void kill() {
         this.dead = true;
         this.releaseable = false;
@@ -394,22 +415,35 @@ public class Ghost extends MovableEntityAbstract {
      * SETTERS
      */
     //=================================================================
+    /**
+     *
+     */
     public void setKillable() {
         this.isWarning = false;
         this.isInvincible = false;
     }
 
+    /**
+     *
+     */
     public void setWarningAnimation() {
         if (!isInvincible) {
             this.isWarning = true;
         }
     }
 
+    /**
+     *
+     */
     public void setInvincible() {
         this.isInvincible = true;
         this.isWarning = false;
     }
 
+    /**
+     *
+     * @param releaseable
+     */
     public void setReleaseable(boolean releaseable) {
         this.releaseable = releaseable;
     }
@@ -419,22 +453,42 @@ public class Ghost extends MovableEntityAbstract {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public boolean isWarning() {
         return isWarning;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isInvincible() {
         return isInvincible;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isDead() {
         return dead;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isReleaseable() {
         return releaseable;
     }
 
+    /**
+     *
+     * @return
+     */
     public GhostGraphics getGhost() {
         return ghost;
     }

@@ -21,9 +21,23 @@ import org.newdawn.slick.font.effects.ColorEffect;
  */
 public class FontLoader {
 
+    /**
+     *
+     */
     public static enum FontStyle {
 
-        PLAIN, BOLD, ITALIC;
+        /**
+         *
+         */
+        PLAIN,
+        /**
+         *
+         */
+        BOLD,
+        /**
+         *
+         */
+        ITALIC;
     }
     private static Map<String, UnicodeFont> fonts;
 

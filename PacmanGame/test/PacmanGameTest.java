@@ -17,6 +17,9 @@ public class PacmanGameTest {
 
     PacmanGame game;
 
+    /**
+     *
+     */
     @BeforeClass
     public static void init() {
         Screen.setupNativesLWJGL();
@@ -24,6 +27,9 @@ public class PacmanGameTest {
         Screen.setupLWJGL();
     }
 
+    /**
+     *
+     */
     @Before
     public void setUp() {
         game = new PacmanGame();
@@ -34,6 +40,9 @@ public class PacmanGameTest {
     // @Test
     // public void hello() {}
 
+    /**
+     *
+     */
     @Test
     public void setupGameTest() {
         game.setup();

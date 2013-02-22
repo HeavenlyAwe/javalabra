@@ -38,14 +38,32 @@ public class PacmanCamera extends Camera {
     private float zFar;
     private float radius;
 
+    /**
+     *
+     * @param aspectRatio
+     * @param radius
+     */
     public PacmanCamera(float aspectRatio, float radius) {
         this(aspectRatio, radius, new Vector3f(0, 0, 0));
     }
 
+    /**
+     *
+     * @param aspectRatio
+     * @param radius
+     * @param position
+     */
     public PacmanCamera(float aspectRatio, float radius, Vector3f position) {
         this(aspectRatio, radius, position, new Vector3f(0, 0, 0));
     }
 
+    /**
+     *
+     * @param aspectRatio
+     * @param radius
+     * @param position
+     * @param rotation
+     */
     public PacmanCamera(float aspectRatio, float radius, Vector3f position, Vector3f rotation) {
         super(position, rotation);
 
@@ -146,6 +164,10 @@ public class PacmanCamera extends Camera {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public float getAngle() {
         return angle;
     }

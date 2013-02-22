@@ -17,6 +17,10 @@ public class SuperSnack extends Snack {
 
     private static String texturePath = "/res/images/super_snack.png";
 
+    /**
+     *
+     * @param specialAction
+     */
     public SuperSnack(SpecialAction specialAction) {
         super(specialAction);
     }

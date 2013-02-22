@@ -14,6 +14,9 @@ import org.lwjgl.input.Keyboard;
  */
 public abstract class InputProfile {
 
+    /**
+     *
+     */
     public InputProfile() {
         setup();
     }
@@ -34,10 +37,19 @@ public abstract class InputProfile {
      */
     //=================================================================
 
+    /**
+     *
+     * @param delta
+     */
     public void update(float delta) {
         handleInput(delta);
     }
 
+    /**
+     *
+     * @param key
+     * @return
+     */
     public final boolean keyDown(int key) {
         return Keyboard.isKeyDown(key);
     }
@@ -47,11 +59,26 @@ public abstract class InputProfile {
      */
     //=================================================================
 
+    /**
+     *
+     */
     public abstract void setup();
 
+    /**
+     *
+     * @param delta
+     */
     public abstract void handleControllerInput(float delta);
 
+    /**
+     *
+     * @param delta
+     */
     public abstract void handleMouseInput(float delta);
 
+    /**
+     *
+     * @param delta
+     */
     public abstract void handleKeyboardInput(float delta);
 }

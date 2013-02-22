@@ -298,6 +298,10 @@ public class SnackManager extends Manager {
      * GETTERS
      */
     //=================================================================
+    /**
+     *
+     * @return
+     */
     public List<Snack> getSnacks() {
         return snacks;
     }

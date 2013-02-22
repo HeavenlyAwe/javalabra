@@ -11,5 +11,8 @@ package org.fridlund.pacman.entities;
  */
 public interface SpecialAction {
 
+    /**
+     *
+     */
     public void execute();
 }

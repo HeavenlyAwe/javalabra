@@ -18,6 +18,11 @@ public class GameWonScene extends MenuScene {
     private MenuInputProfile inputProfile;
     private String fontName = "times30";
 
+    /**
+     *
+     * @param id
+     * @param inputProfile
+     */
     public GameWonScene(int id, MenuInputProfile inputProfile) {
         super(id, "Victory", "times50");
         this.inputProfile = inputProfile;
@@ -28,6 +33,9 @@ public class GameWonScene extends MenuScene {
      * OVERRIDDEN METHODS
      */
     //=================================================================
+    /**
+     *
+     */
     @Override
     public void cleanUp() {
     }
