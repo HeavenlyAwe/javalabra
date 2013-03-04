@@ -1,9 +1,0 @@
-org.fridlund.pacman.cameras
-org.fridlund.pacman.entities
-org.fridlund.pacman.highscores
-org.fridlund.pacman.hud
-org.fridlund.pacman.input
-org.fridlund.pacman.level
-org.fridlund.pacman.managers
-org.fridlund.pacman.scenes
-org.fridlund.pacman.utils
